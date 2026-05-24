@@ -8,6 +8,14 @@ export const metadata = {
   robots: { index: false },
 };
 
+const INCLUDED = [
+  "Acesso ao grupo exclusivo no WhatsApp",
+  "Uma lição por dia, de segunda a sexta",
+  "Dúvidas respondidas por um professor",
+  "Vocabulário, áudios, gramática e conversação",
+  "Cancele quando quiser",
+];
+
 export default async function CheckoutPage({
   searchParams,
 }: {
@@ -18,52 +26,42 @@ export default async function CheckoutPage({
   if (!plan) notFound();
 
   return (
-    <main className="min-h-screen bg-brand-50/60">
+    <main className="min-h-screen bg-navy-900">
       <div className="container-px flex min-h-screen flex-col items-center justify-center py-12">
-        <Link
-          href="/"
-          className="mb-8 flex items-center gap-2 font-extrabold text-ink-900"
-        >
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-500 text-white">
-            V
+        <Link href="/" className="mb-8 leading-none text-center">
+          <span className="display block text-xl font-extrabold text-white">
+            VOCA<span className="text-brand-500">BOOST</span>
           </span>
-          Voca<span className="-ml-2 text-brand-600">boost</span>
+          <span className="block text-[10px] font-bold uppercase tracking-[0.3em] text-accent-400">
+            Rumo à fluência
+          </span>
         </Link>
 
         <div className="grid w-full max-w-4xl gap-6 lg:grid-cols-[1fr_1.1fr]">
           {/* Order summary */}
-          <div className="rounded-3xl border border-brand-100 bg-white p-8">
+          <div className="card">
             <span className="eyebrow">Resumo do pedido</span>
-            <h1 className="mt-4 text-2xl font-extrabold">
+            <h1 className="display mt-4 text-2xl font-extrabold">
               Plano {plan.name}
             </h1>
             <div className="mt-4 flex items-end gap-1">
-              <span className="text-4xl font-extrabold">
+              <span className="display text-4xl font-extrabold">
                 {formatBRL(plan.price)}
               </span>
-              <span className="mb-1 text-ink-800/60">
-                {plan.cadenceLabel}
-              </span>
+              <span className="mb-1 text-white/60">{plan.cadenceLabel}</span>
             </div>
             {plan.id === "yearly" && (
-              <p className="mt-1 text-sm font-medium text-brand-700">
-                Equivale a {formatBRL(plan.monthlyEquivalent)}/mês ·{" "}
-                {plan.badge}
+              <p className="mt-1 text-sm font-semibold text-accent-400">
+                Equivale a {formatBRL(plan.monthlyEquivalent)}/mês · {plan.badge}
               </p>
             )}
 
-            <hr className="my-6 border-brand-100" />
+            <hr className="my-6 border-white/10" />
 
-            <ul className="space-y-3 text-sm text-ink-800/80">
-              {[
-                "Acesso ao grupo exclusivo no WhatsApp",
-                "Lições diárias de inglês",
-                "Áudios, vocabulário e expressões",
-                "Comunidade para praticar",
-                "Cancele quando quiser",
-              ].map((item) => (
+            <ul className="space-y-3 text-sm text-white/80">
+              {INCLUDED.map((item) => (
                 <li key={item} className="flex items-start gap-2">
-                  <span className="text-brand-600">✓</span>
+                  <span className="text-accent-400">✓</span>
                   {item}
                 </li>
               ))}
@@ -71,16 +69,16 @@ export default async function CheckoutPage({
 
             <Link
               href="/#planos"
-              className="mt-6 inline-block text-sm text-brand-600 hover:underline"
+              className="mt-6 inline-block text-sm text-accent-400 hover:underline"
             >
               ← Trocar de plano
             </Link>
           </div>
 
           {/* Form */}
-          <div className="rounded-3xl border border-brand-100 bg-white p-8">
-            <h2 className="text-xl font-bold">Quase lá!</h2>
-            <p className="mt-1 text-sm text-ink-800/60">
+          <div className="card">
+            <h2 className="display text-xl font-extrabold">Quase lá!</h2>
+            <p className="mt-1 text-sm text-white/60">
               Preencha seus dados para concluir a assinatura.
             </p>
             <div className="mt-6">

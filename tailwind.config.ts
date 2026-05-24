@@ -8,30 +8,33 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Deep navy backgrounds (Vocaboost brand)
+        navy: {
+          950: "#060b22",
+          900: "#0b1233",
+          800: "#111a40",
+          700: "#1a2657",
+          600: "#26376f",
+        },
+        // Primary CTA / highlight red
         brand: {
-          50: "#eefdf3",
-          100: "#d6fae1",
-          200: "#aff3c6",
-          300: "#79e7a3",
-          400: "#3ed079",
-          500: "#18b85b",
-          600: "#0c9549",
-          700: "#0c753d",
-          800: "#0e5c33",
-          900: "#0d4c2c",
+          300: "#ff7884",
+          400: "#f7434f",
+          500: "#ed1f2d",
+          600: "#cf1622",
+          700: "#a8121c",
         },
+        // Acid lime-green accent
         accent: {
-          400: "#ffb547",
-          500: "#ff9f1c",
-          600: "#e8860a",
-        },
-        ink: {
-          900: "#0a1f17",
-          800: "#10271d",
+          300: "#dafb6e",
+          400: "#c8f53f",
+          500: "#b6ee1d",
+          600: "#97c70f",
         },
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "var(--font-sans)", "sans-serif"],
       },
       keyframes: {
         "fade-up": {

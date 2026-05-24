@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Archivo } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,24 +8,32 @@ const inter = Inter({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://vocaboost.vercel.app";
+const archivo = Archivo({
+  subsets: ["latin"],
+  weight: ["700", "800", "900"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ingles20min.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Vocaboost — Inglês em 20 minutos por dia, direto no seu WhatsApp",
+  title: "Vocaboost — Rumo à fluência: +300 palavras em inglês em 21 dias",
   description:
-    "Receba lições diárias de inglês no seu WhatsApp e aprenda de verdade em 20 minutos por dia. Vocabulário, áudios e expressões reais com uma comunidade que te mantém no ritmo.",
+    "A maneira mais inteligente de construir disciplina e expandir seu vocabulário em inglês. Lições diárias no WhatsApp, método de 21 dias e uma comunidade que te mantém no ritmo.",
   keywords: [
     "aprender inglês",
-    "inglês no whatsapp",
-    "inglês diário",
     "vocabulário em inglês",
-    "curso de inglês online",
+    "inglês em 21 dias",
+    "inglês no whatsapp",
+    "fluência em inglês",
+    "vocaboost",
   ],
   openGraph: {
-    title: "Vocaboost — Inglês em 20 minutos por dia",
+    title: "Vocaboost — Rumo à fluência",
     description:
-      "Lições diárias de inglês no seu WhatsApp. Aprenda de verdade, no seu ritmo, com a ajuda de uma comunidade.",
+      "Construa disciplina e expanda seu vocabulário em inglês com lições diárias no WhatsApp. Método de 21 dias.",
     url: siteUrl,
     siteName: "Vocaboost",
     locale: "pt_BR",
@@ -33,9 +41,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vocaboost — Inglês em 20 minutos por dia",
+    title: "Vocaboost — Rumo à fluência",
     description:
-      "Lições diárias de inglês no seu WhatsApp. Aprenda de verdade, no seu ritmo.",
+      "Construa disciplina e expanda seu vocabulário em inglês com lições diárias no WhatsApp.",
   },
 };
 
@@ -45,7 +53,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={inter.variable}>
+    <html lang="pt-BR" className={`${inter.variable} ${archivo.variable}`}>
       <body>{children}</body>
     </html>
   );

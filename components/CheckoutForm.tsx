@@ -33,7 +33,7 @@ export default function CheckoutForm({ plan }: { plan: Plan }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <label htmlFor="name" className="mb-1.5 block text-sm font-medium">
+        <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-white">
           Nome completo
         </label>
         <input
@@ -43,12 +43,12 @@ export default function CheckoutForm({ plan }: { plan: Plan }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Como podemos te chamar?"
-          className="w-full rounded-xl border border-brand-200 px-4 py-3 outline-none transition focus:border-brand-400 focus:ring-4 focus:ring-brand-100"
+          className="w-full rounded-xl border border-white/15 bg-navy-900 px-4 py-3 text-white placeholder:text-white/40 outline-none transition focus:border-accent-400 focus:ring-4 focus:ring-accent-400/20"
         />
       </div>
 
       <div>
-        <label htmlFor="email" className="mb-1.5 block text-sm font-medium">
+        <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-white">
           Seu melhor e-mail
         </label>
         <input
@@ -58,24 +58,24 @@ export default function CheckoutForm({ plan }: { plan: Plan }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="voce@email.com"
-          className="w-full rounded-xl border border-brand-200 px-4 py-3 outline-none transition focus:border-brand-400 focus:ring-4 focus:ring-brand-100"
+          className="w-full rounded-xl border border-white/15 bg-navy-900 px-4 py-3 text-white placeholder:text-white/40 outline-none transition focus:border-accent-400 focus:ring-4 focus:ring-accent-400/20"
         />
-        <p className="mt-1.5 text-xs text-ink-800/50">
+        <p className="mt-1.5 text-xs text-white/50">
           Usaremos para confirmar sua assinatura e enviar o acesso ao grupo.
         </p>
       </div>
 
       {error && (
-        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div className="rounded-xl border border-brand-500/40 bg-brand-500/10 px-4 py-3 text-sm text-brand-300">
           {error}
         </div>
       )}
 
-      <button type="submit" disabled={loading} className="btn-primary w-full">
+      <button type="submit" disabled={loading} className="btn-primary w-full disabled:opacity-70">
         {loading ? "Redirecionando…" : `Pagar ${formatBRL(plan.price)}`}
       </button>
 
-      <p className="text-center text-xs text-ink-800/50">
+      <p className="text-center text-xs text-white/50">
         🔒 Pagamento processado com segurança pelo Mercado Pago. Você será
         redirecionado para concluir.
       </p>
