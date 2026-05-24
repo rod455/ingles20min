@@ -1,7 +1,8 @@
 # Vocaboost
 
-Landing page + checkout de assinaturas para o **Vocaboost** — inglês em 20 minutos
-por dia, entregue via grupo de WhatsApp com lições diárias.
+Landing page + checkout de assinaturas para o **Vocaboost** — aprenda inglês com
+lições diárias (de segunda a sexta) num grupo de WhatsApp, em um modelo contínuo,
+com acesso a um professor para tirar dúvidas.
 
 Construído com **Next.js (App Router) + Tailwind CSS**, pronto para deploy no **Vercel**.
 
