@@ -92,6 +92,12 @@
               "name": "SUPABASE_SERVICE_KEY",
               "value": "SERVICE_ROLE_KEY",
               "type": "string"
+            },
+            {
+              "id": "a11",
+              "name": "DRIVE_FREE_FOLDER_ID",
+              "value": "1iD_RS8Et_JbEhrgphCr-XouPB8Gzz1ST",
+              "type": "string"
             }
           ]
         },
@@ -139,7 +145,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// === Funil Grátis: ciclo perpétuo de 6 dias (coorte), em loop ===\n// drip_state.free.next_index guarda o DIA do ciclo (1..6).\n// 3 slots/dia: manhã (aula), tarde (engajamento), noite (loop/oferta) + avanço à noite.\nconst cfg = $('Config').first().json;\nconst rows = $input.first().json;\nlet day = Array.isArray(rows) && rows[0] ? Number(rows[0].next_index) : 0;\nif (!day || day < 1 || day > 6) day = 1;\n\nconst sp = new Date(Date.now() - 3 * 60 * 60 * 1000);\nconst spHour = sp.getUTCHours();\nlet slot = 'night';\nif (spHour < 11) slot = 'morning';\nelse if (spHour < 17) slot = 'noon';\nconst today = sp.toISOString().slice(0, 10);\n\nconst checkout = cfg.CHECKOUT_URL;\nconst from = cfg.PRICE_FROM;\nconst to = cfg.PRICE_TO;\nconst invite = cfg.FREE_GROUP_INVITE;\n\nconst C = {\n  1: {\n    morning: `☀️ *BOM DIA! Aula 1 de 3 — Vocaboost*\n\nHoje você já sai falando como nativo. 3 jeitos de dizer \"tudo bem?\" que a escola não te ensinou:\n\n• *How's it going?* → \"como vão as coisas?\"\n• *What's up?* → \"e aí?\"\n• *How have you been?* → \"como você tem estado?\"\n\n🎯 *Tarefa de 5 min:* escolha UMA e use hoje (ou responda aqui no grupo).\n\n👉 Amanhã: o erro nº 1 que trava todo brasileiro no inglês. *Não silencie o grupo.*`,\n    noon: `💬 E aí, fez a tarefa?\n\nResponde aqui embaixo, em inglês: *como você está hoje?*\n(pode errar — é errando que destrava 😉)`,\n    night: `🌙 Antes de dormir, uma pergunta:\n\nVocê ENTENDE inglês mas trava na hora de falar?\n\nAmanhã eu te mostro por que isso acontece — e o método que faz a frase sair \"no automático\". A Aula 2 chega cedinho. 👀`\n  },\n  2: {\n    morning: `☀️ *Aula 2 de 3 — Por que você trava (e a solução)*\n\nO problema não é falta de vocabulário. É que você aprende *palavra solta*. Nativo aprende em *blocos prontos* (chunks):\n\n❌ \"I want... to... go...\" (montando peça por peça)\n✅ *\"I'm gonna...\"* (bloco pronto, sai automático)\n\n3 blocos pra usar HOJE:\n• *I'm gonna...* (eu vou...)\n• *Do you wanna...?* (você quer...?)\n• *I have to...* (eu tenho que...)\n\nIsso é *método*, não sorte. No Vocaboost você treina blocos novos todo dia até virarem automáticos.\n\n👉 Amanhã: como fazer isso no piloto automático, mesmo sem tempo.`,\n    noon: `📊 Me ajuda a personalizar as próximas aulas. Qual seu MAIOR travão hoje?\n\nResponde com a letra:\n*A)* Vocabulário (faltam palavras)\n*B)* Escuta (não entendo quando falam rápido)\n*C)* Medo de falar / vergonha de errar`,\n    night: `🌙 Muita gente respondeu *C* (medo de falar) — e isso tem solução.\n\nAmanhã, na Aula 3, eu te mostro a técnica pra destravar a fala em casa, sozinho, em 20 min/dia. É a aula que mais se aproxima de como o Vocaboost funciona por dentro. Não perde. 🔥`\n  },\n  3: {\n    morning: `☀️ *Aula 3 de 3 — Destrave a fala em 20 min/dia*\n\nA técnica chama *shadowing*: ouça uma frase curta e repita em voz alta IMITANDO o áudio (ritmo e entonação).\n\nFaça hoje:\n1. Pegue 1 frase de uma série/música.\n2. Repita 5x junto com o áudio.\n3. Grave você falando e compare.\n\nEm 2 semanas seu cérebro começa a \"pensar\" em inglês.\n\n⚠️ O pulo do gato: fazer isso *todo dia, com o material certo e correção*. Sozinho dá pra começar — com um plano diário + professor, você avança 3x mais rápido. É o que o Vocaboost faz por você.\n\n👉 Amanhã é dia de *resultados* — e tenho um *aviso importante* pra esse grupo. Fica de olho cedinho.`,\n    night: `🌙 Spoiler do aviso de amanhã:\n\nQuem está nesse grupo vai ter uma *condição exclusiva* pra entrar no Vocaboost — que não existe em nenhum outro lugar. Mas por *tempo limitado*. Amanhã explico tudo. 👀`\n  },\n  4: {\n    morning: `☀️ *Dia de resultados — recap das 3 aulas*\n\nEm 3 dias você aprendeu:\n✅ Aula 1 — saudações como nativo\n✅ Aula 2 — o método dos *blocos prontos* (chunks)\n✅ Aula 3 — *shadowing* pra destravar a fala\n\nSe SÓ isso já ajudou... imagina uma aula nova dessas *todo dia*, com áudios, correção e um professor do seu lado.\n\nFica no grupo: hoje à noite vem o *aviso* que você esperava. 🔔`,\n    noon: `💬 Olha o que quem já está no Vocaboost Premium tá falando:\n\n⭐ \"Em 3 semanas comecei a entender série sem legenda.\" — Ana\n⭐ \"Perdi o medo de falar nas reuniões.\" — Rodrigo\n⭐ \"20 min/dia que cabem na minha rotina.\" — Júlia\n\n(troque por seus prints/áudios reais de alunos — prova social é o que mais converte)`,\n    night: `🔔 *É AMANHÃ.*\n\nPor *48 horas*, quem está nesse grupo entra no *Vocaboost Premium* por um preço que NÃO vai se repetir:\n\nDe ~${from}~ por *${to}*.\n\nAula nova todo dia + áudios + professor pra corrigir e tirar dúvidas.\n\nAmanhã cedo eu abro o link. Deixa o grupo no topo. 🚀`\n  },\n  5: {\n    morning: `☀️ *ABRIU! Vocaboost Premium — 48h só pra esse grupo*\n\nO que você leva:\n✅ 1 aula prática NOVA todo dia (como as 3 que recebeu)\n✅ Áudios pra treinar shadowing\n✅ Professor no grupo pra corrigir e tirar dúvidas\n✅ Comunidade pra praticar sem vergonha\n\n💰 *De ${from} por ${to}* — só nesta turma, até amanhã à noite. Depois volta pra ${from}.\n\n👉 Garanta sua vaga: ${checkout}`,\n    noon: `❓ *\"Como funciona na prática?\"*\n\n1. Você assina 👉 ${checkout}\n2. Recebe o link do grupo Premium na hora\n3. Todo dia cedo chega sua aula + áudio\n4. Tira dúvida com o professor quando quiser\n\nCabe em 20 min/dia. Sem enrolação, sem gramática chata.\n\nEm dúvida? Manda sua pergunta aqui que eu respondo. 👇`,\n    night: `🌙 A turma já começou a encher hoje. 🔥\n\nLembra: *${to}* (de ${from}) vale só até *amanhã à noite*. Depois, ${from}.\n\nSe você acompanhou as 3 aulas e sentiu que funciona — esse é o empurrão.\n\n👉 ${checkout}`\n  },\n  6: {\n    morning: `☀️ *ÚLTIMO DIA — fecha hoje à noite*\n\nHoje é a última chance de entrar no Vocaboost Premium por *${to}* (depois volta pra ${from}).\n\nVocê já provou pra você mesmo que consegue aprender — nas 3 aulas dessa semana. Agora é dar o próximo passo com método e constância.\n\n👉 ${checkout}`,\n    noon: `⏳ *Faltam poucas horas.*\n\n\"Será que tenho tempo?\" — São 20 min/dia. Menos que um story. 😅\n\"E se eu não conseguir?\" — Tem professor te corrigindo e uma comunidade junto. Você não fica sozinho.\n\nPor ${to} (menos de R$ 1,70/dia) você destrava de vez. Só até hoje à noite.\n\n👉 ${checkout}`,\n    night: `🚨 *FECHANDO. Últimas horas.*\n\nDepois de hoje, o valor volta pra ${from} e a próxima turma só abre no próximo ciclo.\n\nSe você chegou até aqui, é porque quer isso. O \"depois\" custa mais caro.\n\nEntra agora 👉 ${checkout}\n\nTe vejo lá dentro. 🚀`\n  }\n};\n\nconst text = (C[day] || {})[slot];\nconst isNight = slot === 'night';\nconst newDay = day >= 6 ? 1 : day + 1;\nconst contentKey = `free-d${day}-${slot}-${today}`;\n\nreturn [{ json: { ...cfg, cycleDay: day, slot, isNight, newDay, today, text: text || '', send: !!text, contentKey } }];"
+        "jsCode": "// === Funil Grátis: ciclo perpétuo de 6 dias (coorte), em loop ===\n// drip_state.free.next_index guarda o DIA do ciclo (1..6).\n// 3 slots/dia: manhã (aula), tarde (engajamento), noite (loop/oferta) + avanço à noite.\nconst cfg = $('Config').first().json;\nconst rows = $input.first().json;\nlet day = Array.isArray(rows) && rows[0] ? Number(rows[0].next_index) : 0;\nif (!day || day < 1 || day > 6) day = 1;\n\nconst sp = new Date(Date.now() - 3 * 60 * 60 * 1000);\nconst spHour = sp.getUTCHours();\nlet slot = 'night';\nif (spHour < 11) slot = 'morning';\nelse if (spHour < 17) slot = 'noon';\nconst today = sp.toISOString().slice(0, 10);\n\nconst checkout = cfg.CHECKOUT_URL;\nconst from = cfg.PRICE_FROM;\nconst to = cfg.PRICE_TO;\nconst invite = cfg.FREE_GROUP_INVITE;\n\nconst C = {\n  1: {\n    morning: `☀️ *BOM DIA! Aula 1 de 3 — Vocaboost*\n\nHoje você já sai falando como nativo. 3 jeitos de dizer \"tudo bem?\" que a escola não te ensinou:\n\n• *How's it going?* → \"como vão as coisas?\"\n• *What's up?* → \"e aí?\"\n• *How have you been?* → \"como você tem estado?\"\n\n🎯 *Tarefa de 5 min:* escolha UMA e use hoje (ou responda aqui no grupo).\n\n👉 Amanhã: o erro nº 1 que trava todo brasileiro no inglês. *Não silencie o grupo.*`,\n    noon: `💬 E aí, fez a tarefa?\n\nResponde aqui embaixo, em inglês: *como você está hoje?*\n(pode errar — é errando que destrava 😉)`,\n    night: `🌙 Antes de dormir, uma pergunta:\n\nVocê ENTENDE inglês mas trava na hora de falar?\n\nAmanhã eu te mostro por que isso acontece — e o método que faz a frase sair \"no automático\". A Aula 2 chega cedinho. 👀`\n  },\n  2: {\n    morning: `☀️ *Aula 2 de 3 — Por que você trava (e a solução)*\n\nO problema não é falta de vocabulário. É que você aprende *palavra solta*. Nativo aprende em *blocos prontos* (chunks):\n\n❌ \"I want... to... go...\" (montando peça por peça)\n✅ *\"I'm gonna...\"* (bloco pronto, sai automático)\n\n3 blocos pra usar HOJE:\n• *I'm gonna...* (eu vou...)\n• *Do you wanna...?* (você quer...?)\n• *I have to...* (eu tenho que...)\n\nIsso é *método*, não sorte. No Vocaboost você treina blocos novos todo dia até virarem automáticos.\n\n👉 Amanhã: como fazer isso no piloto automático, mesmo sem tempo.`,\n    noon: `📊 Me ajuda a personalizar as próximas aulas. Qual seu MAIOR travão hoje?\n\nResponde com a letra:\n*A)* Vocabulário (faltam palavras)\n*B)* Escuta (não entendo quando falam rápido)\n*C)* Medo de falar / vergonha de errar`,\n    night: `🌙 Muita gente respondeu *C* (medo de falar) — e isso tem solução.\n\nAmanhã, na Aula 3, eu te mostro a técnica pra destravar a fala em casa, sozinho, em 20 min/dia. É a aula que mais se aproxima de como o Vocaboost funciona por dentro. Não perde. 🔥`\n  },\n  3: {\n    morning: `☀️ *Aula 3 de 3 — Destrave a fala em 20 min/dia*\n\nA técnica chama *shadowing*: ouça uma frase curta e repita em voz alta IMITANDO o áudio (ritmo e entonação).\n\nFaça hoje:\n1. Pegue 1 frase de uma série/música.\n2. Repita 5x junto com o áudio.\n3. Grave você falando e compare.\n\nEm 2 semanas seu cérebro começa a \"pensar\" em inglês.\n\n⚠️ O pulo do gato: fazer isso *todo dia, com o material certo e correção*. Sozinho dá pra começar — com um plano diário + professor, você avança 3x mais rápido. É o que o Vocaboost faz por você.\n\n👉 Amanhã é dia de *resultados* — e tenho um *aviso importante* pra esse grupo. Fica de olho cedinho.`,\n    night: `🌙 Spoiler do aviso de amanhã:\n\nQuem está nesse grupo vai ter uma *condição exclusiva* pra entrar no Vocaboost — que não existe em nenhum outro lugar. Mas por *tempo limitado*. Amanhã explico tudo. 👀`\n  },\n  4: {\n    morning: `☀️ *Dia de resultados — recap das 3 aulas*\n\nEm 3 dias você aprendeu:\n✅ Aula 1 — saudações como nativo\n✅ Aula 2 — o método dos *blocos prontos* (chunks)\n✅ Aula 3 — *shadowing* pra destravar a fala\n\nSe SÓ isso já ajudou... imagina uma aula nova dessas *todo dia*, com áudios, correção e um professor do seu lado.\n\nFica no grupo: hoje à noite vem o *aviso* que você esperava. 🔔`,\n    noon: `💬 Olha o que quem já está no Vocaboost Premium tá falando:\n\n⭐ \"Em 3 semanas comecei a entender série sem legenda.\" — Ana\n⭐ \"Perdi o medo de falar nas reuniões.\" — Rodrigo\n⭐ \"20 min/dia que cabem na minha rotina.\" — Júlia\n\n(troque por seus prints/áudios reais de alunos — prova social é o que mais converte)`,\n    night: `🔔 *É AMANHÃ.*\n\nPor *48 horas*, quem está nesse grupo entra no *Vocaboost Premium* por um preço que NÃO vai se repetir:\n\nDe ~${from}~ por *${to}*.\n\nAula nova todo dia + áudios + professor pra corrigir e tirar dúvidas.\n\nAmanhã cedo eu abro o link. Deixa o grupo no topo. 🚀`\n  },\n  5: {\n    morning: `☀️ *ABRIU! Vocaboost Premium — 48h só pra esse grupo*\n\nO que você leva:\n✅ 1 aula prática NOVA todo dia (como as 3 que recebeu)\n✅ Áudios pra treinar shadowing\n✅ Professor no grupo pra corrigir e tirar dúvidas\n✅ Comunidade pra praticar sem vergonha\n\n💰 *De ${from} por ${to}* — só nesta turma, até amanhã à noite. Depois volta pra ${from}.\n\n👉 Garanta sua vaga: ${checkout}`,\n    noon: `❓ *\"Como funciona na prática?\"*\n\n1. Você assina 👉 ${checkout}\n2. Recebe o link do grupo Premium na hora\n3. Todo dia cedo chega sua aula + áudio\n4. Tira dúvida com o professor quando quiser\n\nCabe em 20 min/dia. Sem enrolação, sem gramática chata.\n\nEm dúvida? Manda sua pergunta aqui que eu respondo. 👇`,\n    night: `🌙 A turma já começou a encher hoje. 🔥\n\nLembra: *${to}* (de ${from}) vale só até *amanhã à noite*. Depois, ${from}.\n\nSe você acompanhou as 3 aulas e sentiu que funciona — esse é o empurrão.\n\n👉 ${checkout}`\n  },\n  6: {\n    morning: `☀️ *ÚLTIMO DIA — fecha hoje à noite*\n\nHoje é a última chance de entrar no Vocaboost Premium por *${to}* (depois volta pra ${from}).\n\nVocê já provou pra você mesmo que consegue aprender — nas 3 aulas dessa semana. Agora é dar o próximo passo com método e constância.\n\n👉 ${checkout}`,\n    noon: `⏳ *Faltam poucas horas.*\n\n\"Será que tenho tempo?\" — São 20 min/dia. Menos que um story. 😅\n\"E se eu não conseguir?\" — Tem professor te corrigindo e uma comunidade junto. Você não fica sozinho.\n\nPor ${to} (menos de R$ 1,70/dia) você destrava de vez. Só até hoje à noite.\n\n👉 ${checkout}`,\n    night: `🚨 *FECHANDO. Últimas horas.*\n\nDepois de hoje, o valor volta pra ${from} e a próxima turma só abre no próximo ciclo.\n\nSe você chegou até aqui, é porque quer isso. O \"depois\" custa mais caro.\n\nEntra agora 👉 ${checkout}\n\nTe vejo lá dentro. 🚀`\n  }\n};\n\nconst text = (C[day] || {})[slot];\nconst isNight = slot === 'night';\nconst newDay = day >= 6 ? 1 : day + 1;\nconst contentKey = `free-d${day}-${slot}-${today}`;\nconst needsMedia = (slot === 'morning' && day >= 1 && day <= 4);\nconst folderName = 'Dia' + day;\n\nreturn [{ json: { ...cfg, cycleDay: day, slot, isNight, newDay, today, text: text || '', send: !!text, contentKey, needsMedia, folderName } }];"
       },
       "id": "free-decide",
       "name": "Decidir mensagem (dia+slot)",
@@ -410,6 +416,147 @@
         -320,
         360
       ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "c-media",
+              "leftValue": "={{ $json.needsMedia }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "free-if-media",
+      "name": "Tem lição (Drive)?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -100,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "operation": "search",
+        "searchMethod": "query",
+        "queryString": "={{ \"'\" + $json.DRIVE_FREE_FOLDER_ID + \"' in parents and name = '\" + $json.folderName + \"' and mimeType = 'application/vnd.google-apps.folder' and trashed = false\" }}",
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "free-findfolder",
+      "name": "Drive: achar pasta do dia",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        120,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const ctx = $('Decidir mensagem (dia+slot)').first().json;\nconst folders = $input.all().map(i => i.json).filter(f => f && f.id);\nif (folders.length === 0) return []; // pasta do dia ainda nao existe\nreturn [{ json: { ...ctx, dayFolderId: folders[0].id } }];"
+      },
+      "id": "free-folderid",
+      "name": "Pasta do dia (grátis)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "operation": "search",
+        "searchMethod": "query",
+        "queryString": "={{ \"'\" + $json.dayFolderId + \"' in parents and trashed = false and mimeType != 'application/vnd.google-apps.folder'\" }}",
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "free-listfiles",
+      "name": "Drive: listar arquivos do dia",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        560,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const ctx = $('Decidir mensagem (dia+slot)').first().json;\nconst files = $input.all().map(i => i.json).filter(f => f && f.id);\nfiles.sort((a, b) => String(a.name).localeCompare(String(b.name), 'pt', { numeric: true }));\nif (files.length === 0) return [];\nreturn files.map((f, i) => {\n  const mt = String(f.mimeType || '');\n  let mediatype = 'document';\n  if (mt.startsWith('image/')) mediatype = 'image';\n  else if (mt.startsWith('video/')) mediatype = 'video';\n  else if (mt.startsWith('audio/')) mediatype = 'audio';\n  const caption = String(f.name || '').replace(/\\.[^.]+$/, '');\n  return { json: { ...ctx, fileId: f.id, fileName: f.name, mimeType: mt, mediatype, caption, fileOrder: i } };\n});"
+      },
+      "id": "free-prepare",
+      "name": "Preparar fila grátis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        780,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.fileId }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "free-download",
+      "name": "Drive: baixar arquivo",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1000,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Preparar fila grátis').item.json.EVOLUTION_URL }}/message/sendMedia/{{ $('Preparar fila grátis').item.json.EVOLUTION_INSTANCE }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Preparar fila grátis').item.json.EVOLUTION_APIKEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ number: $('Preparar fila grátis').item.json.GROUP_JID_FREE, mediatype: $('Preparar fila grátis').item.json.mediatype, mimetype: $('Preparar fila grátis').item.json.mimeType, media: $binary.data.data, fileName: $('Preparar fila grátis').item.json.fileName, caption: $('Preparar fila grátis').item.json.caption }) }}",
+        "options": {}
+      },
+      "id": "free-sendmedia",
+      "name": "Evolution: enviar lição (mídia)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1220,
+        280
+      ]
     }
   ],
   "connections": {
@@ -456,6 +603,11 @@
           },
           {
             "node": "É noite? (avançar ciclo)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Tem lição (Drive)?",
             "type": "main",
             "index": 0
           }
@@ -524,6 +676,73 @@
         [
           {
             "node": "Evolution: boas-vindas (DM)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tem lição (Drive)?": {
+      "main": [
+        [
+          {
+            "node": "Drive: achar pasta do dia",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Drive: achar pasta do dia": {
+      "main": [
+        [
+          {
+            "node": "Pasta do dia (grátis)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pasta do dia (grátis)": {
+      "main": [
+        [
+          {
+            "node": "Drive: listar arquivos do dia",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Drive: listar arquivos do dia": {
+      "main": [
+        [
+          {
+            "node": "Preparar fila grátis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar fila grátis": {
+      "main": [
+        [
+          {
+            "node": "Drive: baixar arquivo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Drive: baixar arquivo": {
+      "main": [
+        [
+          {
+            "node": "Evolution: enviar lição (mídia)",
             "type": "main",
             "index": 0
           }
