@@ -1,0 +1,199 @@
+# Automação de WhatsApp — Vocaboost
+
+Este documento descreve a arquitetura dos **dois funis de WhatsApp** e como
+colocá-los no ar com **n8n + Evolution API**.
+
+## Visão geral
+
+```
+                          ┌──────────────────────────┐
+   LP "Comece grátis" ───▶│  /api/free-signup         │──▶ Supabase (leads)
+   (captura WhatsApp)      │  + N8N_FREE_WEBHOOK_URL    │──▶ n8n: Funil Grátis
+                          └──────────────────────────┘
+   Anúncio (link direto) ─────────────────────────────▶ Grupo Grátis (convite)
+
+   Checkout pago ──▶ Mercado Pago ──▶ /api/webhooks/mercadopago
+                                          │ N8N_WEBHOOK_URL
+                                          ▼
+                                   n8n: Grupo Premium ──▶ Evolution API
+```
+
+Temos **dois grupos reais** de WhatsApp:
+
+| Grupo | Objetivo | Conteúdo |
+| --- | --- | --- |
+| **Vocaboost Grátis** | Converter leads para o plano pago | Ciclo semanal: 3 lições em 5 dias + mensagens de upsell para o checkout |
+| **Vocaboost Premium** | Entregar o produto pago | 1 lição por dia (seg–sex), puxada do Google Drive, + upsell de aulas particulares |
+
+> **Modelo de drip:** como são grupos reais e compartilhados, o envio é por
+> **coorte** (todos recebem no mesmo horário). O funil grátis roda em um
+> **ciclo semanal que se repete**, então quem entra a qualquer momento pega um
+> ciclo completo de 3 lições em poucos dias.
+
+---
+
+## 1. Subir a Evolution API
+
+A Evolution API é um gateway open-source que controla um número de WhatsApp e
+expõe uma API HTTP (é isso que o n8n vai chamar para enviar mensagens).
+
+### Opção recomendada: Docker
+
+```bash
+# docker-compose.yml mínimo
+services:
+  evolution-api:
+    image: atendai/evolution-api:v2.1.1
+    ports:
+      - "8080:8080"
+    environment:
+      - AUTHENTICATION_API_KEY=COLOQUE_UMA_CHAVE_FORTE_AQUI
+      - DEL_INSTANCE=false
+    volumes:
+      - evolution_instances:/evolution/instances
+    restart: always
+volumes:
+  evolution_instances:
+```
+
+```bash
+docker compose up -d
+```
+
+Hospede em qualquer VPS com IP público (Hetzner, DigitalOcean, Contabo…). Para
+produção, coloque atrás de um domínio com HTTPS (ex.: `https://evo.seudominio.com`).
+
+### Conectar o número
+
+1. Crie uma instância:
+   ```bash
+   curl -X POST https://evo.seudominio.com/instance/create \
+     -H "apikey: SUA_API_KEY" -H "Content-Type: application/json" \
+     -d '{"instanceName":"vocaboost","integration":"WHATSAPP-BAILEYS"}'
+   ```
+2. Pegue o QR Code (`/instance/connect/vocaboost`) e escaneie com o WhatsApp do
+   número que vai administrar os grupos.
+
+### Descobrir o JID dos grupos
+
+Crie os dois grupos no WhatsApp pelo número conectado e liste-os:
+
+```bash
+curl https://evo.seudominio.com/group/fetchAllGroups/vocaboost?getParticipants=false \
+  -H "apikey: SUA_API_KEY"
+```
+
+Anote os `id` (formato `XXXXXXXXXXXX@g.us`) dos grupos **Grátis** e **Premium**.
+Eles vão nas variáveis `GROUP_JID_FREE` e `GROUP_JID_PREMIUM` do n8n.
+
+### Endpoints usados pelos workflows
+
+- **Texto:** `POST /message/sendText/{instance}` → `{ "number": "<JID>", "text": "..." }`
+- **Mídia:** `POST /message/sendMedia/{instance}` → `{ "number": "<JID>", "mediatype": "image|video|document", "media": "<url>", "caption": "..." }`
+- Header em todas: `apikey: SUA_API_KEY`
+
+> **Alternativa oficial:** dá para trocar a Evolution pela Cloud API da Meta ou
+> Twilio. Nesse caso só muda o nó HTTP de envio nos workflows; o resto da
+> arquitetura (Supabase + agendamentos) continua igual.
+
+---
+
+## 2. Importar os workflows no n8n
+
+Os workflows estão em [`n8n/`](../n8n):
+
+- `n8n/vocaboost-free-funnel.json` — Funil Grátis
+- `n8n/vocaboost-premium-daily.json` — Grupo Premium
+- `n8n/vocaboost-group-sentinel.json` — Sentinela (remove não pagantes do grupo)
+
+No n8n: **Workflows → Import from File** e selecione cada JSON.
+
+Cada workflow começa com um nó **"Config"** (tipo *Set*). Preencha lá:
+
+| Variável | Valor |
+| --- | --- |
+| `EVOLUTION_URL` | ex.: `https://evo.seudominio.com` |
+| `EVOLUTION_INSTANCE` | `vocaboost` |
+| `EVOLUTION_APIKEY` | sua API key da Evolution |
+| `GROUP_JID_FREE` | JID do grupo grátis (`...@g.us`) |
+| `GROUP_JID_PREMIUM` | JID do grupo premium (`...@g.us`) |
+| `CHECKOUT_URL` | `https://SEU_SITE/checkout?plan=monthly` |
+| `PRIVATE_CLASS_URL` | link/WhatsApp para aulas particulares |
+| `SUPABASE_URL` | URL do projeto Supabase |
+| `SUPABASE_SERVICE_KEY` | service_role key (para gravar logs/estado) |
+
+> Dica: em vez de digitar em cada workflow, dá para usar **Variáveis** do n8n
+> (Settings → Variables) e referenciar com `{{$vars.EVOLUTION_URL}}`. O nó
+> "Config" já deixa isso fácil de trocar.
+
+### Webhooks do site → n8n
+
+Depois de ativar os workflows, o n8n gera as URLs dos nós **Webhook**. Coloque-as
+no `.env` do site (e no Vercel):
+
+- `N8N_FREE_WEBHOOK_URL` → URL do webhook do workflow **Funil Grátis**
+- `N8N_WEBHOOK_URL` → URL do webhook do workflow **Premium** (assinatura paga)
+- `N8N_WEBHOOK_SECRET` → mesmo segredo configurado no nó de validação do n8n
+
+---
+
+## 3. Funil Grátis — ciclo semanal
+
+O agendador roda todo dia útil (09:00 por padrão) e o nó **Compose** decide a
+mensagem do dia:
+
+| Dia | Mensagem |
+| --- | --- |
+| Segunda | 📘 Lição 1 |
+| Terça | 💬 Upsell leve (benefício + link) |
+| Quarta | 📗 Lição 2 |
+| Quinta | 💬 Upsell (prova social + link) |
+| Sexta | 📕 Lição 3 + oferta para assinar o Premium |
+| Sáb/Dom | (nada) |
+
+As lições e textos de upsell ficam **dentro do nó Compose** (Code) — edite lá o
+conteúdo. O nó **Webhook (free_signup)** ainda manda, opcionalmente, uma
+mensagem de boas-vindas individual com o convite do grupo.
+
+## 4. Grupo Premium — lição diária do Google Drive
+
+1. Crie no Drive uma pasta **"Vocaboost / Premium"** com as lições **numeradas**
+   na ordem de envio (ex.: `01 - ...`, `02 - ...`). Coloque o ID da pasta em
+   `DRIVE_FOLDER_ID`.
+2. O agendador roda seg–sex (08:00). O workflow lê o ponteiro `drip_state` no
+   Supabase, baixa a próxima lição da pasta, posta no grupo Premium e incrementa
+   o ponteiro.
+3. Um segundo agendador (quinzenal) posta o **upsell de aulas particulares**.
+
+> Lições em **Google Docs** são exportadas como texto; arquivos de **áudio/vídeo/
+> PDF** são enviados como mídia via `sendMedia` usando o link do Drive.
+
+## 5. Sentinela — remover infiltrados do grupo pago
+
+Como o checkout agora captura o **WhatsApp** do pagante (salvo em
+`subscribers.whatsapp`), dá para garantir que só quem pagou fica no grupo Premium.
+
+O workflow `vocaboost-group-sentinel.json` roda diariamente e:
+
+1. Lê os participantes do grupo na Evolution (`GET /group/participants`).
+2. Busca no Supabase os assinantes com `status = active` e seus telefones.
+3. Compara pelos **últimos 11 dígitos** (tolera o `55` e o nono dígito).
+4. Quem está no grupo mas **não** é pagante (nem admin) entra na lista de remoção
+   (`POST /group/updateParticipant` com `action: remove`).
+
+> ⚠️ **Segurança:** o nó *Config* vem com `DRY_RUN = true` — ele só **lista** os
+> infiltrados, sem remover ninguém. Rode algumas vezes, confira o resultado no
+> output do nó *Identificar infiltrados* e, quando confiar, mude `DRY_RUN` para
+> `false`. Coloque os números de admin/professor em `ADMIN_WHATSAPPS` (separados
+> por vírgula) para nunca removê-los.
+
+---
+
+## Variáveis de ambiente do site (resumo)
+
+```
+NEXT_PUBLIC_FREE_GROUP_URL=https://chat.whatsapp.com/XXXX   # convite do grupo grátis
+N8N_FREE_WEBHOOK_URL=https://n8n.seudominio.com/webhook/free-signup
+N8N_WEBHOOK_URL=https://n8n.seudominio.com/webhook/mp-active
+N8N_WEBHOOK_SECRET=um-segredo-forte
+```

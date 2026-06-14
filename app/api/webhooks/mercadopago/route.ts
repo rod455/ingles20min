@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSubscription } from "@/lib/mercadopago";
-import { markSubscriptionActive } from "@/lib/supabase";
+import { markSubscriptionActive, getSubscriberContact } from "@/lib/supabase";
 
 export const runtime = "nodejs";
 
@@ -43,10 +43,19 @@ export async function POST(req: NextRequest) {
           amount,
         });
 
+        // Recupera o WhatsApp capturado no checkout para o n8n poder enviar o
+        // convite por DM e auditar a participação no grupo pago.
+        const contact = await getSubscriberContact({
+          mpSubscriptionId: String(subscription.id),
+          email,
+        });
+
         await notifyAutomation({
           event: "subscription_active",
           subscriptionId: subscription.id,
           email,
+          whatsapp: contact?.whatsapp,
+          name: contact?.name,
           externalReference: subscription.external_reference,
           amount,
         });

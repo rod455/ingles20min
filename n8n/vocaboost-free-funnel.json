@@ -1,0 +1,168 @@
+{
+  "name": "Vocaboost — Funil Grátis",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "cronExpression", "expression": "0 9 * * 1-5" }
+          ]
+        }
+      },
+      "id": "free-schedule",
+      "name": "Agendador diário (seg–sex 09h)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-560, -40]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "a1", "name": "EVOLUTION_URL", "value": "https://evo.seudominio.com", "type": "string" },
+            { "id": "a2", "name": "EVOLUTION_INSTANCE", "value": "vocaboost", "type": "string" },
+            { "id": "a3", "name": "EVOLUTION_APIKEY", "value": "SUA_API_KEY", "type": "string" },
+            { "id": "a4", "name": "GROUP_JID_FREE", "value": "XXXXXXXXXXXX@g.us", "type": "string" },
+            { "id": "a5", "name": "CHECKOUT_URL", "value": "https://SEU_SITE/checkout?plan=monthly", "type": "string" },
+            { "id": "a6", "name": "SUPABASE_URL", "value": "https://ytskhrskvobfwrmslnkn.supabase.co", "type": "string" },
+            { "id": "a7", "name": "SUPABASE_SERVICE_KEY", "value": "SERVICE_ROLE_KEY", "type": "string" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "free-config",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-340, -40]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Decide a mensagem do dia no ciclo do grupo grátis.\n// Fuso America/Sao_Paulo (UTC-3).\nconst cfg = $('Config').first().json;\nconst now = new Date();\nconst sp = new Date(now.getTime() - 3 * 60 * 60 * 1000);\nconst day = sp.getUTCDay(); // 0=Dom ... 6=Sab\nconst today = sp.toISOString().slice(0, 10);\nconst checkout = cfg.CHECKOUT_URL;\n\nconst L1 = `📘 *Lição 1 — Saudações que abrem portas*\\n\\nHoje 3 formas de dizer \"tudo bem?\" como nativo:\\n\\n• *How's it going?*\\n• *What's up?*\\n• *How have you been?*\\n\\n👉 Responda aqui no grupo: como você está hoje, em inglês?`;\n\nconst U1 = `💬 Gostou da Lição 1?\\n\\nNo *Vocaboost* você recebe uma lição assim *todos os dias úteis*, com áudios, gramática e um professor pra tirar dúvidas.\\n\\nGaranta seu acesso 👉 ${checkout}`;\n\nconst L2 = `📗 *Lição 2 — Verbos do dia a dia*\\n\\n*Get* é o canivete suíço do inglês:\\n• *get up* = levantar\\n• *get it* = entender\\n• *get home* = chegar em casa\\n\\n👉 Monte uma frase com \"get\" e mande aqui!`;\n\nconst U2 = `🌟 Quem pratica todo dia, evolui.\\n\\n\"Em 3 semanas de Vocaboost eu já entendia séries sem legenda.\" — aluno real.\\n\\nVem pro grupo completo 👉 ${checkout}`;\n\nconst L3 = `📕 *Lição 3 — Destrave a conversação*\\n\\nConectores que deixam seu inglês fluido:\\n• *Actually...* (na verdade)\\n• *By the way...* (a propósito)\\n• *I mean...* (quer dizer)\\n\\n🎁 *Oferta de hoje:* assine o Vocaboost e receba sua próxima lição amanhã, no grupo Premium, com professor.\\n\\n👉 ${checkout}`;\n\nconst map = {\n  1: { key: 'free-lesson-1', text: L1 },\n  2: { key: 'free-upsell-1', text: U1 },\n  3: { key: 'free-lesson-2', text: L2 },\n  4: { key: 'free-upsell-2', text: U2 },\n  5: { key: 'free-lesson-3', text: L3 }\n};\n\nconst item = map[day];\nif (!item) return []; // fim de semana: não envia nada\n\nreturn [{ json: { contentKey: `${item.key}-${today}`, text: item.text, ...cfg } }];"
+      },
+      "id": "free-compose",
+      "name": "Compose (lição/upsell do dia)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-120, -40]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.EVOLUTION_URL }}/message/sendText/{{ $json.EVOLUTION_INSTANCE }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $json.EVOLUTION_APIKEY }}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ number: $json.GROUP_JID_FREE, text: $json.text }) }}",
+        "options": {}
+      },
+      "id": "free-send",
+      "name": "Evolution: postar no grupo grátis",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [120, -40]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Compose (lição/upsell do dia)').item.json.SUPABASE_URL }}/rest/v1/broadcast_log",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $('Compose (lição/upsell do dia)').item.json.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $('Compose (lição/upsell do dia)').item.json.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "Prefer", "value": "resolution=ignore-duplicates" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ group_key: 'free', content_key: $('Compose (lição/upsell do dia)').item.json.contentKey }) }}",
+        "options": {}
+      },
+      "id": "free-log",
+      "name": "Supabase: registrar envio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [360, -40]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "free-signup",
+        "options": {}
+      },
+      "id": "free-webhook",
+      "name": "Webhook: novo lead grátis",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-560, 240]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "b1", "name": "EVOLUTION_URL", "value": "https://evo.seudominio.com", "type": "string" },
+            { "id": "b2", "name": "EVOLUTION_INSTANCE", "value": "vocaboost", "type": "string" },
+            { "id": "b3", "name": "EVOLUTION_APIKEY", "value": "SUA_API_KEY", "type": "string" },
+            { "id": "b4", "name": "FREE_GROUP_INVITE", "value": "https://chat.whatsapp.com/XXXX", "type": "string" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "free-config-wh",
+      "name": "Config (webhook)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-340, 240]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config (webhook)').first().json;\nconst body = $('Webhook: novo lead grátis').first().json.body || {};\nconst name = (body.name || '').split(' ')[0] || 'tudo bem';\nconst number = body.whatsapp;\nif (!number) return [];\nconst text = `Olá, ${name}! 👋 Bem-vindo(a) ao *Vocaboost Grátis*.\\n\\nEntre no nosso grupo para receber suas 3 lições: ${cfg.FREE_GROUP_INVITE}\\n\\nNos próximos dias você recebe lições direto por aqui. Bora começar! 🚀`;\nreturn [{ json: { ...cfg, number, text } }];"
+      },
+      "id": "free-welcome",
+      "name": "Montar boas-vindas",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-120, 240]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.EVOLUTION_URL }}/message/sendText/{{ $json.EVOLUTION_INSTANCE }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $json.EVOLUTION_APIKEY }}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ number: $json.number, text: $json.text }) }}",
+        "options": {}
+      },
+      "id": "free-welcome-send",
+      "name": "Evolution: boas-vindas (DM)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [120, 240]
+    }
+  ],
+  "connections": {
+    "Agendador diário (seg–sex 09h)": { "main": [[{ "node": "Config", "type": "main", "index": 0 }]] },
+    "Config": { "main": [[{ "node": "Compose (lição/upsell do dia)", "type": "main", "index": 0 }]] },
+    "Compose (lição/upsell do dia)": { "main": [[{ "node": "Evolution: postar no grupo grátis", "type": "main", "index": 0 }]] },
+    "Evolution: postar no grupo grátis": { "main": [[{ "node": "Supabase: registrar envio", "type": "main", "index": 0 }]] },
+    "Webhook: novo lead grátis": { "main": [[{ "node": "Config (webhook)", "type": "main", "index": 0 }]] },
+    "Config (webhook)": { "main": [[{ "node": "Montar boas-vindas", "type": "main", "index": 0 }]] },
+    "Montar boas-vindas": { "main": [[{ "node": "Evolution: boas-vindas (DM)", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "pinData": {}
+}

@@ -1,0 +1,173 @@
+{
+  "name": "Vocaboost — Sentinela do Grupo Premium",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "cronExpression", "expression": "30 7 * * *" }
+          ]
+        }
+      },
+      "id": "sent-schedule",
+      "name": "Agendador (diário 07h30)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-760, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "a1", "name": "EVOLUTION_URL", "value": "https://evo.seudominio.com", "type": "string" },
+            { "id": "a2", "name": "EVOLUTION_INSTANCE", "value": "vocaboost", "type": "string" },
+            { "id": "a3", "name": "EVOLUTION_APIKEY", "value": "SUA_API_KEY", "type": "string" },
+            { "id": "a4", "name": "GROUP_JID_PREMIUM", "value": "XXXXXXXXXXXX@g.us", "type": "string" },
+            { "id": "a5", "name": "ADMIN_WHATSAPPS", "value": "5511999999999", "type": "string" },
+            { "id": "a6", "name": "DRY_RUN", "value": "true", "type": "string" },
+            { "id": "a7", "name": "SUPABASE_URL", "value": "https://ytskhrskvobfwrmslnkn.supabase.co", "type": "string" },
+            { "id": "a8", "name": "SUPABASE_SERVICE_KEY", "value": "SERVICE_ROLE_KEY", "type": "string" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "sent-config",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-540, 0]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.EVOLUTION_URL }}/group/participants/{{ $json.EVOLUTION_INSTANCE }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "groupJid", "value": "={{ $json.GROUP_JID_PREMIUM }}" }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $json.EVOLUTION_APIKEY }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "sent-participants",
+      "name": "Evolution: participantes do grupo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-320, 0]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $('Config').item.json.SUPABASE_URL }}/rest/v1/subscribers?status=eq.active&select=whatsapp",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $('Config').item.json.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $('Config').item.json.SUPABASE_SERVICE_KEY }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "sent-payers",
+      "name": "Supabase: pagantes ativos",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-100, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Cruza participantes do grupo com a lista de pagantes ativos.\nconst cfg = $('Config').first().json;\nconst onlyDigits = (s) => String(s || '').replace(/\\D/g, '');\n\n// 1) Participantes do grupo (a Evolution pode devolver formatos diferentes).\nconst raw = $('Evolution: participantes do grupo').first().json;\nlet participants = [];\nif (Array.isArray(raw)) participants = raw;\nelse if (Array.isArray(raw.participants)) participants = raw.participants;\nelse if (raw.data && Array.isArray(raw.data.participants)) participants = raw.data.participants;\nconst memberIds = participants.map(p => p.id || p.jid || p).filter(Boolean);\n\n// 2) Conjuntos de quem pode ficar: pagantes ativos + admins.\nconst payers = ($('Supabase: pagantes ativos').first().json || [])\n  .map(r => onlyDigits(r.whatsapp)).filter(Boolean);\nconst admins = onlyDigits(cfg.ADMIN_WHATSAPPS).length\n  ? String(cfg.ADMIN_WHATSAPPS).split(',').map(onlyDigits).filter(Boolean)\n  : [];\nconst allowed = new Set([...payers, ...admins]);\n\n// 3) Infiltrados = membros cujo número não está na lista permitida.\nconst toRemove = [];\nfor (const id of memberIds) {\n  const digits = onlyDigits(id);\n  if (!digits) continue;\n  // Compara pelos últimos 11 dígitos (tolera 55 / 9 extra).\n  const tail = digits.slice(-11);\n  const ok = [...allowed].some(a => a.slice(-11) === tail);\n  if (!ok) toRemove.push(`${digits}@s.whatsapp.net`);\n}\n\nconst dryRun = String(cfg.DRY_RUN).toLowerCase() === 'true';\nreturn [{ json: { ...cfg, dryRun, totalMembros: memberIds.length, totalPagantes: payers.length, toRemove, removeCount: toRemove.length } }];"
+      },
+      "id": "sent-diff",
+      "name": "Identificar infiltrados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [120, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose" },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "cond1",
+              "leftValue": "={{ $json.removeCount }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "gt" }
+            },
+            {
+              "id": "cond2",
+              "leftValue": "={{ $json.dryRun }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "false", "singleValue": true }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "sent-if",
+      "name": "Remover? (tem infiltrado e não é dry-run)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [340, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.EVOLUTION_URL }}/group/updateParticipant/{{ $json.EVOLUTION_INSTANCE }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "groupJid", "value": "={{ $json.GROUP_JID_PREMIUM }}" }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $json.EVOLUTION_APIKEY }}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ action: 'remove', participants: $json.toRemove }) }}",
+        "options": {}
+      },
+      "id": "sent-remove",
+      "name": "Evolution: remover infiltrados",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [560, -100]
+    },
+    {
+      "parameters": {},
+      "id": "sent-noop",
+      "name": "Nada a remover / dry-run",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [560, 120]
+    }
+  ],
+  "connections": {
+    "Agendador (diário 07h30)": { "main": [[{ "node": "Config", "type": "main", "index": 0 }]] },
+    "Config": { "main": [[{ "node": "Evolution: participantes do grupo", "type": "main", "index": 0 }]] },
+    "Evolution: participantes do grupo": { "main": [[{ "node": "Supabase: pagantes ativos", "type": "main", "index": 0 }]] },
+    "Supabase: pagantes ativos": { "main": [[{ "node": "Identificar infiltrados", "type": "main", "index": 0 }]] },
+    "Identificar infiltrados": { "main": [[{ "node": "Remover? (tem infiltrado e não é dry-run)", "type": "main", "index": 0 }]] },
+    "Remover? (tem infiltrado e não é dry-run)": {
+      "main": [
+        [{ "node": "Evolution: remover infiltrados", "type": "main", "index": 0 }],
+        [{ "node": "Nada a remover / dry-run", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "pinData": {}
+}

@@ -70,17 +70,25 @@ Veja `.env.example`. As principais:
 5. Defina `NEXT_PUBLIC_SITE_URL` com o domínio final e configure o webhook no
    painel do Mercado Pago apontando para `https://SEU_DOMINIO/api/webhooks/mercadopago`.
 
-## Próximos passos (automação WhatsApp)
+## Funis de WhatsApp (grátis + pago)
 
-O webhook já entrega o evento `subscription_active` para `N8N_WEBHOOK_URL`. O
-fluxo planejado:
+Dois grupos reais de WhatsApp, orquestrados no **n8n + Evolution API**:
 
-```
-Mercado Pago → /api/webhooks/mercadopago → N8N → Evolution API → adiciona ao grupo
-```
+- **Vocaboost Grátis** — funil de conversão. O lead entra pela seção
+  _"Comece grátis"_ da LP (`/api/free-signup`, salvo na tabela `leads`) ou por um
+  link de anúncio. O n8n posta um ciclo semanal de **3 lições em 5 dias** + upsell
+  para o checkout.
+- **Vocaboost Premium** — produto pago. Pagamento confirmado →
+  `/api/webhooks/mercadopago` → n8n. Uma **lição por dia (seg–sex)** puxada do
+  **Google Drive** + upsell de aulas particulares. O checkout captura o
+  **WhatsApp** do pagante (`subscribers.whatsapp`).
+- **Sentinela** — workflow diário que cruza os participantes do grupo Premium com
+  os pagantes ativos e remove infiltrados (vem em modo `DRY_RUN` por padrão).
 
-No N8N, crie um workflow com um nó **Webhook** (recebe o payload), e um nó
-**HTTP Request** chamando a Evolution API para adicionar o número/contato ao
-grupo do WhatsApp. O payload enviado contém: `event`, `subscriptionId`,
-`email`, `externalReference` e `amount`.
+Os workflows prontos para importar estão em [`n8n/`](./n8n) e o passo a passo
+completo (subir a Evolution API, descobrir o JID dos grupos, variáveis) está em
+[`docs/whatsapp-automacao.md`](./docs/whatsapp-automacao.md).
+
+Payload enviado pelo webhook do pagamento: `event`, `subscriptionId`, `email`,
+`whatsapp`, `name`, `externalReference` e `amount`.
 ```

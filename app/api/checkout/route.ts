@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getPlan } from "@/lib/plans";
 import { createSubscription, isMercadoPagoConfigured } from "@/lib/mercadopago";
 import { upsertSubscriber } from "@/lib/supabase";
+import { normalizeBrazilPhone } from "@/lib/leads";
 
 export const runtime = "nodejs";
 
@@ -13,7 +14,7 @@ function getBaseUrl(req: NextRequest): string {
 }
 
 export async function POST(req: NextRequest) {
-  let payload: { plan?: string; email?: string; name?: string };
+  let payload: { plan?: string; email?: string; name?: string; whatsapp?: string };
   try {
     payload = await req.json();
   } catch {
@@ -31,11 +32,21 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "E-mail inválido." }, { status: 400 });
   }
 
+  // WhatsApp is required so we can link the payer to the group member and audit
+  // (remove) anyone in the paid group who hasn't paid.
+  const whatsapp = normalizeBrazilPhone(payload.whatsapp || "");
+  if (!whatsapp) {
+    return NextResponse.json(
+      { error: "WhatsApp inválido. Informe com DDD." },
+      { status: 400 },
+    );
+  }
+
   const name = (payload.name || "").trim() || undefined;
 
   // Capture the lead first so we keep the contact even if payment isn't set up
   // yet or the buyer drops off before completing the checkout.
-  await upsertSubscriber({ email, name, plan, status: "lead" });
+  await upsertSubscriber({ email, name, whatsapp, plan, status: "lead" });
 
   if (!isMercadoPagoConfigured()) {
     return NextResponse.json(
@@ -60,6 +71,7 @@ export async function POST(req: NextRequest) {
     await upsertSubscriber({
       email,
       name,
+      whatsapp,
       plan,
       status: "pending",
       mpSubscriptionId: subscription.id,

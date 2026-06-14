@@ -3,6 +3,7 @@ import Link from "next/link";
 const NAV = [
   { href: "#metodo", label: "O método" },
   { href: "#beneficios", label: "Benefícios" },
+  { href: "#gratis", label: "Testar grátis" },
   { href: "#planos", label: "Planos" },
   { href: "#duvidas", label: "Dúvidas" },
 ];

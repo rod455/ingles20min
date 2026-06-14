@@ -1,0 +1,295 @@
+{
+  "name": "Vocaboost — Grupo Premium",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "cronExpression", "expression": "0 8 * * 1-5" }
+          ]
+        }
+      },
+      "id": "prem-schedule",
+      "name": "Agendador diário (seg–sex 08h)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-760, -40]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "a1", "name": "EVOLUTION_URL", "value": "https://evo.seudominio.com", "type": "string" },
+            { "id": "a2", "name": "EVOLUTION_INSTANCE", "value": "vocaboost", "type": "string" },
+            { "id": "a3", "name": "EVOLUTION_APIKEY", "value": "SUA_API_KEY", "type": "string" },
+            { "id": "a4", "name": "GROUP_JID_PREMIUM", "value": "XXXXXXXXXXXX@g.us", "type": "string" },
+            { "id": "a5", "name": "DRIVE_FOLDER_ID", "value": "ID_DA_PASTA_DRIVE_PREMIUM", "type": "string" },
+            { "id": "a6", "name": "SUPABASE_URL", "value": "https://ytskhrskvobfwrmslnkn.supabase.co", "type": "string" },
+            { "id": "a7", "name": "SUPABASE_SERVICE_KEY", "value": "SERVICE_ROLE_KEY", "type": "string" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "prem-config",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-540, -40]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.SUPABASE_URL }}/rest/v1/drip_state?group_key=eq.premium&select=next_index",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $json.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $json.SUPABASE_SERVICE_KEY }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "prem-getstate",
+      "name": "Supabase: ler ponteiro",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-320, -40]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst rows = $input.first().json;\nconst nextIndex = Array.isArray(rows) && rows[0] ? Number(rows[0].next_index) : 0;\nreturn [{ json: { ...cfg, nextIndex } }];"
+      },
+      "id": "prem-merge",
+      "name": "Juntar config + índice",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-100, -40]
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "operation": "search",
+        "searchMethod": "query",
+        "queryString": "='ID_DA_PASTA_DRIVE_PREMIUM' in parents and trashed = false and mimeType != 'application/vnd.google-apps.folder'",
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "prem-drive",
+      "name": "Google Drive: listar lições",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [120, -40]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Ordena as lições por nome e escolhe a próxima pelo ponteiro.\nconst ctx = $('Juntar config + índice').first().json;\nconst files = $input.all().map(i => i.json).filter(f => f && f.id);\nfiles.sort((a, b) => String(a.name).localeCompare(String(b.name), 'pt', { numeric: true }));\nif (files.length === 0) return [];\nconst idx = ((ctx.nextIndex % files.length) + files.length) % files.length;\nconst f = files[idx];\nconst link = f.webViewLink || `https://drive.google.com/file/d/${f.id}/view`;\nconst text = `📚 *Lição de hoje — Vocaboost Premium*\\n\\n*${f.name}*\\n\\nAbra e pratique 👉 ${link}\\n\\nDúvidas? Manda aqui no grupo que o professor responde. 💬`;\nreturn [{ json: { ...ctx, lessonIndex: idx, lessonName: f.name, lessonLink: link, text, nextIndexNew: ctx.nextIndex + 1, today: new Date().toISOString().slice(0,10) } }];"
+      },
+      "id": "prem-pick",
+      "name": "Escolher lição do dia",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [340, -40]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.EVOLUTION_URL }}/message/sendText/{{ $json.EVOLUTION_INSTANCE }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $json.EVOLUTION_APIKEY }}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ number: $json.GROUP_JID_PREMIUM, text: $json.text }) }}",
+        "options": {}
+      },
+      "id": "prem-send",
+      "name": "Evolution: postar lição no Premium",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [560, -40]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ $('Escolher lição do dia').item.json.SUPABASE_URL }}/rest/v1/drip_state?group_key=eq.premium",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $('Escolher lição do dia').item.json.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $('Escolher lição do dia').item.json.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ next_index: $('Escolher lição do dia').item.json.nextIndexNew }) }}",
+        "options": {}
+      },
+      "id": "prem-advance",
+      "name": "Supabase: avançar ponteiro",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [780, -40]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Escolher lição do dia').item.json.SUPABASE_URL }}/rest/v1/broadcast_log",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $('Escolher lição do dia').item.json.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $('Escolher lição do dia').item.json.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "Prefer", "value": "resolution=ignore-duplicates" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ group_key: 'premium', content_key: 'premium-' + $('Escolher lição do dia').item.json.today, detail: { lesson: $('Escolher lição do dia').item.json.lessonName } }) }}",
+        "options": {}
+      },
+      "id": "prem-log",
+      "name": "Supabase: registrar envio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1000, -40]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "cronExpression", "expression": "0 18 * * 3" }
+          ]
+        }
+      },
+      "id": "prem-upsell-schedule",
+      "name": "Agendador upsell (quartas 18h)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-540, 240]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "c1", "name": "EVOLUTION_URL", "value": "https://evo.seudominio.com", "type": "string" },
+            { "id": "c2", "name": "EVOLUTION_INSTANCE", "value": "vocaboost", "type": "string" },
+            { "id": "c3", "name": "EVOLUTION_APIKEY", "value": "SUA_API_KEY", "type": "string" },
+            { "id": "c4", "name": "GROUP_JID_PREMIUM", "value": "XXXXXXXXXXXX@g.us", "type": "string" },
+            { "id": "c5", "name": "PRIVATE_CLASS_URL", "value": "https://wa.me/55XXXXXXXXXXX?text=Quero%20aulas%20particulares", "type": "string" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "prem-config-upsell",
+      "name": "Config (upsell)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-320, 240]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.EVOLUTION_URL }}/message/sendText/{{ $json.EVOLUTION_INSTANCE }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $json.EVOLUTION_APIKEY }}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ number: $json.GROUP_JID_PREMIUM, text: '🎯 *Quer acelerar de vez?*\\n\\nAlém das lições diárias, oferecemos *aulas particulares de inglês* — plano de estudo sob medida, foco na sua dificuldade e conversação 1:1 com professor.\\n\\nVagas limitadas. Fale com a gente 👉 ' + $json.PRIVATE_CLASS_URL }) }}",
+        "options": {}
+      },
+      "id": "prem-upsell-send",
+      "name": "Evolution: upsell aulas particulares",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-100, 240]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "mp-active",
+        "options": {}
+      },
+      "id": "prem-webhook",
+      "name": "Webhook: assinatura confirmada",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-540, 520]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "d1", "name": "EVOLUTION_URL", "value": "https://evo.seudominio.com", "type": "string" },
+            { "id": "d2", "name": "EVOLUTION_INSTANCE", "value": "vocaboost", "type": "string" },
+            { "id": "d3", "name": "EVOLUTION_APIKEY", "value": "SUA_API_KEY", "type": "string" },
+            { "id": "d4", "name": "PREMIUM_GROUP_INVITE", "value": "https://chat.whatsapp.com/YYYY", "type": "string" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "prem-config-wh",
+      "name": "Config (webhook)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-320, 520]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config (webhook)').first().json;\nconst body = $('Webhook: assinatura confirmada').first().json.body || {};\nconst number = body.whatsapp || body.phone;\nif (!number) return []; // sem telefone: nada a enviar (lead veio só com e-mail)\nconst text = `🎉 Pagamento confirmado! Bem-vindo(a) ao *Vocaboost Premium*.\\n\\nEntre no grupo exclusivo e receba sua lição diária com professor: ${cfg.PREMIUM_GROUP_INVITE}`;\nreturn [{ json: { ...cfg, number, text } }];"
+      },
+      "id": "prem-invite-build",
+      "name": "Montar convite Premium",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-100, 520]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.EVOLUTION_URL }}/message/sendText/{{ $json.EVOLUTION_INSTANCE }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $json.EVOLUTION_APIKEY }}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ number: $json.number, text: $json.text }) }}",
+        "options": {}
+      },
+      "id": "prem-invite-send",
+      "name": "Evolution: enviar convite (DM)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [120, 520]
+    }
+  ],
+  "connections": {
+    "Agendador diário (seg–sex 08h)": { "main": [[{ "node": "Config", "type": "main", "index": 0 }]] },
+    "Config": { "main": [[{ "node": "Supabase: ler ponteiro", "type": "main", "index": 0 }]] },
+    "Supabase: ler ponteiro": { "main": [[{ "node": "Juntar config + índice", "type": "main", "index": 0 }]] },
+    "Juntar config + índice": { "main": [[{ "node": "Google Drive: listar lições", "type": "main", "index": 0 }]] },
+    "Google Drive: listar lições": { "main": [[{ "node": "Escolher lição do dia", "type": "main", "index": 0 }]] },
+    "Escolher lição do dia": { "main": [[{ "node": "Evolution: postar lição no Premium", "type": "main", "index": 0 }]] },
+    "Evolution: postar lição no Premium": { "main": [[{ "node": "Supabase: avançar ponteiro", "type": "main", "index": 0 }]] },
+    "Supabase: avançar ponteiro": { "main": [[{ "node": "Supabase: registrar envio", "type": "main", "index": 0 }]] },
+    "Agendador upsell (quartas 18h)": { "main": [[{ "node": "Config (upsell)", "type": "main", "index": 0 }]] },
+    "Config (upsell)": { "main": [[{ "node": "Evolution: upsell aulas particulares", "type": "main", "index": 0 }]] },
+    "Webhook: assinatura confirmada": { "main": [[{ "node": "Config (webhook)", "type": "main", "index": 0 }]] },
+    "Config (webhook)": { "main": [[{ "node": "Montar convite Premium", "type": "main", "index": 0 }]] },
+    "Montar convite Premium": { "main": [[{ "node": "Evolution: enviar convite (DM)", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "pinData": {}
+}

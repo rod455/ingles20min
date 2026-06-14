@@ -2,6 +2,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import PhoneMockup from "@/components/PhoneMockup";
 import Pricing from "@/components/Pricing";
+import FreeGroupCta from "@/components/FreeGroupCta";
 import Faq from "@/components/Faq";
 
 export default function HomePage() {
@@ -17,6 +18,7 @@ export default function HomePage() {
         <HowItWorks />
         <Authority />
         <Testimonials />
+        <FreeGroupCta />
         <Pricing />
         <Faq />
         <FinalCta />
@@ -63,8 +65,8 @@ function Hero() {
                 />
               </svg>
             </Link>
-            <a href="#metodo" className="btn-secondary">
-              Conhecer o método
+            <a href="#gratis" className="btn-secondary">
+              Testar grátis no WhatsApp
             </a>
           </div>
 

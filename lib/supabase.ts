@@ -25,6 +25,7 @@ export function getSupabaseAdmin(): SupabaseClient | null {
 export async function upsertSubscriber(input: {
   email: string;
   name?: string;
+  whatsapp?: string;
   plan: Plan;
   status: "lead" | "pending" | "active" | "cancelled";
   mpSubscriptionId?: string;
@@ -42,6 +43,7 @@ export async function upsertSubscriber(input: {
     status: input.status,
   };
   if (input.name) row.name = input.name;
+  if (input.whatsapp) row.whatsapp = input.whatsapp;
   if (input.mpSubscriptionId) row.mp_subscription_id = input.mpSubscriptionId;
   if (typeof input.amount === "number") row.amount = input.amount;
 
@@ -81,4 +83,34 @@ export async function markSubscriptionActive(input: {
   if (error) {
     console.error("[supabase] erro ao ativar assinatura:", error.message);
   }
+}
+
+/**
+ * Looks up a subscriber (by Mercado Pago id, falling back to email) so the
+ * webhook can pass the buyer's WhatsApp to the automation. Best-effort.
+ */
+export async function getSubscriberContact(input: {
+  mpSubscriptionId?: string;
+  email?: string;
+}): Promise<{ whatsapp?: string; name?: string } | null> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return null;
+
+  let query = supabase.from("subscribers").select("whatsapp, name").limit(1);
+  if (input.mpSubscriptionId) {
+    query = query.eq("mp_subscription_id", input.mpSubscriptionId);
+  } else if (input.email) {
+    query = query.eq("email", input.email);
+  } else {
+    return null;
+  }
+
+  const { data, error } = await query.maybeSingle();
+  if (error) {
+    console.error("[supabase] erro ao buscar contato:", error.message);
+    return null;
+  }
+  return data
+    ? { whatsapp: data.whatsapp ?? undefined, name: data.name ?? undefined }
+    : null;
 }

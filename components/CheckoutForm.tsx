@@ -6,6 +6,7 @@ import { Plan, formatBRL } from "@/lib/plans";
 export default function CheckoutForm({ plan }: { plan: Plan }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -17,7 +18,7 @@ export default function CheckoutForm({ plan }: { plan: Plan }) {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: plan.id, name, email }),
+        body: JSON.stringify({ plan: plan.id, name, email, whatsapp }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -62,6 +63,25 @@ export default function CheckoutForm({ plan }: { plan: Plan }) {
         />
         <p className="mt-1.5 text-xs text-white/50">
           Usaremos para confirmar sua assinatura e enviar o acesso ao grupo.
+        </p>
+      </div>
+
+      <div>
+        <label htmlFor="whatsapp" className="mb-1.5 block text-sm font-medium text-white">
+          Seu WhatsApp (com DDD)
+        </label>
+        <input
+          id="whatsapp"
+          type="tel"
+          required
+          value={whatsapp}
+          onChange={(e) => setWhatsapp(e.target.value)}
+          placeholder="(11) 99999-8888"
+          className="w-full rounded-xl border border-white/15 bg-navy-900 px-4 py-3 text-white placeholder:text-white/40 outline-none transition focus:border-accent-400 focus:ring-4 focus:ring-accent-400/20"
+        />
+        <p className="mt-1.5 text-xs text-white/50">
+          É com esse número que você entra no grupo Premium. Só liberamos o acesso
+          a quem assinou.
         </p>
       </div>
 
