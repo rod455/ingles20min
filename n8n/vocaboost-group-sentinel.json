@@ -19,7 +19,7 @@
       "parameters": {
         "assignments": {
           "assignments": [
-            { "id": "a1", "name": "EVOLUTION_URL", "value": "https://evo.seudominio.com", "type": "string" },
+            { "id": "a1", "name": "EVOLUTION_URL", "value": "http://host.docker.internal:8080", "type": "string" },
             { "id": "a2", "name": "EVOLUTION_INSTANCE", "value": "vocaboost", "type": "string" },
             { "id": "a3", "name": "EVOLUTION_APIKEY", "value": "SUA_API_KEY", "type": "string" },
             { "id": "a4", "name": "GROUP_JID_PREMIUM", "value": "XXXXXXXXXXXX@g.us", "type": "string" },
