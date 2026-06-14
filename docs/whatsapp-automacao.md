@@ -37,60 +37,121 @@ Temos **dois grupos reais** de WhatsApp:
 A Evolution API é um gateway open-source que controla um número de WhatsApp e
 expõe uma API HTTP (é isso que o n8n vai chamar para enviar mensagens).
 
-### Opção recomendada: Docker
+### Opção recomendada: Docker (stack completo v2)
 
-```bash
-# docker-compose.yml mínimo
+A Evolution API v2 precisa de **Postgres** e **Redis**. Salve como
+`evolution/docker-compose.yml`:
+
+```yaml
 services:
   evolution-api:
     image: atendai/evolution-api:v2.1.1
     ports:
       - "8080:8080"
     environment:
+      - SERVER_URL=http://localhost:8080
       - AUTHENTICATION_API_KEY=COLOQUE_UMA_CHAVE_FORTE_AQUI
       - DEL_INSTANCE=false
+      - DATABASE_ENABLED=true
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_CONNECTION_URI=postgresql://evolution:evolution@postgres:5432/evolution
+      - DATABASE_SAVE_DATA_INSTANCE=true
+      - DATABASE_SAVE_DATA_NEW_MESSAGE=false
+      - DATABASE_SAVE_MESSAGE_UPDATE=false
+      - DATABASE_SAVE_DATA_CONTACTS=true
+      - DATABASE_SAVE_DATA_CHATS=true
+      - CACHE_REDIS_ENABLED=true
+      - CACHE_REDIS_URI=redis://redis:6379/6
+      - CACHE_REDIS_PREFIX_KEY=evolution
+      - CACHE_LOCAL_ENABLED=false
+    depends_on:
+      - postgres
+      - redis
     volumes:
       - evolution_instances:/evolution/instances
     restart: always
+
+  postgres:
+    image: postgres:16
+    environment:
+      - POSTGRES_USER=evolution
+      - POSTGRES_PASSWORD=evolution
+      - POSTGRES_DB=evolution
+    volumes:
+      - evolution_pg:/var/lib/postgresql/data
+    restart: always
+
+  redis:
+    image: redis:7
+    volumes:
+      - evolution_redis:/data
+    restart: always
+
 volumes:
   evolution_instances:
+  evolution_pg:
+  evolution_redis:
 ```
 
 ```bash
-docker compose up -d
+cd evolution && docker compose up -d
 ```
 
-Hospede em qualquer VPS com IP público (Hetzner, DigitalOcean, Contabo…). Para
-produção, coloque atrás de um domínio com HTTPS (ex.: `https://evo.seudominio.com`).
+Confirme em `http://localhost:8080` (deve responder com a versão da API) e abra o
+painel em `http://localhost:8080/manager`.
+
+> **Produção:** numa VPS com domínio + HTTPS, troque `SERVER_URL` para
+> `https://evo.seudominio.com` e exponha a porta atrás de um proxy (Caddy/Nginx).
+
+### Como o n8n alcança a Evolution
+
+O seu n8n também roda em Docker. No nó **Config** dos workflows, use:
+
+- Mesma máquina, containers separados: `EVOLUTION_URL = http://host.docker.internal:8080`
+- Se colocar n8n e Evolution na **mesma** rede Docker: `EVOLUTION_URL = http://evolution-api:8080`
+
+(Não use `http://localhost:8080` dentro do n8n — para o container, `localhost` é
+ele mesmo, não a Evolution.)
 
 ### Conectar o número
 
-1. Crie uma instância:
+1. Crie uma instância (ou faça pelo painel `/manager`):
    ```bash
-   curl -X POST https://evo.seudominio.com/instance/create \
+   curl -X POST http://localhost:8080/instance/create \
      -H "apikey: SUA_API_KEY" -H "Content-Type: application/json" \
      -d '{"instanceName":"vocaboost","integration":"WHATSAPP-BAILEYS"}'
    ```
-2. Pegue o QR Code (`/instance/connect/vocaboost`) e escaneie com o WhatsApp do
-   número que vai administrar os grupos.
+2. Pegue o QR Code (`GET http://localhost:8080/instance/connect/vocaboost`, ou pelo
+   painel) e escaneie com o WhatsApp do número que vai administrar os grupos.
 
 ### Descobrir o JID dos grupos
 
 Crie os dois grupos no WhatsApp pelo número conectado e liste-os:
 
 ```bash
-curl https://evo.seudominio.com/group/fetchAllGroups/vocaboost?getParticipants=false \
+curl "http://localhost:8080/group/fetchAllGroups/vocaboost?getParticipants=false" \
   -H "apikey: SUA_API_KEY"
 ```
 
 Anote os `id` (formato `XXXXXXXXXXXX@g.us`) dos grupos **Grátis** e **Premium**.
 Eles vão nas variáveis `GROUP_JID_FREE` e `GROUP_JID_PREMIUM` do n8n.
 
+### Teste rápido de envio
+
+```bash
+curl -X POST "http://localhost:8080/message/sendText/vocaboost" \
+  -H "apikey: SUA_API_KEY" -H "Content-Type: application/json" \
+  -d '{"number":"<GROUP_JID_OU_NUMERO>","text":"Teste do Vocaboost ✅"}'
+```
+
 ### Endpoints usados pelos workflows
 
 - **Texto:** `POST /message/sendText/{instance}` → `{ "number": "<JID>", "text": "..." }`
 - **Mídia:** `POST /message/sendMedia/{instance}` → `{ "number": "<JID>", "mediatype": "image|video|document", "media": "<url>", "caption": "..." }`
+- **Participantes:** `GET /group/participants/{instance}?groupJid=<JID>`
+- **Remover:** `POST /group/updateParticipant/{instance}?groupJid=<JID>` → `{ "action": "remove", "participants": ["<num>@s.whatsapp.net"] }`
 - Header em todas: `apikey: SUA_API_KEY`
+
 
 > **Alternativa oficial:** dá para trocar a Evolution pela Cloud API da Meta ou
 > Twilio. Nesse caso só muda o nó HTTP de envio nos workflows; o resto da
