@@ -70,7 +70,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $('Compose (lição/upsell do dia)').item.json.SUPABASE_URL }}/rest/v1/broadcast_log",
+        "url": "={{ $('Compose (lição/upsell do dia)').item.json.SUPABASE_URL }}/rest/v1/broadcast_log?on_conflict=group_key,content_key",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
