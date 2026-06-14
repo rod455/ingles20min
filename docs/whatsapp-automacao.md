@@ -45,7 +45,7 @@ A Evolution API v2 precisa de **Postgres** e **Redis**. Salve como
 ```yaml
 services:
   evolution-api:
-    image: atendai/evolution-api:v2.1.1
+    image: evoapicloud/evolution-api:v2.3.7
     ports:
       - "8080:8080"
     environment:
@@ -152,6 +152,36 @@ curl -X POST "http://localhost:8080/message/sendText/vocaboost" \
 - **Remover:** `POST /group/updateParticipant/{instance}?groupJid=<JID>` → `{ "action": "remove", "participants": ["<num>@s.whatsapp.net"] }`
 - Header em todas: `apikey: SUA_API_KEY`
 
+### Solução de problemas (testado na prática)
+
+**A instância fica presa em `connecting` e nunca gera o QR (`qrcode.count: 0`)**
+- Causa: versão antiga da imagem (ex.: `atendai/evolution-api:v2.1.1`) tem um bug
+  de geração de QR e/ou a versão do WhatsApp Web embutida está obsoleta. Nos logs
+  aparece um loop a cada poucos segundos: `Browser... / Baileys version env... /
+  Group Ignore`, sem nunca emitir o QR.
+- Correção: use a imagem nova **`evoapicloud/evolution-api:v2.3.7`** (o repositório
+  `atendai` foi descontinuado). A v2.3 já gerencia a versão do WhatsApp Web
+  sozinha. Depois de trocar a imagem: `docker compose pull && docker compose up -d
+  --force-recreate`, e confirme no log `v2.3.7` + `HTTP - ON: 8080`.
+- Em versões 2.1.x, como paliativo dava para fixar
+  `CONFIG_SESSION_PHONE_VERSION=2.3000.1020885143`, mas na v2.3.7 isso é
+  desnecessário (e a variável é considerada *deprecated*).
+
+**O QR aparece, mas o celular diz "Não é possível conectar novos dispositivos no
+momento" / "não foi possível conectar mais dispositivos"**
+- Não é problema da Evolution — é restrição do **WhatsApp**:
+  - Limite de aparelhos vinculados (máx. ~4): remova os antigos em
+    *WhatsApp → Aparelhos conectados*.
+  - Bloqueio temporário anti-spam por muitas tentativas de vínculo em pouco tempo:
+    pare de tentar, espere de 2h a 24h e escaneie **uma única vez**.
+- Recomendação: use um **número/chip dedicado** ao negócio, nunca o pessoal.
+
+**Puxar o QR pelo terminal (quando o painel não renderiza)** — PowerShell:
+```powershell
+$h = @{ apikey = "SUA_API_KEY" }
+$r = Invoke-RestMethod -Uri "http://localhost:8080/instance/connect/vocaboost" -Headers $h
+"<img src='$($r.base64)' style='width:340px'>" | Set-Content qr.html; Start-Process qr.html
+```
 
 > **Alternativa oficial:** dá para trocar a Evolution pela Cloud API da Meta ou
 > Twilio. Nesse caso só muda o nó HTTP de envio nos workflows; o resto da
