@@ -1,5 +1,7 @@
-import Link from "next/link";
 import { PLANS, formatBRL } from "@/lib/plans";
+
+const HOTMART_MONTHLY = process.env.NEXT_PUBLIC_HOTMART_MONTHLY_URL || "#";
+const HOTMART_YEARLY = process.env.NEXT_PUBLIC_HOTMART_YEARLY_URL || "#";
 
 const INCLUDED = [
   "Acesso ao grupo exclusivo no WhatsApp",
@@ -49,12 +51,14 @@ export default function Pricing() {
                 </li>
               ))}
             </ul>
-            <Link
-              href="/checkout?plan=monthly"
+            <a
+              href={HOTMART_MONTHLY}
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-secondary mt-8 w-full"
             >
               Assinar mensal
-            </Link>
+            </a>
           </div>
 
           {/* Yearly (highlight) */}
@@ -83,14 +87,19 @@ export default function Pricing() {
                 </li>
               ))}
             </ul>
-            <Link href="/checkout?plan=yearly" className="btn-primary mt-8 w-full">
+            <a
+              href={HOTMART_YEARLY}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary mt-8 w-full"
+            >
               Assinar anual e economizar
-            </Link>
+            </a>
           </div>
         </div>
 
         <p className="mt-8 text-center text-sm text-white/50">
-          Pagamento seguro via Mercado Pago · Pix, cartão e boleto
+          Pagamento seguro via Hotmart · Pix, cartão e boleto
         </p>
       </div>
     </section>

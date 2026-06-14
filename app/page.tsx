@@ -294,7 +294,7 @@ function HowItWorks() {
     {
       n: "1",
       title: "Assine o plano",
-      desc: "Escolha mensal ou anual e pague com segurança via Mercado Pago (Pix, cartão ou boleto).",
+      desc: "Escolha mensal ou anual e pague com segurança via Hotmart (Pix, cartão ou boleto).",
     },
     {
       n: "2",
