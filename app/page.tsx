@@ -11,6 +11,7 @@ export default function HomePage() {
       <Header />
       <main>
         <Hero />
+        <CourseBanner />
         <SocialProof />
         <Problem />
         <Method />
@@ -91,6 +92,29 @@ function Hero() {
         <div className="relative">
           <PhoneMockup />
         </div>
+      </div>
+    </section>
+  );
+}
+
+function CourseBanner() {
+  return (
+    <section className="border-y border-accent-400/30 bg-accent-400/10">
+      <div className="container-px flex flex-col items-center justify-between gap-4 py-5 sm:flex-row">
+        <div className="flex items-center gap-3 text-center sm:text-left">
+          <span className="text-2xl">🎓</span>
+          <p className="text-white/90">
+            <strong className="text-white">Prefere um curso completo?</strong>{" "}
+            Comece com o nosso curso de inglês por{" "}
+            <strong className="text-accent-400">R$ 39,90</strong> (pagamento único).
+          </p>
+        </div>
+        <Link
+          href="/curso"
+          className="btn-primary whitespace-nowrap px-6 py-2.5 text-sm"
+        >
+          Ver o curso
+        </Link>
       </div>
     </section>
   );
