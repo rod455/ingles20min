@@ -104,8 +104,8 @@ function CourseBanner() {
         <div className="flex items-center gap-3 text-center sm:text-left">
           <span className="text-2xl">🎓</span>
           <p className="text-white/90">
-            <strong className="text-white">Prefere um curso completo?</strong>{" "}
-            Comece com o nosso curso de inglês por{" "}
+            <strong className="text-white">Prefere começar com um curso?</strong>{" "}
+            Destrave seu inglês no <strong className="text-white">desafio de 21 dias</strong> por{" "}
             <strong className="text-accent-400">R$ 39,90</strong> (pagamento único).
           </p>
         </div>

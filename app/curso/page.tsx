@@ -2,59 +2,54 @@ import Link from "next/link";
 import Header from "@/components/Header";
 
 export const metadata = {
-  title: "Curso de Inglês Descomplicado — Vocaboost",
+  title: "Inglês em 21 Dias — Vocaboost",
   description:
-    "Curso online de inglês com acesso imediato na área de membros. Aprenda o inglês do dia a dia no seu ritmo, por um valor único.",
+    "Curso online de 21 dias para destravar seu inglês. Acesso imediato na área de membros, no seu ritmo, por um pagamento único.",
 };
 
 const COURSE_URL = process.env.NEXT_PUBLIC_HOTMART_COURSE_URL || "#";
 
-const MODULES = [
+const WEEKS = [
   {
-    n: "1",
+    n: "Semana 1",
     title: "Fundamentos que destravam",
-    desc: "As estruturas que aparecem em 80% das conversas reais — pra você falar desde a primeira aula.",
+    desc: "As estruturas que aparecem na maioria das conversas reais — pra você começar a falar desde os primeiros dias.",
   },
   {
-    n: "2",
+    n: "Semana 2",
     title: "Vocabulário do dia a dia",
-    desc: "As palavras e expressões que você realmente usa: trabalho, viagem, redes sociais e rotina.",
+    desc: "As palavras e expressões que você realmente usa: rotina, trabalho, viagem e redes sociais.",
   },
   {
-    n: "3",
-    title: "Pronúncia e escuta",
-    desc: "Técnica de shadowing pra entender nativos falando rápido e perder o sotaque travado.",
-  },
-  {
-    n: "4",
-    title: "Conversação na prática",
-    desc: "Diálogos guiados e desafios pra você sair falando com confiança, sem medo de errar.",
+    n: "Semana 3",
+    title: "Pronúncia e conversação",
+    desc: "Escuta, pronúncia e diálogos guiados pra você sair falando com confiança, sem medo de errar.",
   },
 ];
 
 const FOR_WHO = [
   "Quem já tentou vários apps e nunca saiu do básico",
   "Quem entende um pouco mas trava na hora de falar",
-  "Quem quer um material direto, sem enrolação e sem gramática chata",
+  "Quem quer um plano simples e direto pra evoluir em 3 semanas",
   "Quem prefere estudar no próprio ritmo, quando e onde quiser",
 ];
 
 const FAQ = [
   {
+    q: "Como funciona o curso de 21 dias?",
+    a: "São 21 aulas curtas, uma por dia, organizadas em 3 semanas. Você assiste, aplica e evolui em poucos minutos por dia, no seu ritmo.",
+  },
+  {
     q: "Como recebo o acesso?",
-    a: "Assim que o pagamento é aprovado, você recebe o acesso à área de membros (Hotmart) por e-mail. É só entrar e começar.",
+    a: "Assim que o pagamento é aprovado, você recebe o acesso à área de membros (Hotmart) por e-mail. É só entrar e começar pelo Dia 1.",
   },
   {
     q: "Por quanto tempo tenho acesso?",
-    a: "O curso é um pagamento único, com acesso ao conteúdo na área de membros. Estude no seu ritmo, quantas vezes quiser.",
-  },
-  {
-    q: "Preciso ter algum nível de inglês?",
-    a: "Não. O curso começa do básico e evolui passo a passo — serve pra quem está começando ou quer reforçar a base.",
+    a: "É um pagamento único, com acesso ao conteúdo na área de membros. Faça no seu tempo e revise quantas vezes quiser.",
   },
   {
     q: "Qual a diferença pro grupo do WhatsApp?",
-    a: "O curso é um conteúdo completo e estruturado na área de membros (pagamento único). O grupo é uma assinatura com lição nova todo dia útil e professor pra tirar dúvidas. Um complementa o outro.",
+    a: "O curso de 21 dias é um conteúdo completo e estruturado na área de membros (pagamento único). O grupo é uma assinatura com lição nova todo dia útil e professor pra tirar dúvidas. Um complementa o outro.",
   },
 ];
 
@@ -68,15 +63,16 @@ export default function CursoPage() {
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-navy-800 to-navy-900" />
           <div className="container-px py-16 lg:py-24">
             <div className="mx-auto max-w-3xl text-center">
-              <span className="eyebrow">Curso online · acesso imediato</span>
+              <span className="eyebrow">Curso online · 21 dias · acesso imediato</span>
               <h1 className="display mt-5 text-4xl font-extrabold leading-[0.95] sm:text-5xl">
-                Inglês <span className="text-brand-500">descomplicado</span>:
-                aprenda o inglês do dia a dia no seu ritmo
+                Destrave seu inglês em{" "}
+                <span className="text-brand-500">21 dias</span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
-                Um curso direto ao ponto, na área de membros, pra você destravar a
-                fala e ganhar vocabulário — sem mensalidade, com{" "}
-                <strong className="text-white">pagamento único</strong>.
+                Um desafio prático e direto ao ponto: uma lição curta por dia, por
+                3 semanas, pra você criar o hábito e finalmente sair do básico —{" "}
+                <strong className="text-white">com pagamento único</strong>, sem
+                mensalidade.
               </p>
 
               <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
@@ -99,28 +95,35 @@ export default function CursoPage() {
           </div>
         </section>
 
-        {/* Módulos */}
+        {/* Plano de 21 dias */}
         <section className="section bg-navy-950">
           <div className="container-px">
             <div className="mx-auto max-w-2xl text-center">
-              <span className="eyebrow">O que você vai aprender</span>
+              <span className="eyebrow">Seu plano de 21 dias</span>
               <h2 className="display mt-4 text-3xl font-extrabold sm:text-4xl">
-                Um caminho claro, do básico à conversação
+                3 semanas, do básico à conversação
               </h2>
+              <p className="mt-4 text-lg text-white/70">
+                Uma lição curta por dia. Sem enrolação, sem gramática chata — só o
+                que faz você evoluir de verdade.
+              </p>
             </div>
-            <div className="mx-auto mt-12 grid max-w-4xl gap-6 sm:grid-cols-2">
-              {MODULES.map((m) => (
-                <div key={m.n} className="card">
-                  <span className="display grid h-12 w-12 place-items-center rounded-2xl bg-brand-500 text-xl font-extrabold text-white">
-                    {m.n}
+            <div className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-3">
+              {WEEKS.map((w) => (
+                <div key={w.n} className="card">
+                  <span className="display inline-block rounded-full bg-brand-500 px-4 py-1.5 text-sm font-extrabold text-white">
+                    {w.n}
                   </span>
                   <h3 className="display mt-5 text-xl font-extrabold">
-                    {m.title}
+                    {w.title}
                   </h3>
-                  <p className="mt-2 text-white/70">{m.desc}</p>
+                  <p className="mt-2 text-white/70">{w.desc}</p>
                 </div>
               ))}
             </div>
+            <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-white/50">
+              21 lições · 1 por dia · poucos minutos diários
+            </p>
           </div>
         </section>
 
@@ -153,7 +156,7 @@ export default function CursoPage() {
             <div className="card mx-auto flex max-w-xl flex-col items-center border-2 border-brand-500 bg-navy-800 text-center shadow-xl shadow-brand-500/10">
               <span className="eyebrow">Acesso imediato</span>
               <h2 className="display mt-4 text-2xl font-extrabold sm:text-3xl">
-                Curso de Inglês Descomplicado
+                Inglês em 21 Dias
               </h2>
               <div className="mt-6 flex items-end justify-center gap-1">
                 <span className="display text-5xl font-extrabold">R$ 39,90</span>
@@ -161,10 +164,10 @@ export default function CursoPage() {
               </div>
               <ul className="mt-8 w-full space-y-3 text-left text-sm">
                 {[
-                  "Acesso ao curso completo na área de membros",
-                  "Estude no seu ritmo, quando e onde quiser",
-                  "Vocabulário, pronúncia e conversação do dia a dia",
-                  "Pagamento único — sem mensalidade",
+                  "21 aulas (3 semanas) na área de membros",
+                  "Uma lição curta por dia, no seu ritmo",
+                  "Fundamentos, vocabulário, pronúncia e conversação",
+                  "Acesso para revisar quando quiser — pagamento único",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <span className="mt-0.5 grid h-5 w-5 flex-shrink-0 place-items-center rounded-full bg-accent-400 text-navy-950">
@@ -180,7 +183,7 @@ export default function CursoPage() {
                 rel="noopener noreferrer"
                 className="btn-primary mt-8 w-full"
               >
-                Comprar agora
+                Começar o desafio de 21 dias
               </a>
               <p className="mt-4 text-xs text-white/50">
                 Pagamento seguro via Hotmart
