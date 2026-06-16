@@ -1,7 +1,11 @@
 import { PLANS, formatBRL } from "@/lib/plans";
 
-const HOTMART_MONTHLY = process.env.NEXT_PUBLIC_HOTMART_MONTHLY_URL || "#";
-const HOTMART_YEARLY = process.env.NEXT_PUBLIC_HOTMART_YEARLY_URL || "#";
+const HOTMART_MONTHLY =
+  process.env.NEXT_PUBLIC_HOTMART_MONTHLY_URL ||
+  "https://pay.hotmart.com/Q106329259L?off=wb3608d3";
+const HOTMART_YEARLY =
+  process.env.NEXT_PUBLIC_HOTMART_YEARLY_URL ||
+  "https://pay.hotmart.com/Q106329259L?off=kxs1syiz";
 
 const INCLUDED = [
   "Acesso ao grupo exclusivo no WhatsApp",
