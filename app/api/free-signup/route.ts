@@ -43,12 +43,16 @@ export async function POST(req: NextRequest) {
     source,
   });
 
-  const groupUrl = process.env.NEXT_PUBLIC_FREE_GROUP_URL || null;
+  const groupUrl =
+    process.env.NEXT_PUBLIC_FREE_GROUP_URL ||
+    "https://chat.whatsapp.com/DiKMEHFIHjj6oCEbtGCuLW";
   return NextResponse.json({ ok: true, groupUrl });
 }
 
 async function notifyFreeFunnel(payload: Record<string, unknown>) {
-  const url = process.env.N8N_FREE_WEBHOOK_URL;
+  const url =
+    process.env.N8N_FREE_WEBHOOK_URL ||
+    "https://elaborate-afterglow-almighty.ngrok-free.dev/webhook/free-signup";
   if (!url) {
     console.log("[automation] N8N_FREE_WEBHOOK_URL não configurado. Payload:", payload);
     return;
