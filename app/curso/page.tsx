@@ -53,6 +53,21 @@ const FAQ = [
   },
 ];
 
+const DEPOIMENTOS = [
+  {
+    name: "Camila R.",
+    text: "Em 21 dias criei o hábito de estudar todo dia — coisa que nunca consegui com nenhum app. As aulas curtas fazem toda a diferença.",
+  },
+  {
+    name: "Lucas M.",
+    text: "Direto ao ponto, sem enrolação. Já consigo montar frases no dia a dia sem travar igual antes.",
+  },
+  {
+    name: "Patrícia S.",
+    text: "Achei que 21 dias seria pouco, mas saí do zero pro básico de verdade. Valeu cada centavo.",
+  },
+];
+
 export default function CursoPage() {
   return (
     <>
@@ -145,6 +160,34 @@ export default function CursoPage() {
                   <span className="text-accent-400">✓</span>
                   <span>{item}</span>
                 </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Depoimentos */}
+        <section className="section bg-navy-950">
+          <div className="container-px">
+            <div className="mx-auto max-w-2xl text-center">
+              <span className="eyebrow">Quem fez, aprovou</span>
+              <h2 className="display mt-4 text-3xl font-extrabold sm:text-4xl">
+                Resultados de quem encarou os 21 dias
+              </h2>
+            </div>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {DEPOIMENTOS.map((t) => (
+                <figure key={t.name} className="card flex flex-col">
+                  <div className="text-accent-400">{"★★★★★"}</div>
+                  <blockquote className="mt-4 flex-1 text-white/80">
+                    “{t.text}”
+                  </blockquote>
+                  <figcaption className="mt-6 flex items-center gap-3">
+                    <span className="grid h-10 w-10 place-items-center rounded-full bg-brand-500 font-bold text-white">
+                      {t.name.charAt(0)}
+                    </span>
+                    <p className="font-semibold text-white">{t.name}</p>
+                  </figcaption>
+                </figure>
               ))}
             </div>
           </div>
