@@ -59,6 +59,7 @@ export default function Pricing() {
               href={HOTMART_MONTHLY}
               target="_blank"
               rel="noopener noreferrer"
+              data-gtag-event="assinar_mensal"
               className="btn-secondary mt-8 w-full"
             >
               Assinar mensal
@@ -95,6 +96,7 @@ export default function Pricing() {
               href={HOTMART_YEARLY}
               target="_blank"
               rel="noopener noreferrer"
+              data-gtag-event="assinar_anual"
               className="btn-primary mt-8 w-full"
             >
               Assinar anual e economizar

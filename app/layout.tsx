@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Archivo } from "next/font/google";
+import Script from "next/script";
+import GtagClicks from "@/components/GtagClicks";
 import "./globals.css";
 
 const inter = Inter({
@@ -54,7 +56,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className={`${inter.variable} ${archivo.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18261023654"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18261023654');
+          `}
+        </Script>
+        <GtagClicks />
+        {children}
+      </body>
     </html>
   );
 }

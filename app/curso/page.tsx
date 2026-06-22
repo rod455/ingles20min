@@ -95,6 +95,7 @@ export default function CursoPage() {
                   href={COURSE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-gtag-event="comprar_curso"
                   className="btn-primary"
                 >
                   Quero o curso por R$ 39,90
@@ -224,6 +225,7 @@ export default function CursoPage() {
                 href={COURSE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-gtag-event="comprar_curso"
                 className="btn-primary mt-8 w-full"
               >
                 Começar o desafio de 21 dias

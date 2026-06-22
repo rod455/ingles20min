@@ -29,6 +29,10 @@ export default function FreeGroupCta() {
       if (!res.ok) {
         throw new Error(data?.error || "Não foi possível registrar seu contato.");
       }
+      const w = window as unknown as { gtag?: (...a: unknown[]) => void };
+      if (typeof w.gtag === "function") {
+        w.gtag("event", "gerar_lead", { send_to: "AW-18261023654" });
+      }
       if (data.groupUrl) {
         window.location.href = data.groupUrl;
         return;
