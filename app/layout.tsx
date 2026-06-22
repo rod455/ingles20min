@@ -17,7 +17,7 @@ const archivo = Archivo({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ingles20min.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.vocaboost.com.br";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
