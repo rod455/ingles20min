@@ -1,3 +1,5 @@
+import JsonLd from "@/components/JsonLd";
+
 const FAQS = [
   {
     q: "Como recebo as lições?",
@@ -17,11 +19,11 @@ const FAQS = [
   },
   {
     q: "Posso cancelar quando quiser?",
-    a: "Sim. A assinatura é sem fidelidade. Você cancela a qualquer momento direto pelo Mercado Pago, sem multa.",
+    a: "Sim. A assinatura é sem fidelidade. Você cancela a qualquer momento direto pela Hotmart, sem multa.",
   },
   {
     q: "Quais formas de pagamento são aceitas?",
-    a: "Aceitamos Pix, cartão de crédito e boleto através do Mercado Pago, com total segurança.",
+    a: "Aceitamos Pix, cartão de crédito e boleto através da Hotmart, com total segurança.",
   },
   {
     q: "Qual a diferença entre o plano mensal e o anual?",
@@ -29,9 +31,20 @@ const FAQS = [
   },
 ];
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 export default function Faq() {
   return (
     <section id="duvidas" className="section">
+      <JsonLd data={faqJsonLd} />
       <div className="container-px">
         <div className="mx-auto max-w-2xl text-center">
           <span className="eyebrow">Dúvidas frequentes</span>

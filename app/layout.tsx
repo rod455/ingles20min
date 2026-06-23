@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Archivo } from "next/font/google";
 import Script from "next/script";
 import GtagClicks from "@/components/GtagClicks";
+import JsonLd from "@/components/JsonLd";
 import "./globals.css";
 
 const inter = Inter({
@@ -47,6 +48,35 @@ export const metadata: Metadata = {
     description:
       "Construa disciplina e expanda seu vocabulário em inglês com lições diárias no WhatsApp.",
   },
+  alternates: { canonical: "/" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+};
+
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Vocaboost",
+  url: siteUrl,
+  description:
+    "Plataforma para aprender inglês com lições diárias no WhatsApp. Método focado em constância: vocabulário, gramática, listening e conversação, todos os dias.",
+};
+
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Vocaboost",
+  url: siteUrl,
+  inLanguage: "pt-BR",
 };
 
 export default function RootLayout({
@@ -70,6 +100,8 @@ export default function RootLayout({
           `}
         </Script>
         <GtagClicks />
+        <JsonLd data={orgJsonLd} />
+        <JsonLd data={siteJsonLd} />
         {children}
       </body>
     </html>

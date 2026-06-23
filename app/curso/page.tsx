@@ -1,10 +1,12 @@
 import Link from "next/link";
 import Header from "@/components/Header";
+import JsonLd from "@/components/JsonLd";
 
 export const metadata = {
   title: "Inglês em 21 Dias — Vocaboost",
   description:
     "Curso online de 21 dias para destravar seu inglês. Acesso imediato na área de membros, no seu ritmo, por um pagamento único.",
+  alternates: { canonical: "/curso" },
 };
 
 const COURSE_URL = process.env.NEXT_PUBLIC_HOTMART_COURSE_URL || "#";
@@ -68,10 +70,49 @@ const DEPOIMENTOS = [
   },
 ];
 
+const courseJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  name: "Vocaboost — Inglês em 21 Dias",
+  description:
+    "Curso online de 21 dias para destravar o inglês: uma lição curta por dia, do básico à conversação. Acesso imediato na área de membros, pagamento único.",
+  inLanguage: "pt-BR",
+  provider: {
+    "@type": "Organization",
+    name: "Vocaboost",
+    sameAs: "https://www.vocaboost.com.br",
+  },
+  offers: {
+    "@type": "Offer",
+    price: "39.90",
+    priceCurrency: "BRL",
+    category: "Paid",
+    availability: "https://schema.org/InStock",
+    url: "https://www.vocaboost.com.br/curso",
+  },
+  hasCourseInstance: {
+    "@type": "CourseInstance",
+    courseMode: "online",
+    courseWorkload: "P21D",
+  },
+};
+
+const cursoFaqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 export default function CursoPage() {
   return (
     <>
       <Header />
+      <JsonLd data={courseJsonLd} />
+      <JsonLd data={cursoFaqJsonLd} />
       <main>
         {/* Hero */}
         <section className="relative overflow-hidden">
