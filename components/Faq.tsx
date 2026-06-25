@@ -10,8 +10,12 @@ const FAQS = [
     a: "Toda segunda a sexta-feira você recebe uma nova lição, sempre com um foco diferente (listening, vocabulário, gramática, conversação e revisão). O conteúdo é contínuo e se renova a cada semana — não tem data para acabar.",
   },
   {
-    q: "Tem alguém para tirar minhas dúvidas?",
-    a: "Sim! Você tem acesso a um professor. Ficou com dúvida em alguma lição? É só perguntar no grupo que um professor responde. Aqui você nunca estuda sozinho.",
+    q: "Tem como tirar dúvidas?",
+    a: "Tem! No Premium você tem um chat com IA exclusivo pra tirar dúvidas de inglês na hora — quando quiser, quantas vezes precisar. E se quiser acompanhamento individual, oferecemos aulas particulares com professores (serviço à parte do plano).",
+  },
+  {
+    q: "As aulas particulares estão incluídas no plano?",
+    a: "Não. O plano de R$ 49,90/mês inclui as lições diárias, o chat com IA para tirar dúvidas e a comunidade. As aulas particulares 1:1 com professores são um serviço à parte — fale com a gente se tiver interesse.",
   },
   {
     q: "E se eu não tiver tempo?",

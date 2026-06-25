@@ -9,8 +9,8 @@ const HOTMART_YEARLY =
 
 const INCLUDED = [
   "Acesso ao grupo exclusivo no WhatsApp",
-  "Uma lição por dia, de segunda a sexta",
-  "Dúvidas respondidas por um professor",
+  "Uma lição nova todo dia útil",
+  "Chat com IA pra tirar dúvidas quando quiser",
   "Vocabulário, áudios, gramática e conversação",
   "Comunidade ativa para praticar",
   "Cancele quando quiser",
@@ -110,6 +110,10 @@ export default function Pricing() {
 
         <p className="mt-8 text-center text-sm text-white/50">
           Pagamento seguro via Hotmart · Pix, cartão e boleto
+        </p>
+        <p className="mt-2 text-center text-xs text-white/40">
+          Aulas particulares 1:1 com professores são um serviço à parte (não
+          incluídas no plano).
         </p>
       </div>
     </section>

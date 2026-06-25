@@ -21,6 +21,7 @@ export default function HomePage() {
         <Testimonials />
         <FreeGroupCta />
         <Pricing />
+        <PrivateClasses />
         <Faq />
         <FinalCta />
       </main>
@@ -275,16 +276,17 @@ function Benefits() {
         <div className="mt-12 grid gap-6">
           <div className="card flex flex-col items-start gap-5 border-accent-400/40 bg-accent-400/5 sm:flex-row sm:items-center">
             <span className="grid h-16 w-16 flex-shrink-0 place-items-center rounded-2xl bg-accent-400 text-3xl text-navy-950">
-              👨‍🏫
+              💬
             </span>
             <div>
               <h3 className="display text-xl font-extrabold text-accent-400">
-                Tire suas dúvidas com um professor de verdade
+                Tire suas dúvidas com a IA, na hora
               </h3>
               <p className="mt-2 text-white/70">
-                Travou em alguma lição? Pergunte direto no grupo e receba a
-                resposta de um professor. Aqui você nunca estuda sozinho — tem
-                quem te ajude a destravar e seguir evoluindo.
+                Travou em alguma lição? No Premium você tem um chat com IA
+                exclusivo pra tirar dúvidas de inglês a qualquer hora —
+                explicação, exemplo e correção na mesma hora. Você nunca estuda
+                sozinho.
               </p>
             </div>
           </div>
@@ -453,6 +455,41 @@ function FinalCta() {
               Quero começar agora
             </Link>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PrivateClasses() {
+  return (
+    <section className="section bg-navy-950">
+      <div className="container-px">
+        <div className="card mx-auto flex max-w-4xl flex-col items-start gap-6 border-accent-400/30 bg-accent-400/5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <span className="eyebrow">Para quem quer ir além</span>
+            <h2 className="display mt-3 text-2xl font-extrabold leading-tight sm:text-3xl">
+              Aulas particulares com{" "}
+              <span className="text-accent-400">professores profissionais</span>
+            </h2>
+            <p className="mt-3 max-w-xl text-white/70">
+              Quer acompanhamento individual? Oferecemos aulas particulares 1:1
+              com professores — plano sob medida, foco na sua dificuldade e
+              conversação. É um serviço à parte:{" "}
+              <strong className="text-white">
+                não está incluído no plano de R$ 49,90
+              </strong>
+              .
+            </p>
+          </div>
+          <a
+            href="https://wa.me/5531992262392?text=Quero%20aulas%20particulares%20de%20ingl%C3%AAs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary whitespace-nowrap"
+          >
+            Quero saber mais
+          </a>
         </div>
       </div>
     </section>

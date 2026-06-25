@@ -3,8 +3,8 @@
 import { useState } from "react";
 
 const PERKS = [
-  "Lições práticas no WhatsApp, de segunda a sexta",
-  "Comece em 10 segundos, sem instalar nada",
+  "4 dias de lições grátis pra testar o método",
+  "Direto no WhatsApp, sem instalar nada",
   "+400 alunos já estão dentro estudando",
 ];
 
