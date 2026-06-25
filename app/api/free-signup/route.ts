@@ -43,9 +43,12 @@ export async function POST(req: NextRequest) {
     source,
   });
 
+  // Redireciona via n8n (/webhook/free-invite), que resolve o convite ATUAL do
+  // grupo no Evolution a cada acesso — assim a LP nunca fica com link quebrado
+  // quando o convite do WhatsApp é redefinido. Fallback estático no próprio n8n.
   const groupUrl =
     process.env.NEXT_PUBLIC_FREE_GROUP_URL ||
-    "https://chat.whatsapp.com/FWCF0VOitRPAcS8EzdMpWW";
+    "https://n8n.vocaboost.com.br/webhook/free-invite";
   return NextResponse.json({ ok: true, groupUrl });
 }
 
