@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
 async function notifyFreeFunnel(payload: Record<string, unknown>) {
   const url =
     process.env.N8N_FREE_WEBHOOK_URL ||
-    "https://elaborate-afterglow-almighty.ngrok-free.dev/webhook/free-signup";
+    "https://n8n.vocaboost.com.br/webhook/free-signup";
   if (!url) {
     console.log("[automation] N8N_FREE_WEBHOOK_URL não configurado. Payload:", payload);
     return;
