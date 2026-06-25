@@ -14,6 +14,10 @@ const FAQS = [
     a: "Sim! Você tem acesso a um professor. Ficou com dúvida em alguma lição? É só perguntar no grupo que um professor responde. Aqui você nunca estuda sozinho.",
   },
   {
+    q: "E se eu não tiver tempo?",
+    a: "A lição do dia leva cerca de 10 minutos e fica salva no grupo. Você faz no ônibus, na fila do café ou antes de dormir — no horário que encaixar na sua rotina. A proposta é exatamente essa: pouco, mas todo dia.",
+  },
+  {
     q: "Preciso ter um nível de inglês para entrar?",
     a: "Não. O conteúdo é pensado para quem está começando ou retomando os estudos. Você aprende no seu ritmo, um pouco a cada dia.",
   },

@@ -45,14 +45,15 @@ function Hero() {
         <div className="animate-fade-up">
           <span className="eyebrow">A maneira mais inteligente de aprender</span>
           <h1 className="display mt-5 text-4xl font-extrabold leading-[0.95] sm:text-5xl lg:text-6xl">
-            Expanda seu vocabulário em inglês com{" "}
-            <span className="text-brand-500">lições diárias</span> no WhatsApp,
-            de <span className="text-accent-400">segunda a sexta</span>
+            Aprenda inglês com{" "}
+            <span className="text-brand-500">10 minutos por dia</span> no
+            WhatsApp, de <span className="text-accent-400">segunda a sexta</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg text-white/70">
-            Não é um curso tradicional nem um programa com data para acabar. É um
-            hábito: toda semana, conteúdo novo para você desenvolver disciplina e
-            evoluir de verdade — com praticidade e no seu ritmo.
+            Não é mais um curso para abandonar na segunda semana. É o hábito de
+            quem evolui de verdade: uma lição prática por dia útil, no app que
+            você já abre o dia inteiro. Pouco, mas todo dia — no piloto
+            automático.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -437,11 +438,13 @@ function FinalCta() {
           <div className="absolute -bottom-20 -left-10 h-64 w-64 rounded-full bg-accent-400/20" />
           <div className="relative mx-auto max-w-2xl">
             <h2 className="display text-3xl font-extrabold leading-tight sm:text-4xl">
-              Comece hoje e evolua todos os dias. Sem riscos!
+              Sua próxima semana pode começar com inglês de verdade
             </h2>
             <p className="mt-4 text-lg text-white/90">
-              Dê o primeiro passo agora e receba sua primeira lição no WhatsApp.
-              Construa o hábito que vai te levar à fluência.
+              Cada semana que passa sem estudar é vocabulário que não entra. Dê o
+              primeiro passo agora, receba sua primeira lição no WhatsApp e
+              construa o hábito que leva à fluência. Sem riscos: cancele quando
+              quiser.
             </p>
             <Link
               href="#planos"

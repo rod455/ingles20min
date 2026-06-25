@@ -42,6 +42,9 @@ export default function Pricing() {
               Ideal para experimentar sem compromisso.
             </p>
             <div className="mt-6 flex items-end gap-1">
+              <span className="mb-1.5 mr-1 text-lg text-white/40 line-through">
+                R$ 89,90
+              </span>
               <span className="display text-4xl font-extrabold">
                 {formatBRL(monthly.price)}
               </span>
@@ -82,7 +85,8 @@ export default function Pricing() {
               <span className="mb-1 text-white/60">/ano</span>
             </div>
             <p className="mt-1 text-sm font-semibold text-accent-400">
-              Equivale a {formatBRL(yearly.monthlyEquivalent)}/mês
+              Equivale a {formatBRL(yearly.monthlyEquivalent)}/mês · você economiza{" "}
+              {formatBRL(monthly.price * 12 - yearly.price)} no ano
             </p>
             <ul className="mt-8 space-y-3 text-sm">
               {INCLUDED.map((item) => (

@@ -3,9 +3,9 @@
 import { useState } from "react";
 
 const PERKS = [
-  "3 lições gratuitas em 5 dias",
-  "Direto no seu WhatsApp, sem instalar nada",
-  "Sinta o método antes de assinar",
+  "Lições práticas no WhatsApp, de segunda a sexta",
+  "Comece em 10 segundos, sem instalar nada",
+  "+400 alunos já estão dentro estudando",
 ];
 
 export default function FreeGroupCta() {
@@ -58,7 +58,7 @@ export default function FreeGroupCta() {
               <span className="eyebrow">Experimente de graça</span>
               <h2 className="display mt-4 text-3xl font-extrabold leading-tight sm:text-4xl">
                 Entre no grupo <span className="text-accent-400">grátis</span> e
-                receba 3 lições no WhatsApp
+                receba sua primeira lição hoje
               </h2>
               <p className="mt-4 text-lg text-white/70">
                 Sem cartão, sem compromisso. Você sente na prática como é evoluir
@@ -136,10 +136,10 @@ export default function FreeGroupCta() {
                     disabled={loading}
                     className="btn-primary w-full disabled:opacity-70"
                   >
-                    {loading ? "Entrando…" : "Entrar no grupo grátis"}
+                    {loading ? "Entrando…" : "Quero minha 1ª lição hoje"}
                   </button>
                   <p className="text-center text-xs text-white/50">
-                    Você pode sair do grupo quando quiser.
+                    Leva 10 segundos. Você pode sair quando quiser.
                   </p>
                 </form>
               )}
