@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
 
   const groupUrl =
     process.env.NEXT_PUBLIC_FREE_GROUP_URL ||
-    "https://chat.whatsapp.com/DiKMEHFIHjj6oCEbtGCuLW";
+    "https://chat.whatsapp.com/FWCF0VOitRPAcS8EzdMpWW";
   return NextResponse.json({ ok: true, groupUrl });
 }
 
