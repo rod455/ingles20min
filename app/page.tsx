@@ -481,6 +481,9 @@ function PrivateClasses() {
               </strong>
               .
             </p>
+            <p className="mt-4 text-sm font-semibold text-accent-400">
+              Valores a partir de R$ 299,90 por mês (1x por semana).
+            </p>
           </div>
           <a
             href="https://wa.me/5531992262392?text=Quero%20aulas%20particulares%20de%20ingl%C3%AAs"
