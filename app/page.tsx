@@ -2,6 +2,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import PhoneMockup from "@/components/PhoneMockup";
 import Pricing from "@/components/Pricing";
+import FreeGroupBanner from "@/components/FreeGroupBanner";
 import FreeGroupCta from "@/components/FreeGroupCta";
 import Faq from "@/components/Faq";
 
@@ -11,6 +12,7 @@ export default function HomePage() {
       <Header />
       <main>
         <Hero />
+        <FreeGroupBanner />
         <CourseBanner />
         <SocialProof />
         <Problem />
