@@ -22,9 +22,9 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.vocaboost.com.b
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Vocaboost — Rumo à fluência: +300 palavras em inglês em 21 dias",
+  title: "Vocaboost — Inglês no WhatsApp: 10 minutos por dia, de segunda a sexta",
   description:
-    "A maneira mais inteligente de construir disciplina e expandir seu vocabulário em inglês. Lições diárias no WhatsApp, método de 21 dias e uma comunidade que te mantém no ritmo.",
+    "Aprenda inglês com uma lição prática por dia útil, direto no WhatsApp. Vocabulário, áudios, conversação e chat com IA pra tirar dúvidas — pouco, mas todo dia.",
   keywords: [
     "aprender inglês",
     "vocabulário em inglês",
@@ -34,9 +34,9 @@ export const metadata: Metadata = {
     "vocaboost",
   ],
   openGraph: {
-    title: "Vocaboost — Rumo à fluência",
+    title: "Vocaboost — Inglês no WhatsApp, 10 min por dia",
     description:
-      "Construa disciplina e expanda seu vocabulário em inglês com lições diárias no WhatsApp. Método de 21 dias.",
+      "Uma lição prática por dia útil no WhatsApp, com áudios, conversação e chat com IA pra tirar dúvidas.",
     url: siteUrl,
     siteName: "Vocaboost",
     locale: "pt_BR",

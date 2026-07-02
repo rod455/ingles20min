@@ -51,7 +51,7 @@ const FAQ = [
   },
   {
     q: "Qual a diferença pro grupo do WhatsApp?",
-    a: "O curso de 21 dias é um conteúdo completo e estruturado na área de membros (pagamento único). O grupo é uma assinatura com lição nova todo dia útil e professor pra tirar dúvidas. Um complementa o outro.",
+    a: "O curso de 21 dias é um conteúdo completo e estruturado na área de membros (pagamento único). O grupo é uma assinatura com lição nova todo dia útil e chat com IA pra tirar dúvidas na hora. Um complementa o outro.",
   },
 ];
 

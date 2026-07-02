@@ -3,17 +3,22 @@
 import { useEffect, useState } from "react";
 
 export default function FreeGroupBanner() {
-  // Contador de vagas da "turma de hoje" — começa em um valor fixo (seguro pro SSR)
-  // e vai diminuindo enquanto a pessoa está na página, com um piso pra não zerar.
+  // Contador de vagas da "turma de hoje": derivado do relógio (diminui ao longo
+  // do dia e nunca sobe ao recarregar a página). Piso de 6 pra não zerar.
   const [spots, setSpots] = useState(17);
 
   useEffect(() => {
-    // pequeno ajuste inicial pra não mostrar sempre o mesmo número
-    setSpots((s) => Math.max(8, s - Math.floor(Math.random() * 6)));
-    const tick = () => {
-      setSpots((s) => (s > 6 ? s - 1 : s));
+    const compute = () => {
+      const now = new Date();
+      const minutesSince6h = Math.max(
+        0,
+        (now.getHours() - 6) * 60 + now.getMinutes(),
+      );
+      // ~1 vaga a cada 80 min a partir das 6h → chega perto do piso à noite
+      return Math.max(6, 17 - Math.floor(minutesSince6h / 80));
     };
-    const id = setInterval(tick, 42000);
+    setSpots(compute());
+    const id = setInterval(() => setSpots(compute()), 60000);
     return () => clearInterval(id);
   }, []);
 

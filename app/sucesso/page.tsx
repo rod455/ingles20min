@@ -20,7 +20,7 @@ export default function SuccessPage() {
         <p className="mt-3 text-white/70">
           {premiumGroupUrl
             ? "Seu acesso está liberado. Entre agora no grupo Premium do WhatsApp e comece a receber suas lições diárias."
-            : "Assim que a confirmação do Mercado Pago for processada, você receberá o convite para o grupo do WhatsApp no e-mail cadastrado. Fique de olho na sua caixa de entrada (e no spam)!"}
+            : "Assim que o pagamento for confirmado, você receberá o convite do grupo Premium no seu WhatsApp e no e-mail cadastrado. Fique de olho (e confira o spam)!"}
         </p>
 
         {premiumGroupUrl && (

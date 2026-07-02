@@ -13,7 +13,6 @@ export default function HomePage() {
       <main>
         <Hero />
         <FreeGroupBanner />
-        <CourseBanner />
         <SocialProof />
         <Problem />
         <Method />
@@ -24,6 +23,7 @@ export default function HomePage() {
         <FreeGroupCta />
         <Pricing />
         <PrivateClasses />
+        <CourseBanner />
         <Faq />
         <FinalCta />
       </main>
@@ -60,7 +60,7 @@ function Hero() {
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href="#planos" className="btn-primary">
+            <Link href="#planos" data-gtag-event="hero_quero_comecar" className="btn-primary">
               Quero começar agora
               <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
                 <path
@@ -70,7 +70,7 @@ function Hero() {
                 />
               </svg>
             </Link>
-            <a href="#gratis" className="btn-secondary">
+            <a href="#gratis" data-gtag-event="hero_testar_gratis" className="btn-secondary">
               Testar grátis no WhatsApp
             </a>
           </div>
@@ -452,10 +452,14 @@ function FinalCta() {
             </p>
             <Link
               href="#planos"
+              data-gtag-event="final_cta_quero_comecar"
               className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-accent-400 px-8 py-4 text-base font-extrabold text-navy-950 shadow-lg transition hover:bg-accent-300 active:scale-[0.98]"
             >
               Quero começar agora
             </Link>
+            <p className="mt-4 text-sm text-white/80">
+              🛡️ Garantia de 7 dias — risco zero pra testar.
+            </p>
           </div>
         </div>
       </div>
@@ -488,6 +492,7 @@ function PrivateClasses() {
             href="https://wa.me/5531992262392?text=Quero%20aulas%20particulares%20de%20ingl%C3%AAs"
             target="_blank"
             rel="noopener noreferrer"
+            data-gtag-event="aulas_particulares"
             className="btn-secondary whitespace-nowrap"
           >
             Quero saber mais

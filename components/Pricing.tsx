@@ -96,19 +96,21 @@ export default function Pricing() {
                 </li>
               ))}
             </ul>
-            <a
+            <TrackedLink
               href={HOTMART_YEARLY}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-gtag-event="assinar_anual"
+              sendTo="AW-18261023654/dA3QCOXbmMkcEKa3xINE"
+              event="assinar_anual"
               className="btn-primary mt-8 w-full"
             >
               Assinar anual e economizar
-            </a>
+            </TrackedLink>
           </div>
         </div>
 
-        <p className="mt-8 text-center text-sm text-white/50">
+        <p className="mt-8 text-center text-sm font-semibold text-accent-400">
+          🛡️ Garantia de 7 dias: se não for pra você, devolvemos 100% do valor.
+        </p>
+        <p className="mt-2 text-center text-sm text-white/50">
           Pagamento seguro via Hotmart · Pix, cartão e boleto
         </p>
         <p className="mt-2 text-center text-xs text-white/40">
