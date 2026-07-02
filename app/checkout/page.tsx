@@ -11,7 +11,7 @@ export const metadata = {
 const INCLUDED = [
   "Acesso ao grupo exclusivo no WhatsApp",
   "Uma lição por dia, de segunda a sexta",
-  "Dúvidas respondidas por um professor",
+  "Chat com IA pra tirar dúvidas quando quiser",
   "Vocabulário, áudios, gramática e conversação",
   "Cancele quando quiser",
 ];
