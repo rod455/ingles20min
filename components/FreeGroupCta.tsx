@@ -30,17 +30,38 @@ export default function FreeGroupCta() {
         throw new Error(data?.error || "Não foi possível registrar seu contato.");
       }
       const w = window as unknown as { gtag?: (...a: unknown[]) => void };
+      const groupUrl: string | undefined = data.groupUrl;
+      const proceed = () => {
+        if (groupUrl) {
+          window.location.href = groupUrl;
+        } else {
+          // Sem link configurado ainda: confirma e avisa que o convite chega no WhatsApp.
+          setDone(
+            "Tudo certo! Em instantes você recebe o convite do grupo no seu WhatsApp.",
+          );
+        }
+      };
       if (typeof w.gtag === "function") {
         w.gtag("event", "gerar_lead", { send_to: "AW-18261023654" });
+        let navigated = false;
+        const fire = () => {
+          if (navigated) return;
+          navigated = true;
+          proceed();
+        };
+        // Conversão do Google Ads — botão "1ª lição"
+        w.gtag("event", "conversion", {
+          send_to: "AW-18261023654/mANOCOLbmMkcEKa3xINE",
+          value: 1.0,
+          currency: "BRL",
+          event_callback: fire,
+        });
+        // fallback caso o event_callback do gtag não dispare
+        window.setTimeout(fire, 1200);
+      } else {
+        proceed();
       }
-      if (data.groupUrl) {
-        window.location.href = data.groupUrl;
-        return;
-      }
-      // Sem link configurado ainda: confirma e avisa que o convite chega no WhatsApp.
-      setDone(
-        "Tudo certo! Em instantes você recebe o convite do grupo no seu WhatsApp.",
-      );
+      return;
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro inesperado.");
     } finally {
