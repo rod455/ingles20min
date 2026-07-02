@@ -1,4 +1,5 @@
 import { PLANS, formatBRL } from "@/lib/plans";
+import TrackedLink from "@/components/TrackedLink";
 
 const HOTMART_MONTHLY =
   process.env.NEXT_PUBLIC_HOTMART_MONTHLY_URL ||
@@ -58,15 +59,14 @@ export default function Pricing() {
                 </li>
               ))}
             </ul>
-            <a
+            <TrackedLink
               href={HOTMART_MONTHLY}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-gtag-event="assinar_mensal"
+              sendTo="AW-18261023654/dA3QCOXbmMkcEKa3xINE"
+              event="assinar_mensal"
               className="btn-secondary mt-8 w-full"
             >
               Assinar mensal
-            </a>
+            </TrackedLink>
           </div>
 
           {/* Yearly (highlight) */}
