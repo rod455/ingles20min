@@ -1,6 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import TrackedLink from "@/components/TrackedLink";
+
+// Endpoint self-healing: redireciona sempre pro convite atual do grupo grátis.
+const FREE_GROUP_INVITE_URL =
+  process.env.NEXT_PUBLIC_FREE_GROUP_URL ||
+  "https://n8n.vocaboost.com.br/webhook/free-invite";
 
 export default function FreeGroupBanner() {
   // Contador de vagas da "turma de hoje": derivado do relógio (diminui ao longo
@@ -50,9 +56,10 @@ export default function FreeGroupBanner() {
               </p>
             </div>
           </div>
-          <a
-            href="#gratis"
-            data-gtag-event="banner_grupo_gratis"
+          <TrackedLink
+            href={FREE_GROUP_INVITE_URL}
+            sendTo="AW-18261023654/mANOCOLbmMkcEKa3xINE"
+            event="banner_grupo_gratis"
             className="btn-primary whitespace-nowrap px-6 py-3 text-sm"
           >
             Garantir minha vaga grátis
@@ -63,7 +70,7 @@ export default function FreeGroupBanner() {
                 clipRule="evenodd"
               />
             </svg>
-          </a>
+          </TrackedLink>
         </div>
       </div>
     </section>
