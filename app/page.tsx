@@ -11,8 +11,8 @@ export default function HomePage() {
     <>
       <Header />
       <main>
-        <Hero />
         <FreeGroupBanner />
+        <Hero />
         <SocialProof />
         <Problem />
         <Method />
