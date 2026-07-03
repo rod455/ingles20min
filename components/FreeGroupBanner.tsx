@@ -29,8 +29,8 @@ export default function FreeGroupBanner() {
   }, []);
 
   return (
-    <section className="border-y border-accent-400/40 bg-gradient-to-r from-accent-400/15 via-brand-500/10 to-accent-400/15">
-      <div className="container-px py-5 sm:py-6">
+    <section className="sticky top-16 z-30 border-y border-accent-400/40 bg-navy-900 bg-gradient-to-r from-accent-400/15 via-brand-500/10 to-accent-400/15 shadow-lg shadow-navy-950/40">
+      <div className="container-px py-3 sm:py-4">
         <div className="flex flex-col items-center gap-4 text-center lg:flex-row lg:justify-between lg:text-left">
           <div className="flex items-center gap-4">
             <span className="text-3xl sm:text-4xl">🎁</span>
