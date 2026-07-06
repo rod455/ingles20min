@@ -60,6 +60,8 @@ export default function FreeGroupBanner() {
             href={FREE_GROUP_INVITE_URL}
             sendTo="AW-18261023654/mANOCOLbmMkcEKa3xINE"
             event="banner_grupo_gratis"
+            gaName="click_free_group"
+            gaParams={{ cta_location: "banner_topo" }}
             className="btn-primary whitespace-nowrap px-6 py-3 text-sm"
           >
             Garantir minha vaga grátis

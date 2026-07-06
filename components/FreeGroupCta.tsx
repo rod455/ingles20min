@@ -43,6 +43,11 @@ export default function FreeGroupCta() {
       };
       if (typeof w.gtag === "function") {
         w.gtag("event", "gerar_lead");
+        // Evento GA4 de funil — antes do redirect pro grupo
+        w.gtag("event", "click_free_group", {
+          cta_location: "form_gratis",
+          link_url: groupUrl || "",
+        });
         let navigated = false;
         const fire = () => {
           if (navigated) return;
