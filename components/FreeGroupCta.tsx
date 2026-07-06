@@ -42,7 +42,7 @@ export default function FreeGroupCta() {
         }
       };
       if (typeof w.gtag === "function") {
-        w.gtag("event", "gerar_lead", { send_to: "AW-18261023654" });
+        w.gtag("event", "gerar_lead");
         let navigated = false;
         const fire = () => {
           if (navigated) return;

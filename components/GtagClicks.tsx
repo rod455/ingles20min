@@ -18,7 +18,8 @@ export default function GtagClicks() {
         gtag?: (...args: unknown[]) => void;
       };
       if (typeof w.gtag === "function") {
-        w.gtag("event", name, { send_to: "AW-18261023654" });
+        // Sem send_to: o evento vai para todas as tags (GA4 + Ads)
+        w.gtag("event", name);
       }
     }
     document.addEventListener("click", onClick);
