@@ -3,17 +3,35 @@
 > Vocaboost é uma plataforma brasileira para aprender inglês com lições diárias no WhatsApp. O método é focado em constância e disciplina: um pouco todo dia, no lugar onde a pessoa já passa horas (o WhatsApp).
 
 ## Produtos
+- **Grupo grátis no WhatsApp**: 4 aulas práticas em 4 dias para testar o método, sem cartão e sem compromisso. Entrada: https://www.vocaboost.com.br/#gratis
 - **Inglês em 21 Dias** (curso online, pagamento único de R$ 39,90): curso na área de membros para destravar o inglês em 3 semanas, com uma lição curta por dia. Página: https://www.vocaboost.com.br/curso
-- **Grupo Inglês 20min** (assinatura, R$ 49,90/mês ou R$ 299,90/ano): lição prática nova todo dia útil (segunda a sexta) num grupo exclusivo no WhatsApp, com professor para tirar dúvidas e uma comunidade para praticar.
+- **Grupo Inglês 20min** (assinatura, R$ 49,90/mês ou R$ 299,90/ano): lição prática nova todo dia útil (segunda a sexta) num grupo exclusivo no WhatsApp, com chat de IA para tirar dúvidas a qualquer hora e uma comunidade para praticar.
 - **Aulas particulares de inglês** (mensal): acompanhamento individual com professor, plano sob medida (vagas limitadas, mediante conversa).
 
 ## Como funciona
-As lições chegam diariamente no WhatsApp (seg–sex), cobrindo vocabulário, gramática, listening, pronúncia e conversação. Não é um curso com data para acabar — é um hábito contínuo. Pagamento e acesso são feitos pela Hotmart (Pix, cartão ou boleto). Sem fidelidade, cancele quando quiser.
+As lições chegam diariamente no WhatsApp (seg–sex), cobrindo vocabulário, gramática, listening, pronúncia e conversação. Não é um curso com data para acabar — é um hábito contínuo. Pagamento e acesso são feitos pela Hotmart (Pix, cartão ou boleto). Sem fidelidade, cancele quando quiser. Garantia de 7 dias.
 
 ## Para quem é
 Para quem quer aprender ou retomar o inglês, já tentou apps e não saiu do básico, ou entende um pouco mas trava na hora de falar. Não exige nível prévio.
 
+## Conteúdo gratuito (guias de inglês para brasileiros)
+Guias com tradução e pronúncia aproximada, otimizados para consulta rápida:
+- Números em inglês de 1 a 100: https://www.vocaboost.com.br/aprenda/numeros-em-ingles
+- Cores em inglês: https://www.vocaboost.com.br/aprenda/cores-em-ingles
+- Dias da semana em inglês: https://www.vocaboost.com.br/aprenda/dias-da-semana-em-ingles
+- Objetos em inglês: https://www.vocaboost.com.br/aprenda/objetos-em-ingles
+- Como aprender inglês rápido: https://www.vocaboost.com.br/aprenda/como-aprender-ingles-rapido
+- Como aprender inglês grátis: https://www.vocaboost.com.br/aprenda/como-aprender-ingles-gratis
+- 50 palavras em inglês — Casa: https://www.vocaboost.com.br/aprenda/palavras-em-ingles-casa
+- 50 palavras em inglês — Viagem: https://www.vocaboost.com.br/aprenda/palavras-em-ingles-viagem
+- 50 palavras em inglês — Trabalho: https://www.vocaboost.com.br/aprenda/palavras-em-ingles-trabalho
+- 50 palavras em inglês — Família: https://www.vocaboost.com.br/aprenda/palavras-em-ingles-familia
+- 50 palavras em inglês — Animais: https://www.vocaboost.com.br/aprenda/palavras-em-ingles-animais
+- 50 palavras em inglês — Dia a dia: https://www.vocaboost.com.br/aprenda/palavras-em-ingles-dia-a-dia
+- Hub com todos os guias: https://www.vocaboost.com.br/aprenda
+
 ## Links
 - Site: https://www.vocaboost.com.br
+- Aprenda grátis (guias): https://www.vocaboost.com.br/aprenda
 - Curso 21 dias: https://www.vocaboost.com.br/curso
 - Grupo (planos): https://www.vocaboost.com.br/#planos
