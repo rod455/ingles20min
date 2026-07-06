@@ -7,6 +7,7 @@ const NAV = [
   { href: "/#metodo", label: "O método" },
   { href: "/#beneficios", label: "Benefícios" },
   { href: "/curso", label: "Curso" },
+  { href: "/aprenda", label: "Aprenda grátis" },
   { href: "/#gratis", label: "Testar grátis" },
   { href: "/#planos", label: "Planos" },
   { href: "/#duvidas", label: "Dúvidas" },

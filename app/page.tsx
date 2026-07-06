@@ -520,6 +520,9 @@ function Footer() {
         </div>
         <p>© {new Date().getFullYear()} Vocaboost. Todos os direitos reservados.</p>
         <div className="flex gap-5">
+          <Link href="/aprenda" className="hover:text-accent-400">
+            Aprenda grátis
+          </Link>
           <a href="#planos" className="hover:text-accent-400">
             Planos
           </a>
