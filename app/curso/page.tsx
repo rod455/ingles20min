@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Header from "@/components/Header";
 import JsonLd from "@/components/JsonLd";
+import TrackedLink from "@/components/TrackedLink";
 
 export const metadata = {
   title: "Inglês em 21 Dias — Vocaboost",
@@ -132,15 +133,22 @@ export default function CursoPage() {
               </p>
 
               <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-                <a
+                <TrackedLink
                   href={COURSE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-gtag-event="comprar_curso"
+                  event="comprar_curso"
+                  gaName="begin_checkout"
+                  gaParams={{
+                    currency: "BRL",
+                    value: 39.9,
+                    items: [
+                      { item_id: "curso_21_dias", item_name: "Vocaboost" },
+                    ],
+                    cta_location: "curso_hero",
+                  }}
                   className="btn-primary"
                 >
                   Quero o curso por R$ 39,90
-                </a>
+                </TrackedLink>
                 <Link href="/#planos" className="btn-secondary">
                   Ver o grupo por assinatura
                 </Link>
@@ -262,15 +270,20 @@ export default function CursoPage() {
                   </li>
                 ))}
               </ul>
-              <a
+              <TrackedLink
                 href={COURSE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-gtag-event="comprar_curso"
+                event="comprar_curso"
+                gaName="begin_checkout"
+                gaParams={{
+                  currency: "BRL",
+                  value: 39.9,
+                  items: [{ item_id: "curso_21_dias", item_name: "Vocaboost" }],
+                  cta_location: "curso_oferta",
+                }}
                 className="btn-primary mt-8 w-full"
               >
                 Começar o desafio de 21 dias
-              </a>
+              </TrackedLink>
               <p className="mt-4 text-xs text-white/50">
                 Pagamento seguro via Hotmart
               </p>

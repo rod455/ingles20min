@@ -1,5 +1,6 @@
 import { PLANS, formatBRL } from "@/lib/plans";
 import TrackedLink from "@/components/TrackedLink";
+import ViewPlansTracker from "@/components/ViewPlansTracker";
 
 const HOTMART_MONTHLY =
   process.env.NEXT_PUBLIC_HOTMART_MONTHLY_URL ||
@@ -23,6 +24,7 @@ export default function Pricing() {
 
   return (
     <section id="planos" className="section bg-navy-950">
+      <ViewPlansTracker />
       <div className="container-px">
         <div className="mx-auto max-w-2xl text-center">
           <span className="eyebrow">Planos</span>
@@ -63,6 +65,13 @@ export default function Pricing() {
               href={HOTMART_MONTHLY}
               sendTo="AW-18261023654/dA3QCOXbmMkcEKa3xINE"
               event="assinar_mensal"
+              gaName="begin_checkout"
+              gaParams={{
+                currency: "BRL",
+                value: PLANS.monthly.price,
+                items: [{ item_id: "plano_mensal", item_name: "Vocaboost" }],
+                cta_location: "planos",
+              }}
               className="btn-secondary mt-8 w-full"
             >
               Assinar mensal
@@ -100,6 +109,13 @@ export default function Pricing() {
               href={HOTMART_YEARLY}
               sendTo="AW-18261023654/dA3QCOXbmMkcEKa3xINE"
               event="assinar_anual"
+              gaName="begin_checkout"
+              gaParams={{
+                currency: "BRL",
+                value: PLANS.yearly.price,
+                items: [{ item_id: "plano_anual", item_name: "Vocaboost" }],
+                cta_location: "planos",
+              }}
               className="btn-primary mt-8 w-full"
             >
               Assinar anual e economizar
