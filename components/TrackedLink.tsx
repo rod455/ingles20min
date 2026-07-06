@@ -24,7 +24,8 @@ export default function TrackedLink({
     const w = window as unknown as { gtag?: (...args: unknown[]) => void };
     if (typeof w.gtag !== "function") return;
     if (event) {
-      w.gtag("event", event, { send_to: "AW-18261023654" });
+      // Sem send_to: o evento vai para todas as tags (GA4 + Ads)
+      w.gtag("event", event);
     }
     w.gtag("event", "conversion", {
       send_to: sendTo,
