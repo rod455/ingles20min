@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__n8n",
+      "mcp__Supabase",
+      "mcp__Google_Drive",
+      "mcp__Canva",
+      "mcp__Vercel",
+      "mcp__github",
+      "mcp__claude-code-remote"
+    ]
+  }
+}
