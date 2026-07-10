@@ -1,6 +1,15 @@
 {
   "permissions": {
+    "defaultMode": "dontAsk",
     "allow": [
+      "Bash",
+      "Edit",
+      "Write",
+      "Read",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "WebSearch",
       "mcp__n8n",
       "mcp__Supabase",
       "mcp__Google_Drive",
@@ -8,6 +17,10 @@
       "mcp__Vercel",
       "mcp__github",
       "mcp__claude-code-remote"
+    ],
+    "deny": [
+      "Bash(rm -rf /*)",
+      "Bash(git push --force origin main*)"
     ]
   }
 }
