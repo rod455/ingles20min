@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Archivo } from "next/font/google";
 import Script from "next/script";
 import GtagClicks from "@/components/GtagClicks";
+import PageViewTracker from "@/components/PageViewTracker";
 import JsonLd from "@/components/JsonLd";
 import "./globals.css";
 
@@ -101,6 +102,7 @@ export default function RootLayout({
           `}
         </Script>
         <GtagClicks />
+        <PageViewTracker />
         <JsonLd data={orgJsonLd} />
         <JsonLd data={siteJsonLd} />
         {children}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
+import { track } from "@/lib/track";
 
 /**
  * Link externo (abre em nova aba) com tracking:
@@ -70,6 +71,12 @@ export default function TrackedLink({
   }, [href]);
 
   function handleClick() {
+    // Telemetria first-party (Supabase) — independe do gtag/adblock.
+    track(gaName || event || "outbound_click", {
+      ...(gaParams?.cta_location ? { cta_location: gaParams.cta_location } : {}),
+      ...(gaParams?.value ? { value: gaParams.value } : {}),
+      link_url: finalHref.split("?")[0],
+    });
     const w = window as unknown as { gtag?: (...args: unknown[]) => void };
     if (typeof w.gtag !== "function") return;
     if (event) {
