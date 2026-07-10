@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { track } from "@/lib/track";
 
 declare global {
   interface Window {
@@ -23,6 +24,7 @@ export default function ViewPlansTracker() {
         for (const entry of entries) {
           if (!entry.isIntersecting || window.__viewPlansFired) continue;
           window.__viewPlansFired = true;
+          track("view_plans", { cta_location: "planos" });
           const w = window as unknown as {
             gtag?: (...args: unknown[]) => void;
           };

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { track } from "@/lib/track";
 
 const PERKS = [
   "4 dias de lições grátis pra testar o método",
@@ -31,6 +32,8 @@ export default function FreeGroupCta() {
       }
       const w = window as unknown as { gtag?: (...a: unknown[]) => void };
       const groupUrl: string | undefined = data.groupUrl;
+      // Telemetria first-party (Supabase) — independe do gtag/adblock.
+      track("click_free_group", { cta_location: "form_gratis" });
       const proceed = () => {
         if (groupUrl) {
           window.location.href = groupUrl;
