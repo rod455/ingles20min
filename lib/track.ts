@@ -1,9 +1,15 @@
 "use client";
 
 /**
- * Envia um evento first-party pro /api/track (Supabase). Usa sendBeacon pra
- * sobreviver a navegações; nunca lança — tracking jamais quebra o funil.
+ * Envia um evento first-party pro n8n (que grava na tabela site_events do
+ * Supabase). Usa sendBeacon pra sobreviver a navegações; nunca lança —
+ * tracking jamais quebra o funil.
+ *
+ * Vai direto pro n8n (e não pro /api/track) porque a Vercel ainda não tem as
+ * env vars do Supabase; o /api/track fica como rota alternativa.
  */
+const TRACK_URL = "https://n8n.vocaboost.com.br/webhook/site-track";
+
 export function track(event: string, meta?: Record<string, unknown>) {
   try {
     const body = JSON.stringify({
@@ -12,9 +18,9 @@ export function track(event: string, meta?: Record<string, unknown>) {
       meta: meta || {},
     });
     if (navigator.sendBeacon) {
-      navigator.sendBeacon("/api/track", body);
+      navigator.sendBeacon(TRACK_URL, body);
     } else {
-      fetch("/api/track", { method: "POST", body, keepalive: true }).catch(() => {});
+      fetch(TRACK_URL, { method: "POST", body, keepalive: true }).catch(() => {});
     }
   } catch {
     // silencioso por design
