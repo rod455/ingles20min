@@ -50,6 +50,9 @@ export const metadata: Metadata = {
       "Construa disciplina e expanda seu vocabulário em inglês com lições diárias no WhatsApp.",
   },
   alternates: { canonical: "/" },
+  verification: {
+    google: "1hzRRmoDvPWZbvYwOokRxD_OXrg-bjjs2nSBwqH9at8",
+  },
   robots: {
     index: true,
     follow: true,
