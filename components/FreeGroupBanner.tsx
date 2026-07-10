@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import TrackedLink from "@/components/TrackedLink";
 
 // Endpoint self-healing: redireciona sempre pro convite atual do grupo grátis.
@@ -9,25 +6,6 @@ const FREE_GROUP_INVITE_URL =
   "https://n8n.vocaboost.com.br/webhook/free-invite";
 
 export default function FreeGroupBanner() {
-  // Contador de vagas da "turma de hoje": derivado do relógio (diminui ao longo
-  // do dia e nunca sobe ao recarregar a página). Piso de 6 pra não zerar.
-  const [spots, setSpots] = useState(17);
-
-  useEffect(() => {
-    const compute = () => {
-      const now = new Date();
-      const minutesSince6h = Math.max(
-        0,
-        (now.getHours() - 6) * 60 + now.getMinutes(),
-      );
-      // ~1 vaga a cada 80 min a partir das 6h → chega perto do piso à noite
-      return Math.max(6, 17 - Math.floor(minutesSince6h / 80));
-    };
-    setSpots(compute());
-    const id = setInterval(() => setSpots(compute()), 60000);
-    return () => clearInterval(id);
-  }, []);
-
   return (
     <section className="sticky top-16 z-30 border-y border-accent-400/40 bg-navy-900 bg-gradient-to-r from-accent-400/15 via-brand-500/10 to-accent-400/15 shadow-lg shadow-navy-950/40">
       <div className="container-px py-3 sm:py-4">
@@ -36,23 +14,19 @@ export default function FreeGroupBanner() {
             <span className="text-3xl sm:text-4xl">🎁</span>
             <div>
               <p className="flex flex-wrap items-center justify-center gap-2 lg:justify-start">
-                <span className="animate-pulse rounded-full bg-brand-500 px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wide text-white">
-                  Só hoje
+                <span className="rounded-full bg-brand-500 px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wide text-white">
+                  100% grátis
                 </span>
                 <span className="display text-lg font-extrabold leading-tight text-white sm:text-xl">
-                  Grupo grátis no WhatsApp — 4 dias de aulas
+                  Grupo grátis no WhatsApp — 4 aulas práticas em 4 dias
                 </span>
               </p>
               <p className="mt-1.5 text-sm text-white/75">
-                <span className="text-white/50 line-through">R$ 19,90</span>{" "}
-                <span className="font-extrabold text-accent-400">GRÁTIS agora</span>
+                Sem cartão e sem compromisso
                 <span className="mx-1.5 text-white/30">·</span>
                 <span className="font-semibold text-white">
-                  Restam{" "}
-                  <span className="tabular-nums text-accent-400">{spots}</span>{" "}
-                  vagas
-                </span>{" "}
-                pra turma de hoje
+                  Turma nova toda semana, vagas limitadas
+                </span>
               </p>
             </div>
           </div>
@@ -64,7 +38,7 @@ export default function FreeGroupBanner() {
             gaParams={{ cta_location: "banner_topo" }}
             className="btn-primary whitespace-nowrap px-6 py-3 text-sm"
           >
-            Garantir minha vaga grátis
+            Entrar no grupo grátis
             <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
               <path
                 fillRule="evenodd"
