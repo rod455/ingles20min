@@ -3,16 +3,37 @@
 import Link from "next/link";
 import { useState } from "react";
 
-const NAV = [
+type NavLink = { href: string; label: string; desc?: string };
+type NavGroup = { label: string; children: NavLink[] };
+type NavItem = NavLink | NavGroup;
+
+const NAV: NavItem[] = [
   { href: "/#metodo", label: "O método" },
   { href: "/#beneficios", label: "Benefícios" },
   { href: "/curso", label: "Curso" },
-  { href: "/aprenda", label: "Aprenda grátis" },
-  { href: "/blog", label: "Blog" },
+  {
+    label: "Conteúdo",
+    children: [
+      {
+        href: "/aprenda",
+        label: "Guias grátis",
+        desc: "Vocabulário, números, cores e listas prontas",
+      },
+      {
+        href: "/blog",
+        label: "Blog",
+        desc: "Artigos e dicas de inglês toda semana",
+      },
+    ],
+  },
   { href: "/#gratis", label: "Testar grátis" },
   { href: "/#planos", label: "Planos" },
   { href: "/#duvidas", label: "Dúvidas" },
 ];
+
+function isGroup(item: NavItem): item is NavGroup {
+  return "children" in item;
+}
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -32,15 +53,57 @@ export default function Header() {
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
-          {NAV.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="text-sm font-medium text-white/70 transition hover:text-accent-400"
-            >
-              {item.label}
-            </a>
-          ))}
+          {NAV.map((item) =>
+            isGroup(item) ? (
+              <div key={item.label} className="group relative">
+                <button
+                  type="button"
+                  className="flex items-center gap-1 text-sm font-medium text-white/70 transition group-hover:text-accent-400"
+                >
+                  {item.label}
+                  <svg
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="h-3 w-3 transition group-hover:rotate-180"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.23 7.21a1 1 0 011.41 0L10 10.59l3.36-3.38a1 1 0 111.42 1.4l-4.07 4.09a1 1 0 01-1.42 0L5.23 8.61a1 1 0 010-1.4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+                <div className="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3 opacity-0 transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                  <div className="w-72 rounded-2xl border border-white/10 bg-navy-900/95 p-2 shadow-xl backdrop-blur">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        className="block rounded-xl px-3 py-2.5 transition hover:bg-white/5"
+                      >
+                        <span className="block text-sm font-semibold text-white">
+                          {child.label}
+                        </span>
+                        {child.desc && (
+                          <span className="mt-0.5 block text-xs text-white/60">
+                            {child.desc}
+                          </span>
+                        )}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <a
+                key={item.href}
+                href={item.href}
+                className="text-sm font-medium text-white/70 transition hover:text-accent-400"
+              >
+                {item.label}
+              </a>
+            )
+          )}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -82,16 +145,37 @@ export default function Header() {
       {open && (
         <nav className="border-t border-white/10 bg-navy-900/95 backdrop-blur md:hidden">
           <div className="container-px flex flex-col py-2">
-            {NAV.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="border-b border-white/5 py-3 text-sm font-medium text-white/80 last:border-0 hover:text-accent-400"
-              >
-                {item.label}
-              </a>
-            ))}
+            {NAV.map((item) =>
+              isGroup(item) ? (
+                <div
+                  key={item.label}
+                  className="border-b border-white/5 py-2 last:border-0"
+                >
+                  <span className="block py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-white/40">
+                    {item.label}
+                  </span>
+                  {item.children.map((child) => (
+                    <a
+                      key={child.href}
+                      href={child.href}
+                      onClick={() => setOpen(false)}
+                      className="block py-2 pl-3 text-sm font-medium text-white/80 hover:text-accent-400"
+                    >
+                      {child.label}
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="border-b border-white/5 py-3 text-sm font-medium text-white/80 last:border-0 hover:text-accent-400"
+                >
+                  {item.label}
+                </a>
+              )
+            )}
           </div>
         </nav>
       )}
