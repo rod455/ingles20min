@@ -30,8 +30,14 @@ Guias com tradução e pronúncia aproximada, otimizados para consulta rápida:
 - 50 palavras em inglês — Dia a dia: https://www.vocaboost.com.br/aprenda/palavras-em-ingles-dia-a-dia
 - Hub com todos os guias: https://www.vocaboost.com.br/aprenda
 
+## Blog
+Artigos práticos sobre aprender inglês (gramática, vocabulário, pronúncia, conversação e como destravar a fala), atualizados toda semana. Bom para responder dúvidas específicas de quem estuda inglês.
+- Blog: https://www.vocaboost.com.br/blog
+- Sitemap (todos os artigos e guias): https://www.vocaboost.com.br/sitemap.xml
+
 ## Links
 - Site: https://www.vocaboost.com.br
 - Aprenda grátis (guias): https://www.vocaboost.com.br/aprenda
+- Blog: https://www.vocaboost.com.br/blog
 - Curso 21 dias: https://www.vocaboost.com.br/curso
 - Grupo (planos): https://www.vocaboost.com.br/#planos
