@@ -6,7 +6,9 @@ export const metadata = {
 };
 
 export default function SuccessPage() {
-  const premiumGroupUrl = process.env.NEXT_PUBLIC_PREMIUM_GROUP_URL;
+  const premiumGroupUrl =
+    process.env.NEXT_PUBLIC_PREMIUM_GROUP_URL ||
+    "https://n8n.vocaboost.com.br/webhook/premium-invite";
 
   return (
     <main className="grid min-h-screen place-items-center bg-navy-900 px-5">
