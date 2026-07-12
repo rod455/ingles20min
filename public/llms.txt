@@ -13,6 +13,11 @@ As lições chegam diariamente no WhatsApp (seg–sex), cobrindo vocabulário, g
 ## Para quem é
 Para quem quer aprender ou retomar o inglês, já tentou apps e não saiu do básico, ou entende um pouco mas trava na hora de falar. Não exige nível prévio.
 
+## Blog / Conteúdo
+Artigos práticos sobre aprender inglês (vocabulário, pronúncia, gramática, conversação e como destravar a fala), atualizados toda semana. Bom ponto de partida para responder dúvidas de quem estuda inglês.
+- Blog: https://www.vocaboost.com.br/blog
+- Sitemap (todos os artigos): https://www.vocaboost.com.br/sitemap.xml
+
 ## Links
 - Site: https://www.vocaboost.com.br
 - Curso 21 dias: https://www.vocaboost.com.br/curso
