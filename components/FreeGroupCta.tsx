@@ -15,6 +15,7 @@ export default function FreeGroupCta() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<string | null>(null);
+  const [groupHref, setGroupHref] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -36,7 +37,16 @@ export default function FreeGroupCta() {
       track("click_free_group", { cta_location: "form_gratis" });
       const proceed = () => {
         if (groupUrl) {
-          window.location.href = groupUrl;
+          // Mostra o link do grupo como botão visível (fallback) e só então
+          // redireciona. Navegadores in-app (Instagram/Meta) e Safari iOS às
+          // vezes bloqueiam o redirect automático — o botão garante que a
+          // pessoa sempre alcança o grupo (maior vazamento identificado: lead
+          // que não chega a entrar no grupo).
+          setGroupHref(groupUrl);
+          setDone("Cadastro feito! Entre agora no grupo grátis 👇");
+          window.setTimeout(() => {
+            window.location.assign(groupUrl);
+          }, 1800);
         } else {
           // Sem link configurado ainda: confirma e avisa que o convite chega no WhatsApp.
           setDone(
@@ -115,7 +125,22 @@ export default function FreeGroupCta() {
               {done ? (
                 <div className="rounded-xl border border-accent-400/40 bg-accent-400/10 px-4 py-6 text-center text-accent-200">
                   <span className="mb-2 block text-3xl">🎉</span>
-                  {done}
+                  <p className="font-medium text-white">{done}</p>
+                  {groupHref && (
+                    <>
+                      <a
+                        href={groupHref}
+                        className="btn-primary mt-4 inline-block w-full px-5 py-3 text-base"
+                        data-gtag-event="entrar_grupo_manual"
+                      >
+                        Entrar no grupo agora
+                      </a>
+                      <p className="mt-3 text-xs text-white/70">
+                        +400 alunos já estão dentro. Se o grupo não abrir
+                        sozinho, toque no botão acima.
+                      </p>
+                    </>
+                  )}
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
