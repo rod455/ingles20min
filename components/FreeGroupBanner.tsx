@@ -1,11 +1,25 @@
-import TrackedLink from "@/components/TrackedLink";
+"use client";
 
-// Endpoint self-healing: redireciona sempre pro convite atual do grupo grátis.
-const FREE_GROUP_INVITE_URL =
-  process.env.NEXT_PUBLIC_FREE_GROUP_URL ||
-  "https://n8n.vocaboost.com.br/webhook/free-invite";
+import { track } from "@/lib/track";
 
+/**
+ * Banner fixo do topo. Antes mandava a pessoa DIRETO pro grupo do WhatsApp
+ * (nova aba), pulando a captura do lead — a maioria das entradas ficava
+ * invisível no funil. Agora leva ao formulário (#gratis), que captura o
+ * WhatsApp e só então redireciona pro grupo. Assim todo entrante vira lead
+ * medido e atribuível. A conversão do Google Ads dispara no cadastro real
+ * (FreeGroupCta), não neste clique.
+ */
 export default function FreeGroupBanner() {
+  function goToForm() {
+    // Telemetria first-party — mede o interesse por CTA (independe de gtag).
+    track("click_free_group", { cta_location: "banner_topo" });
+    const w = window as unknown as { gtag?: (...a: unknown[]) => void };
+    if (typeof w.gtag === "function") {
+      w.gtag("event", "click_free_group", { cta_location: "banner_topo" });
+    }
+  }
+
   return (
     <section className="sticky top-16 z-30 border-y border-accent-400/40 bg-navy-900 bg-gradient-to-r from-accent-400/15 via-brand-500/10 to-accent-400/15 shadow-lg shadow-navy-950/40">
       <div className="container-px py-3 sm:py-4">
@@ -30,12 +44,9 @@ export default function FreeGroupBanner() {
               </p>
             </div>
           </div>
-          <TrackedLink
-            href={FREE_GROUP_INVITE_URL}
-            sendTo="AW-18261023654/mANOCOLbmMkcEKa3xINE"
-            event="banner_grupo_gratis"
-            gaName="click_free_group"
-            gaParams={{ cta_location: "banner_topo" }}
+          <a
+            href="#gratis"
+            onClick={goToForm}
             className="btn-primary whitespace-nowrap px-6 py-3 text-sm"
           >
             Entrar no grupo grátis
@@ -46,7 +57,7 @@ export default function FreeGroupBanner() {
                 clipRule="evenodd"
               />
             </svg>
-          </TrackedLink>
+          </a>
         </div>
       </div>
     </section>

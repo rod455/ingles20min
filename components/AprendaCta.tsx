@@ -1,12 +1,23 @@
+"use client";
+
 import Link from "next/link";
-import TrackedLink from "@/components/TrackedLink";
+import { track } from "@/lib/track";
 
-// Endpoint self-healing: redireciona sempre pro convite atual do grupo grátis.
-const FREE_GROUP_INVITE_URL =
-  process.env.NEXT_PUBLIC_FREE_GROUP_URL ||
-  "https://n8n.vocaboost.com.br/webhook/free-invite";
-
+/**
+ * CTA no fim dos conteúdos /aprenda. Antes mandava direto pro grupo (sem
+ * captura); agora leva ao formulário da home (/#gratis), que captura o
+ * WhatsApp e redireciona pro grupo — todo entrante vira lead medido. A
+ * conversão do Google Ads dispara no cadastro real (FreeGroupCta).
+ */
 export default function AprendaCta({ slug }: { slug: string }) {
+  function goToForm() {
+    track("click_free_group", { cta_location: `conteudo_${slug}` });
+    const w = window as unknown as { gtag?: (...a: unknown[]) => void };
+    if (typeof w.gtag === "function") {
+      w.gtag("event", "click_free_group", { cta_location: `conteudo_${slug}` });
+    }
+  }
+
   return (
     <div className="relative overflow-hidden rounded-[2rem] border border-accent-400/30 bg-gradient-to-br from-navy-800 to-navy-900 p-8 sm:p-10">
       <div className="absolute -right-14 -top-14 h-48 w-48 rounded-full bg-accent-400/10" />
@@ -23,14 +34,7 @@ export default function AprendaCta({ slug }: { slug: string }) {
           compromisso.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <TrackedLink
-            href={FREE_GROUP_INVITE_URL}
-            sendTo="AW-18261023654/mANOCOLbmMkcEKa3xINE"
-            event="conteudo_grupo_gratis"
-            gaName="click_free_group"
-            gaParams={{ cta_location: `conteudo_${slug}` }}
-            className="btn-primary"
-          >
+          <Link href="/#gratis" onClick={goToForm} className="btn-primary">
             Entrar no grupo grátis
             <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
               <path
@@ -39,7 +43,7 @@ export default function AprendaCta({ slug }: { slug: string }) {
                 clipRule="evenodd"
               />
             </svg>
-          </TrackedLink>
+          </Link>
           <Link href="/curso" className="btn-secondary">
             Ver o curso de 21 dias
           </Link>
