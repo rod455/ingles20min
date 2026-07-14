@@ -35,6 +35,9 @@ export default function FreeGroupCta() {
       const groupUrl: string | undefined = data.groupUrl;
       // Telemetria first-party (Supabase) — independe do gtag/adblock.
       track("click_free_group", { cta_location: "form_gratis" });
+      // Meta Pixel: evento de Lead (inerte enquanto o pixel não estiver ativo).
+      const fbq = (window as unknown as { fbq?: (...a: unknown[]) => void }).fbq;
+      if (typeof fbq === "function") fbq("track", "Lead");
       const proceed = () => {
         if (groupUrl) {
           // Mostra o link do grupo como botão visível (fallback) e só então

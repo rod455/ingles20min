@@ -88,12 +88,18 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Meta Pixel: só é injetado quando NEXT_PUBLIC_META_PIXEL_ID existir — fica
+  // inerte até configurarmos a conta de anúncios da Meta.
+  const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
   return (
     <html lang="pt-BR" className={`${inter.variable} ${archivo.variable}`}>
       <head>
         {/* Acelera o 1º beacon/gtag: abre a conexão antes de precisar dela. */}
         <link rel="preconnect" href="https://n8n.vocaboost.com.br" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
+        {metaPixelId && (
+          <link rel="preconnect" href="https://connect.facebook.net" />
+        )}
       </head>
       <body>
         {/*
@@ -119,6 +125,11 @@ export default function RootLayout({
             gtag('config', 'G-P103ZNJR58');
           `}
         </Script>
+        {metaPixelId && (
+          <Script id="meta-pixel" strategy="afterInteractive">
+            {`!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${metaPixelId}');fbq('track','PageView');`}
+          </Script>
+        )}
         <GtagClicks />
         <PageViewTracker />
         <JsonLd data={orgJsonLd} />
