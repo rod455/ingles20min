@@ -88,9 +88,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Meta Pixel: só é injetado quando NEXT_PUBLIC_META_PIXEL_ID existir — fica
-  // inerte até configurarmos a conta de anúncios da Meta.
-  const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+  // Meta Pixel do Vocaboost (ID público, criado na conta de anúncios Triplyze).
+  // Env var permite trocar sem deploy; o padrão mantém o pixel ativo.
+  const metaPixelId =
+    process.env.NEXT_PUBLIC_META_PIXEL_ID || "1041422381678530";
   return (
     <html lang="pt-BR" className={`${inter.variable} ${archivo.variable}`}>
       <head>
