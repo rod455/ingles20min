@@ -10,6 +10,14 @@ export default function PageViewTracker() {
 
   useEffect(() => {
     if (!pathname) return;
+    // O landing inicial já foi contado pelo script "pv-early" (antes da
+    // hidratação). Consome o marcador e não duplica; navegações client-side
+    // seguintes (troca de rota) continuam sendo registradas normalmente.
+    const w = window as unknown as { __vbPvSent?: string | null };
+    if (w.__vbPvSent === pathname) {
+      w.__vbPvSent = null;
+      return;
+    }
     const params = new URLSearchParams(window.location.search);
     const meta: Record<string, unknown> = {};
     const source = params.get("utm_source");

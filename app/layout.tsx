@@ -90,7 +90,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className={`${inter.variable} ${archivo.variable}`}>
+      <head>
+        {/* Acelera o 1º beacon/gtag: abre a conexão antes de precisar dela. */}
+        <link rel="preconnect" href="https://n8n.vocaboost.com.br" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+      </head>
       <body>
+        {/*
+          page_view "cedo": dispara ANTES da hidratação do React, direto no
+          carregamento. Assim um clique de anúncio que sai rápido no mobile
+          ainda é contado (o PageViewTracker só roda depois de hidratar e
+          perdia esses bounces — principal causa da perda clique→pageview).
+          Captura gclid/utm para atribuição de tráfego pago.
+        */}
+        <Script id="pv-early" strategy="beforeInteractive">
+          {`(function(){try{var p=new URLSearchParams(location.search),m={};var s=p.get('utm_source');if(s)m.utm_source=s;var c=p.get('utm_campaign');if(c)m.utm_campaign=c;if(p.get('gclid'))m.gclid=true;if(document.referrer){try{var r=new URL(document.referrer);if(r.host!==location.host)m.referrer=r.host;}catch(e){}}var b=JSON.stringify({event:'page_view',path:location.pathname,meta:m});var u='https://n8n.vocaboost.com.br/webhook/site-track';if(navigator.sendBeacon){navigator.sendBeacon(u,b);}else{fetch(u,{method:'POST',body:b,keepalive:true}).catch(function(){});}window.__vbPvSent=location.pathname;}catch(e){}})();`}
+        </Script>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-18261023654"
           strategy="afterInteractive"
