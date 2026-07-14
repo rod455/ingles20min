@@ -4,6 +4,7 @@ import PhoneMockup from "@/components/PhoneMockup";
 import Pricing from "@/components/Pricing";
 import FreeGroupBanner from "@/components/FreeGroupBanner";
 import FreeGroupCta from "@/components/FreeGroupCta";
+import HeroCtas from "@/components/HeroCtas";
 import Faq from "@/components/Faq";
 
 export default function HomePage() {
@@ -46,34 +47,21 @@ function Hero() {
       />
       <div className="container-px grid items-center gap-12 py-16 lg:grid-cols-2 lg:py-24">
         <div className="animate-fade-up">
-          <span className="eyebrow">A maneira mais inteligente de aprender</span>
+          <span className="eyebrow">🎁 Comece de graça no WhatsApp</span>
           <h1 className="display mt-5 text-4xl font-extrabold leading-[0.95] sm:text-5xl lg:text-6xl">
-            Aprenda inglês com{" "}
-            <span className="text-brand-500">10 minutos por dia</span> no
-            WhatsApp, de <span className="text-accent-400">segunda a sexta</span>
+            Aprenda inglês no seu{" "}
+            <span className="text-accent-400">WhatsApp</span>,{" "}
+            <span className="text-brand-500">10 minutos por dia</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg text-white/70">
-            Não é mais um curso para abandonar na segunda semana. É o hábito de
-            quem evolui de verdade: uma lição prática por dia útil, no app que
-            você já abre o dia inteiro. Pouco, mas todo dia — no piloto
-            automático.
+            Entre no <strong className="text-white">grupo grátis</strong> e receba{" "}
+            <strong className="text-white">4 dias de aulas práticas</strong> — com
+            áudio, vocabulário e pronúncia, direto no app que você já abre o dia
+            inteiro. Sem cartão, sem compromisso. Depois, se quiser, evolua pro
+            plano completo.
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href="#planos" data-gtag-event="hero_quero_comecar" className="btn-primary">
-              Quero começar agora
-              <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
-                <path
-                  fillRule="evenodd"
-                  d="M3 10a1 1 0 011-1h9.6l-3.3-3.3a1 1 0 011.4-1.4l5 5a1 1 0 010 1.4l-5 5a1 1 0 01-1.4-1.4L13.6 11H4a1 1 0 01-1-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </Link>
-            <a href="#gratis" data-gtag-event="hero_testar_gratis" className="btn-secondary">
-              Testar grátis no WhatsApp
-            </a>
-          </div>
+          <HeroCtas />
 
           <div className="mt-8 flex items-center gap-4 text-sm text-white/60">
             <div className="flex -space-x-2">
