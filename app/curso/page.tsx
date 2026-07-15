@@ -10,7 +10,9 @@ export const metadata = {
   alternates: { canonical: "/curso" },
 };
 
-const COURSE_URL = process.env.NEXT_PUBLIC_HOTMART_COURSE_URL || "#";
+const COURSE_URL =
+  process.env.NEXT_PUBLIC_HOTMART_COURSE_URL ||
+  "https://pay.hotmart.com/L106356085V";
 
 const WEEKS = [
   {
