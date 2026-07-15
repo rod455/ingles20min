@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import JsonLd from "@/components/JsonLd";
+import TrackedLink from "@/components/TrackedLink";
+import { FREE_GROUP_URL, FREE_GROUP_ADS_CONVERSION } from "@/lib/links";
 import { getPostBySlug, getPublishedPosts, formatDate } from "@/lib/blog";
 
 export const revalidate = 3600;
@@ -146,12 +148,15 @@ export default async function BlogPostPage({
             Comece de graça no grupo do Vocaboost: aulas práticas no WhatsApp,
             todo dia.
           </p>
-          <Link
-            href="/#gratis"
+          <TrackedLink
+            href={FREE_GROUP_URL}
+            event="click_free_group"
+            sendTo={FREE_GROUP_ADS_CONVERSION}
+            gaParams={{ cta_location: "blog" }}
             className="btn-primary mt-4 inline-block px-5 py-2.5 text-sm"
           >
             Testar grátis
-          </Link>
+          </TrackedLink>
         </div>
       </main>
     </div>

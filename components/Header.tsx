@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { FREE_GROUP_URL } from "@/lib/links";
 
 type NavLink = { href: string; label: string; desc?: string };
 type NavGroup = { label: string; children: NavLink[] };
@@ -26,7 +27,7 @@ const NAV: NavItem[] = [
       },
     ],
   },
-  { href: "/#gratis", label: "Testar grátis" },
+  { href: FREE_GROUP_URL, label: "Testar grátis" },
   { href: "/#planos", label: "Planos" },
   { href: "/#duvidas", label: "Dúvidas" },
 ];

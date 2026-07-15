@@ -1,25 +1,15 @@
 "use client";
 
-import { track } from "@/lib/track";
+import TrackedLink from "@/components/TrackedLink";
+import { FREE_GROUP_URL, FREE_GROUP_ADS_CONVERSION } from "@/lib/links";
 
 /**
- * Banner fixo do topo. Antes mandava a pessoa DIRETO pro grupo do WhatsApp
- * (nova aba), pulando a captura do lead — a maioria das entradas ficava
- * invisível no funil. Agora leva ao formulário (#gratis), que captura o
- * WhatsApp e só então redireciona pro grupo. Assim todo entrante vira lead
- * medido e atribuível. A conversão do Google Ads dispara no cadastro real
- * (FreeGroupCta), não neste clique.
+ * Banner fixo do topo. Leva a pessoa DIRETO pro grupo do WhatsApp em 1 clique
+ * (via /webhook/free-invite, nova aba) — máxima conversão. O clique dispara
+ * telemetria first-party + evento GA4 + conversão do Google Ads e preserva
+ * gclid/utm na atribuição.
  */
 export default function FreeGroupBanner() {
-  function goToForm() {
-    // Telemetria first-party — mede o interesse por CTA (independe de gtag).
-    track("click_free_group", { cta_location: "banner_topo" });
-    const w = window as unknown as { gtag?: (...a: unknown[]) => void };
-    if (typeof w.gtag === "function") {
-      w.gtag("event", "click_free_group", { cta_location: "banner_topo" });
-    }
-  }
-
   return (
     <section className="sticky top-16 z-30 border-y border-accent-400/40 bg-navy-900 bg-gradient-to-r from-accent-400/15 via-brand-500/10 to-accent-400/15 shadow-lg shadow-navy-950/40">
       <div className="container-px py-3 sm:py-4">
@@ -44,9 +34,11 @@ export default function FreeGroupBanner() {
               </p>
             </div>
           </div>
-          <a
-            href="#gratis"
-            onClick={goToForm}
+          <TrackedLink
+            href={FREE_GROUP_URL}
+            event="click_free_group"
+            sendTo={FREE_GROUP_ADS_CONVERSION}
+            gaParams={{ cta_location: "banner_topo" }}
             className="btn-primary whitespace-nowrap px-6 py-3 text-sm"
           >
             Entrar no grupo grátis
@@ -57,7 +49,7 @@ export default function FreeGroupBanner() {
                 clipRule="evenodd"
               />
             </svg>
-          </a>
+          </TrackedLink>
         </div>
       </div>
     </section>

@@ -1,27 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { track } from "@/lib/track";
+import TrackedLink from "@/components/TrackedLink";
+import { FREE_GROUP_URL, FREE_GROUP_ADS_CONVERSION } from "@/lib/links";
 
 /**
- * CTAs do hero (Fase 1). O botão principal leva ao formulário do grupo
- * GRÁTIS (#gratis) — que captura o WhatsApp e mede o lead —, e o plano pago
- * fica como link discreto. Dispara telemetria first-party + gtag no clique.
+ * CTAs do hero (Fase 1). O botão principal leva DIRETO ao grupo GRÁTIS do
+ * WhatsApp em 1 clique (via /webhook/free-invite) — máxima conversão. O clique
+ * dispara telemetria first-party + evento GA4 + conversão do Google Ads e
+ * preserva gclid/utm na atribuição. O plano pago fica como link discreto.
  */
 export default function HeroCtas() {
-  function goToForm() {
-    track("click_free_group", { cta_location: "hero" });
-    const w = window as unknown as { gtag?: (...a: unknown[]) => void };
-    if (typeof w.gtag === "function") {
-      w.gtag("event", "click_free_group", { cta_location: "hero" });
-    }
-  }
-
   return (
     <div className="mt-8 flex flex-col items-start gap-4">
-      <a
-        href="#gratis"
-        onClick={goToForm}
+      <TrackedLink
+        href={FREE_GROUP_URL}
+        event="click_free_group"
+        sendTo={FREE_GROUP_ADS_CONVERSION}
+        gaParams={{ cta_location: "hero" }}
         className="btn-accent w-full px-8 py-4 text-lg sm:w-auto"
       >
         Entrar no grupo grátis
@@ -32,7 +28,7 @@ export default function HeroCtas() {
             clipRule="evenodd"
           />
         </svg>
-      </a>
+      </TrackedLink>
       <p className="text-sm text-white/60">
         Sem cartão · Sem compromisso · Turma nova toda semana
       </p>

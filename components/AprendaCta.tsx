@@ -1,23 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { track } from "@/lib/track";
+import TrackedLink from "@/components/TrackedLink";
+import { FREE_GROUP_URL, FREE_GROUP_ADS_CONVERSION } from "@/lib/links";
 
 /**
- * CTA no fim dos conteúdos /aprenda. Antes mandava direto pro grupo (sem
- * captura); agora leva ao formulário da home (/#gratis), que captura o
- * WhatsApp e redireciona pro grupo — todo entrante vira lead medido. A
- * conversão do Google Ads dispara no cadastro real (FreeGroupCta).
+ * CTA no fim dos conteúdos /aprenda. Leva DIRETO pro grupo GRÁTIS do WhatsApp
+ * em 1 clique (via /webhook/free-invite) — máxima conversão. O clique dispara
+ * telemetria first-party + evento GA4 + conversão do Google Ads e preserva
+ * gclid/utm na atribuição.
  */
 export default function AprendaCta({ slug }: { slug: string }) {
-  function goToForm() {
-    track("click_free_group", { cta_location: `conteudo_${slug}` });
-    const w = window as unknown as { gtag?: (...a: unknown[]) => void };
-    if (typeof w.gtag === "function") {
-      w.gtag("event", "click_free_group", { cta_location: `conteudo_${slug}` });
-    }
-  }
-
   return (
     <div className="relative overflow-hidden rounded-[2rem] border border-accent-400/30 bg-gradient-to-br from-navy-800 to-navy-900 p-8 sm:p-10">
       <div className="absolute -right-14 -top-14 h-48 w-48 rounded-full bg-accent-400/10" />
@@ -34,7 +27,13 @@ export default function AprendaCta({ slug }: { slug: string }) {
           compromisso.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <Link href="/#gratis" onClick={goToForm} className="btn-primary">
+          <TrackedLink
+            href={FREE_GROUP_URL}
+            event="click_free_group"
+            sendTo={FREE_GROUP_ADS_CONVERSION}
+            gaParams={{ cta_location: `conteudo_${slug}` }}
+            className="btn-primary"
+          >
             Entrar no grupo grátis
             <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
               <path
@@ -43,7 +42,7 @@ export default function AprendaCta({ slug }: { slug: string }) {
                 clipRule="evenodd"
               />
             </svg>
-          </Link>
+          </TrackedLink>
           <Link href="/curso" className="btn-secondary">
             Ver o curso de 21 dias
           </Link>
