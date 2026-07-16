@@ -1,6 +1,6 @@
 import { getSupabaseAdmin } from "./supabase";
 
-export type LeadSource = "lp" | "ad" | "manual";
+export type LeadSource = "lp" | "ad" | "manual" | "ebook";
 export type LeadFunnel = "free" | "paid";
 
 /**

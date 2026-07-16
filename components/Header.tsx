@@ -25,6 +25,11 @@ const NAV: NavItem[] = [
         label: "Blog",
         desc: "Artigos e dicas de inglês toda semana",
       },
+      {
+        href: "/ebook",
+        label: "Ebook grátis",
+        desc: "O método dos poliglotas em PDF — de graça",
+      },
     ],
   },
   { href: FREE_GROUP_URL, label: "Testar grátis" },

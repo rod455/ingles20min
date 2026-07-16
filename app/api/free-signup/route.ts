@@ -49,7 +49,16 @@ export async function POST(req: NextRequest) {
   const groupUrl =
     process.env.NEXT_PUBLIC_FREE_GROUP_URL ||
     "https://n8n.vocaboost.com.br/webhook/free-invite";
-  return NextResponse.json({ ok: true, groupUrl });
+
+  // Isca digital: quando o lead vem do ebook grátis, devolvemos o link de
+  // download junto — assim a URL do PDF só é revelada DEPOIS da captura.
+  const ebookUrl =
+    source === "ebook"
+      ? process.env.NEXT_PUBLIC_EBOOK_URL ||
+        "/downloads/ebook-metodo-poliglotas-vocaboost.pdf"
+      : undefined;
+
+  return NextResponse.json({ ok: true, groupUrl, ebookUrl });
 }
 
 async function notifyFreeFunnel(payload: Record<string, unknown>) {

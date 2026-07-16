@@ -293,6 +293,53 @@ export default function CursoPage() {
           </div>
         </section>
 
+        {/* Garantia */}
+        <section className="section">
+          <div className="container-px">
+            <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 rounded-3xl border border-accent-400/30 bg-accent-400/5 p-8 text-center sm:flex-row sm:text-left">
+              <div className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-full bg-accent-400/15 text-4xl">
+                🛡️
+              </div>
+              <div>
+                <h2 className="display text-2xl font-extrabold">
+                  Garantia incondicional de 7 dias
+                </h2>
+                <p className="mt-3 text-white/75">
+                  Entre, faça as primeiras lições e sinta o método na prática. Se não
+                  for pra você, é só pedir o reembolso em até 7 dias direto pela
+                  Hotmart — devolvemos 100% do valor, sem pergunta nenhuma. O risco é
+                  todo nosso.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Isca: ebook grátis pra quem ainda não vai comprar */}
+        <section className="section">
+          <div className="container-px">
+            <div className="mx-auto flex max-w-3xl flex-col items-center justify-between gap-6 rounded-3xl border border-white/10 bg-navy-800 p-8 text-center sm:flex-row sm:text-left">
+              <div>
+                <span className="eyebrow">Ainda na dúvida?</span>
+                <h2 className="display mt-3 text-2xl font-extrabold">
+                  Comece com o ebook grátis
+                </h2>
+                <p className="mt-2 text-white/70">
+                  Baixe o guia do método dos poliglotas e sinta como é aprender do
+                  jeito natural — sem gastar nada.
+                </p>
+              </div>
+              <Link
+                href="/ebook"
+                className="btn-secondary whitespace-nowrap"
+                data-gtag-event="curso_to_ebook"
+              >
+                Baixar ebook grátis
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* FAQ */}
         <section className="section">
           <div className="container-px">
