@@ -6,6 +6,7 @@ import FreeGroupBanner from "@/components/FreeGroupBanner";
 import FreeGroupCta from "@/components/FreeGroupCta";
 import HeroCtas from "@/components/HeroCtas";
 import Faq from "@/components/Faq";
+import { FREE_GROUP_URL } from "@/lib/links";
 
 export default function HomePage() {
   return (
@@ -22,9 +23,9 @@ export default function HomePage() {
         <Authority />
         <Testimonials />
         <FreeGroupCta />
+        <ProductsOverview />
         <Pricing />
         <PrivateClasses />
-        <CourseBanner />
         <Faq />
         <FinalCta />
       </main>
@@ -89,24 +90,125 @@ function Hero() {
   );
 }
 
-function CourseBanner() {
+const PRODUCTS = [
+  {
+    tag: "Grátis",
+    title: "Grupo grátis no WhatsApp",
+    price: "R$ 0",
+    priceNote: "sem cartão",
+    desc: "Entre e receba aulas práticas no WhatsApp pra sentir o método na pele. O jeito mais fácil de começar hoje.",
+    bullets: ["Aulas direto no WhatsApp", "Sem compromisso", "Comece em 1 clique"],
+    href: FREE_GROUP_URL,
+    cta: "Entrar no grupo grátis",
+    external: true,
+    gtag: "produtos_grupo_gratis",
+    highlight: false,
+  },
+  {
+    tag: "Curso",
+    title: "Inglês em 21 dias",
+    price: "R$ 39,90",
+    priceNote: "pagamento único",
+    desc: "Um desafio direto ao ponto: 21 aulas curtas na área de membros pra destravar de vez, no seu ritmo.",
+    bullets: ["21 aulas (3 semanas)", "Acesso imediato", "Sem mensalidade"],
+    href: "/curso",
+    cta: "Ver o curso",
+    external: false,
+    gtag: "produtos_curso",
+    highlight: false,
+  },
+  {
+    tag: "Premium",
+    title: "Assinatura completa",
+    price: "R$ 49,90",
+    priceNote: "por mês (ou anual)",
+    desc: "Uma lição nova todo dia útil no grupo exclusivo + chat com IA pra tirar dúvidas na hora. Pra evoluir sem parar.",
+    bullets: ["Lição diária no grupo", "Chat com IA quando quiser", "Cancele quando quiser"],
+    href: "/premium",
+    cta: "Conhecer o Premium",
+    external: false,
+    gtag: "produtos_premium",
+    highlight: true,
+  },
+];
+
+function ProductsOverview() {
   return (
-    <section className="border-y border-accent-400/30 bg-accent-400/10">
-      <div className="container-px flex flex-col items-center justify-between gap-4 py-5 sm:flex-row">
-        <div className="flex items-center gap-3 text-center sm:text-left">
-          <span className="text-2xl">🎓</span>
-          <p className="text-white/90">
-            <strong className="text-white">Prefere começar com um curso?</strong>{" "}
-            Destrave seu inglês no <strong className="text-white">desafio de 21 dias</strong> por{" "}
-            <strong className="text-accent-400">R$ 39,90</strong> (pagamento único).
+    <section id="produtos" className="section">
+      <div className="container-px">
+        <div className="mx-auto max-w-2xl text-center">
+          <span className="eyebrow">Escolha por onde começar</span>
+          <h2 className="display mt-4 text-3xl font-extrabold leading-tight sm:text-4xl">
+            Três jeitos de aprender com o{" "}
+            <span className="text-accent-400">Vocaboost</span>
+          </h2>
+          <p className="mt-4 text-lg text-white/70">
+            Comece de graça no WhatsApp, destrave num curso rápido ou evolua
+            todo dia no plano completo. Você escolhe o seu ritmo.
           </p>
         </div>
-        <Link
-          href="/curso"
-          className="btn-primary whitespace-nowrap px-6 py-2.5 text-sm"
-        >
-          Ver o curso
-        </Link>
+
+        <div className="mx-auto mt-12 grid max-w-5xl items-stretch gap-6 md:grid-cols-3">
+          {PRODUCTS.map((p) => (
+            <div
+              key={p.title}
+              className={`card flex flex-col ${
+                p.highlight
+                  ? "border-2 border-brand-500 bg-navy-800 shadow-xl shadow-brand-500/10"
+                  : ""
+              }`}
+            >
+              <span
+                className={`display inline-block w-fit rounded-full px-3 py-1 text-xs font-extrabold uppercase ${
+                  p.highlight
+                    ? "bg-accent-400 text-navy-950"
+                    : "bg-white/10 text-accent-400"
+                }`}
+              >
+                {p.tag}
+              </span>
+              <h3 className="display mt-4 text-xl font-extrabold">{p.title}</h3>
+              <div className="mt-3 flex items-end gap-1">
+                <span className="display text-3xl font-extrabold">{p.price}</span>
+                <span className="mb-1 text-sm text-white/60">{p.priceNote}</span>
+              </div>
+              <p className="mt-3 text-sm text-white/70">{p.desc}</p>
+              <ul className="mt-5 space-y-2 text-sm">
+                {p.bullets.map((b) => (
+                  <li key={b} className="flex items-start gap-2">
+                    <span className="text-accent-400">✓</span>
+                    <span className="text-white/80">{b}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-auto pt-6">
+                {p.external ? (
+                  <a
+                    href={p.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-gtag-event={p.gtag}
+                    className={`${
+                      p.highlight ? "btn-primary" : "btn-secondary"
+                    } w-full`}
+                  >
+                    {p.cta}
+                  </a>
+                ) : (
+                  <Link
+                    href={p.href}
+                    data-gtag-event={p.gtag}
+                    className={`${
+                      p.highlight ? "btn-primary" : "btn-secondary"
+                    } w-full`}
+                  >
+                    {p.cta}
+                  </Link>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -9,9 +9,26 @@ type NavGroup = { label: string; children: NavLink[] };
 type NavItem = NavLink | NavGroup;
 
 const NAV: NavItem[] = [
-  { href: "/#metodo", label: "O método" },
-  { href: "/#beneficios", label: "Benefícios" },
-  { href: "/curso", label: "Curso" },
+  {
+    label: "Produtos",
+    children: [
+      {
+        href: FREE_GROUP_URL,
+        label: "Grupo grátis",
+        desc: "Aulas no WhatsApp, de graça — comece hoje",
+      },
+      {
+        href: "/curso",
+        label: "Curso de 21 dias",
+        desc: "Destrave seu inglês — pagamento único",
+      },
+      {
+        href: "/premium",
+        label: "Premium (assinatura)",
+        desc: "Uma lição por dia no grupo + chat com IA",
+      },
+    ],
+  },
   {
     label: "Conteúdo",
     children: [
@@ -32,8 +49,6 @@ const NAV: NavItem[] = [
       },
     ],
   },
-  { href: FREE_GROUP_URL, label: "Testar grátis" },
-  { href: "/#planos", label: "Planos" },
   { href: "/#duvidas", label: "Dúvidas" },
 ];
 
@@ -114,7 +129,7 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           <Link
-            href="#planos"
+            href="/#planos"
             data-gtag-event="header_quero_comecar"
             className="btn-primary px-5 py-2.5 text-sm"
           >
