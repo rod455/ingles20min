@@ -22,7 +22,7 @@ export default function FreeGroupBanner() {
                   100% grátis
                 </span>
                 <span className="display text-lg font-extrabold leading-tight text-white sm:text-xl">
-                  Grupo grátis no WhatsApp — 4 aulas práticas em 4 dias
+                  Grupo grátis no WhatsApp — 4 aulas com o método dos poliglotas
                 </span>
               </p>
               <p className="mt-1.5 text-sm text-white/75">

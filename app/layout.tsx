@@ -25,19 +25,20 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Vocaboost — Inglês no WhatsApp: 10 minutos por dia, de segunda a sexta",
   description:
-    "Aprenda inglês com uma lição prática por dia útil, direto no WhatsApp. Vocabulário, áudios, conversação e chat com IA pra tirar dúvidas — pouco, mas todo dia.",
+    "Aprenda inglês com uma lição prática por dia útil, direto no WhatsApp. O mesmo método dos poliglotas — frases reais, chunks e shadowing — com áudios, conversação e chat com IA pra tirar dúvidas.",
   keywords: [
     "aprender inglês",
     "vocabulário em inglês",
     "inglês em 21 dias",
     "inglês no whatsapp",
     "fluência em inglês",
+    "método de poliglotas",
     "vocaboost",
   ],
   openGraph: {
     title: "Vocaboost — Inglês no WhatsApp, 10 min por dia",
     description:
-      "Uma lição prática por dia útil no WhatsApp, com áudios, conversação e chat com IA pra tirar dúvidas.",
+      "Uma lição prática por dia útil no WhatsApp, com o método dos poliglotas: frases reais, chunks e shadowing — mais áudios, conversação e chat com IA.",
     url: siteUrl,
     siteName: "Vocaboost",
     locale: "pt_BR",

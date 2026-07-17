@@ -55,10 +55,10 @@ function Hero() {
           </h1>
           <p className="mt-6 max-w-xl text-lg text-white/70">
             Entre no <strong className="text-white">grupo grátis</strong> e receba{" "}
-            <strong className="text-white">4 dias de aulas práticas</strong> — com
-            áudio, vocabulário e pronúncia, direto no app que você já abre o dia
-            inteiro. Sem cartão, sem compromisso. Depois, se quiser, evolua pro
-            plano completo.
+            <strong className="text-white">4 dias de aulas práticas</strong> com o
+            método que poliglotas do mundo todo usam — frases reais, áudio e
+            shadowing, direto no app que você já abre o dia inteiro. Sem cartão,
+            sem compromisso. Depois, se quiser, evolua pro plano completo.
           </p>
 
           <HeroCtas />
@@ -199,7 +199,12 @@ function Method() {
           </h2>
           <p className="mt-4 text-lg text-white/70">
             Cada dia útil com um foco. Conteúdo novo toda semana, para você
-            evoluir continuamente — sem data para acabar.
+            evoluir continuamente — sem data para acabar. A base é o método que{" "}
+            <strong className="text-white">
+              poliglotas do mundo todo usam
+            </strong>
+            : aprender com frases reais, em blocos prontos (chunks), e destravar
+            a fala com shadowing.
           </p>
         </div>
 
@@ -363,9 +368,10 @@ function Authority() {
           </h2>
           <p className="mt-5 text-lg text-white/70">
             Grande parte do meu sucesso como professor vem de oferecer aulas com
-            uma metodologia eficiente — focada no inglês da vida real, nas
-            principais dificuldades dos brasileiros e na constância que leva ao
-            resultado.
+            uma metodologia eficiente — a mesma usada por poliglotas do mundo
+            todo: frases do inglês da vida real, blocos prontos (chunks) e
+            shadowing, com foco nas principais dificuldades dos brasileiros e na
+            constância que leva ao resultado.
           </p>
           <p className="mt-4 display text-xl font-extrabold text-accent-400">
             Evolua de verdade, um dia de cada vez.
