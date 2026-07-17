@@ -23,6 +23,9 @@ export default function SiteFooter() {
           <Link href="/#planos" className="hover:text-accent-400">
             Planos
           </Link>
+          <Link href="/privacidade" className="hover:text-accent-400">
+            Privacidade
+          </Link>
         </div>
       </div>
     </footer>
