@@ -128,8 +128,10 @@ export default function CursoPage() {
                 <span className="text-brand-500">21 dias</span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
-                Um desafio prático e direto ao ponto: uma lição curta por dia, por
-                3 semanas, pra você criar o hábito e finalmente sair do básico —{" "}
+                Um desafio prático e direto ao ponto: uma lição curta por dia,
+                por 3 semanas, com o método que poliglotas do mundo todo usam
+                (frases reais + shadowing), pra você criar o hábito e finalmente
+                sair do básico —{" "}
                 <strong className="text-white">com pagamento único</strong>, sem
                 mensalidade.
               </p>
