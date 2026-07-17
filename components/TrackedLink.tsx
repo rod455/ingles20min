@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from "react";
 import { track } from "@/lib/track";
+import { markExperimentConversion } from "@/lib/experiments";
 
 /**
  * Link externo (abre em nova aba) com tracking:
@@ -71,6 +72,8 @@ export default function TrackedLink({
   }, [href]);
 
   function handleClick() {
+    // Atribui a conversão às variações A/B em teste para este visitante.
+    markExperimentConversion(gaName || event || "conv");
     // Telemetria first-party (Supabase) — independe do gtag/adblock.
     track(gaName || event || "outbound_click", {
       ...(gaParams?.cta_location ? { cta_location: gaParams.cta_location } : {}),

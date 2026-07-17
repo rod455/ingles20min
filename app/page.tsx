@@ -6,6 +6,7 @@ import FreeGroupBanner from "@/components/FreeGroupBanner";
 import FreeGroupCta from "@/components/FreeGroupCta";
 import HeroCtas from "@/components/HeroCtas";
 import Faq from "@/components/Faq";
+import Exp from "@/components/Exp";
 import { FREE_GROUP_URL } from "@/lib/links";
 
 export default function HomePage() {
@@ -48,7 +49,9 @@ function Hero() {
       />
       <div className="container-px grid items-center gap-12 py-16 lg:grid-cols-2 lg:py-24">
         <div className="animate-fade-up">
-          <span className="eyebrow">🎁 Comece de graça no WhatsApp</span>
+          <span className="eyebrow">
+            <Exp slot="hero_eyebrow">🎁 Comece de graça no WhatsApp</Exp>
+          </span>
           <h1 className="display mt-5 text-4xl font-extrabold leading-[0.95] sm:text-5xl lg:text-6xl">
             Aprenda inglês no seu{" "}
             <span className="text-accent-400">WhatsApp</span>,{" "}

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import TrackedLink from "@/components/TrackedLink";
+import Exp from "@/components/Exp";
 import { FREE_GROUP_URL, FREE_GROUP_ADS_CONVERSION } from "@/lib/links";
 
 /**
@@ -20,7 +21,7 @@ export default function HeroCtas() {
         gaParams={{ cta_location: "hero" }}
         className="btn-accent w-full px-8 py-4 text-lg sm:w-auto"
       >
-        Entrar no grupo grátis
+        <Exp slot="hero_cta_text">Entrar no grupo grátis</Exp>
         <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
           <path
             fillRule="evenodd"

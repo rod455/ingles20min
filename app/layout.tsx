@@ -3,6 +3,7 @@ import { Inter, Archivo } from "next/font/google";
 import Script from "next/script";
 import GtagClicks from "@/components/GtagClicks";
 import PageViewTracker from "@/components/PageViewTracker";
+import ExperimentsInit from "@/components/ExperimentsInit";
 import JsonLd from "@/components/JsonLd";
 import "./globals.css";
 
@@ -134,6 +135,7 @@ export default function RootLayout({
         )}
         <GtagClicks />
         <PageViewTracker />
+        <ExperimentsInit />
         <JsonLd data={orgJsonLd} />
         <JsonLd data={siteJsonLd} />
         {children}
