@@ -113,7 +113,7 @@ export default function RootLayout({
           Captura gclid/utm para atribuição de tráfego pago.
         */}
         <Script id="pv-early" strategy="beforeInteractive">
-          {`(function(){try{var p=new URLSearchParams(location.search),m={};var s=p.get('utm_source');if(s)m.utm_source=s;var c=p.get('utm_campaign');if(c)m.utm_campaign=c;if(p.get('gclid'))m.gclid=true;if(document.referrer){try{var r=new URL(document.referrer);if(r.host!==location.host)m.referrer=r.host;}catch(e){}}var b=JSON.stringify({event:'page_view',path:location.pathname,meta:m});var u='https://n8n.vocaboost.com.br/webhook/site-track';if(navigator.sendBeacon){navigator.sendBeacon(u,b);}else{fetch(u,{method:'POST',body:b,keepalive:true}).catch(function(){});}window.__vbPvSent=location.pathname;}catch(e){}})();`}
+          {`(function(){try{var p=new URLSearchParams(location.search),m={};var s=p.get('utm_source');if(s)m.utm_source=s;var c=p.get('utm_campaign');if(c)m.utm_campaign=c;if(p.get('gclid'))m.gclid=true;if(document.referrer){try{var r=new URL(document.referrer);if(r.host!==location.host)m.referrer=r.host;}catch(e){}}try{var U=localStorage.getItem('vb_uid');if(!U){U=(typeof crypto!=='undefined'&&crypto.randomUUID)?crypto.randomUUID():(String(Date.now())+'-'+Math.floor(Math.random()*1e9));localStorage.setItem('vb_uid',U);}m.uid=U;}catch(e){}var b=JSON.stringify({event:'page_view',path:location.pathname,meta:m});var u='https://n8n.vocaboost.com.br/webhook/site-track';if(navigator.sendBeacon){navigator.sendBeacon(u,b);}else{fetch(u,{method:'POST',body:b,keepalive:true}).catch(function(){});}window.__vbPvSent=location.pathname;}catch(e){}})();`}
         </Script>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-18261023654"
