@@ -24,7 +24,8 @@ export default function PageViewTracker() {
     const campaign = params.get("utm_campaign");
     if (source) meta.utm_source = source;
     if (campaign) meta.utm_campaign = campaign;
-    if (params.get("gclid")) meta.gclid = true;
+    const gclid = params.get("gclid");
+    if (gclid) meta.gclid = gclid;
     if (document.referrer) {
       try {
         const ref = new URL(document.referrer);
