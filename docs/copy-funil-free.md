@@ -55,7 +55,7 @@ Colunas: `funil` (= `free`), `dia` (`boasvindas`, `1`…`6`), `horario` (`manha`
 
 ### Dia 4 — abre a oferta
 - **tarde** — *(consistency + ancoragem)*
-  `Promessa do começo: quem está no grupo grátis tem uma condição especial pra ir além. 🎁\nO Premium (lição diária *com correção de professor* + comunidade) sai de ~{from}~ por *{to}/mês*.`
+  `Promessa do começo: quem está no grupo grátis tem uma condição especial pra ir além. 🎁\nO Premium (lição diária + *conversação e chat com IA pra tirar dúvidas* + comunidade) sai de ~{from}~ por *{to}/mês*.`
 - **noite** — *(loss aversion leve + CTA)*
   `Cada semana sem praticar é vocabulário que não entra. Se quiser destravar de vez com acompanhamento: {checkout}\nQualquer dúvida, é só me chamar. 🙌`
 
@@ -63,13 +63,13 @@ Colunas: `funil` (= `free`), `dia` (`boasvindas`, `1`…`6`), `horario` (`manha`
 - **tarde** — *(scarcity real — ajuste o prazo)*
   `⚠️ A condição de *{to}/mês* (em vez de {from}) vai até *hoje à noite* pra quem está no grupo grátis. Garante a sua: {checkout}`
 - **noite** — *(loss aversion + risk reversal)*
-  `Última chamada de hoje ⏳ Você não perde nada por testar — cancela quando quiser. O que perde é mais uma semana no mesmo lugar. {checkout}`
+  `Última chamada de hoje ⏳ Você tem *7 dias de garantia* — testa sem risco e, se não for pra você, pede reembolso. O que perde mesmo é mais uma semana no mesmo lugar. {checkout}`
 
 ### Dia 6 — recomeço
 - **manha** — *(fresh start)*
   `Novo ciclo começando 🔁 Bom momento pra decidir: mais uma semana só de degustação, ou ir pro Premium e ter correção de verdade? {checkout}`
 - **tarde** — *(social proof de fechamento)*
-  `Quem entrou no Premium tá recebendo lição com feedback do professor todo dia. Se quiser entrar nessa: {checkout}`
+  `Quem entrou no Premium tá com lição diária + chat com IA pra tirar dúvidas na hora. (Quer professor humano 1:1? Isso são as aulas particulares.) Se quiser entrar nessa: {checkout}`
 - **noite** — *(reforço suave)*
   `Seja no grátis ou no Premium, o importante é não parar. 👊 Te vejo amanhã com mais inglês. (E a condição de {to} segue valendo pra quem decidir: {checkout})`
 
