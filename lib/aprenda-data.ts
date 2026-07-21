@@ -536,6 +536,129 @@ const TIPS_PADRAO = [
 
 export const GUIDES: Guide[] = [
   {
+    slug: "como-aprender-ingles-pelo-whatsapp",
+    label: "Aprender inglês pelo WhatsApp",
+    emoji: "📱",
+    metaTitle: "Como aprender inglês pelo WhatsApp (grátis) — guia prático",
+    metaDescription:
+      "Passo a passo para aprender inglês pelo WhatsApp de graça: 10 minutos por dia, frases reais e o método dos poliglotas. Comece do zero, sem sair do app.",
+    h1: "Como aprender inglês pelo WhatsApp (grátis e do zero)",
+    intro: [
+      "Dá para aprender inglês pelo WhatsApp, sim — e de graça. A ideia é simples: em vez de baixar mais um app que você esquece, você recebe uma lição curta por dia no aplicativo que já usa o dia todo. Bastam 10 minutos: uma frase real, o áudio para repetir (shadowing) e uma resposta rápida para fixar.",
+      "O segredo não é estudar muito de uma vez, é estudar TODO dia. O WhatsApp resolve o maior problema de quem tenta aprender sozinho — a constância —, porque a lição chega até você e vira hábito. Abaixo está o passo a passo completo para começar hoje.",
+    ],
+    sections: [
+      {
+        title: "Por que o WhatsApp funciona (e apps soltos não)",
+        paragraphs: [
+          "Você abre o WhatsApp dezenas de vezes por dia. Um app de inglês separado depende de você lembrar de abrir — e é aí que 9 em cada 10 pessoas desistem na primeira semana.",
+          "No WhatsApp, a lição aparece junto das conversas dos amigos. Sem fricção, sem download, sem senha. A constância que faz o inglês entrar vem de graça.",
+        ],
+        list: [
+          "Zero atrito: a lição chega, você não precisa ir atrás.",
+          "Micro-lições de 10 min cabem em qualquer rotina (fila, ônibus, café).",
+          "Áudio + texto no mesmo lugar: dá para ouvir e repetir (shadowing).",
+          "Responder no chat fixa o conteúdo melhor do que só ler.",
+        ],
+      },
+      {
+        title: "Passo a passo para começar de graça hoje",
+        list: [
+          "1. Entre em um grupo/lista de inglês diário no WhatsApp (o do Vocaboost é grátis — link na página).",
+          "2. Defina o horário do seu estudo (manhã, almoço ou noite) e trate como compromisso.",
+          "3. Faça a lição do dia: leia a frase, ouça o áudio e repita em voz alta 3x.",
+          "4. Use a frase nova no mesmo dia — escreva uma mensagem ou fale sozinho.",
+          "5. Não quebre a sequência. Perdeu um dia? Retoma no próximo, sem culpa.",
+        ],
+      },
+      {
+        title: "O que estudar em cada lição de 10 minutos",
+        paragraphs: [
+          "Não tente decorar listas gigantes. O método dos poliglotas foca em chunks (blocos de palavras que andam juntos) e em frases que você realmente vai usar.",
+        ],
+        list: [
+          "1 expressão do dia a dia (ex.: \"I'm on my way\" — estou a caminho).",
+          "A tradução natural em português (não ao pé da letra).",
+          "1 áudio para o shadowing: ouça e repita imitando o ritmo.",
+          "1 mini-desafio: montar sua própria frase com a expressão.",
+        ],
+      },
+      {
+        title: "Erros que travam quem aprende sozinho",
+        list: [
+          "Estudar 2 horas no domingo e nada no resto da semana — constância vence intensidade.",
+          "Só ler, nunca falar em voz alta — sem shadowing, a fala não destrava.",
+          "Traduzir palavra por palavra — pense em blocos, não em palavras soltas.",
+          "Esperar o \"momento perfeito\" — 10 minutos hoje valem mais que um plano perfeito amanhã.",
+        ],
+      },
+    ],
+    tips: [
+      "Ative a notificação do grupo só no seu horário de estudo — vira um lembrete natural.",
+      "Repita o áudio do dia enquanto faz outra coisa (louça, caminhada): é reforço grátis.",
+      "Guarde as frases favoritas nos Mensagens Salvas do WhatsApp e revise no fim de semana.",
+    ],
+    faq: [
+      { q: "Dá mesmo para aprender inglês pelo WhatsApp?", a: "Dá. O WhatsApp resolve o ponto mais difícil de aprender sozinho — a constância. Recebendo uma lição curta por dia e respondendo no chat, você cria o hábito que faz o inglês entrar, sem depender de abrir mais um app." },
+      { q: "É grátis mesmo?", a: "O grupo diário do Vocaboost é grátis: você recebe a lição do dia sem pagar nada. Há um plano Premium opcional (R$49,90/mês, de R$89,90) com lição diária, conversação e chat com IA para tirar dúvidas — mas começar é 100% grátis." },
+      { q: "Quanto tempo por dia preciso estudar?", a: "Cerca de 10 minutos por dia útil. O objetivo é constância, não maratona: pouco todo dia rende muito mais do que muito de vez em quando." },
+      { q: "Preciso saber alguma coisa de inglês para começar?", a: "Não. Dá para começar do zero. As lições vão do básico à conversação, uma frase real de cada vez." },
+    ],
+    related: ["como-aprender-ingles-do-zero", "como-aprender-ingles-gratis", "como-aprender-ingles-rapido"],
+  },
+  {
+    slug: "como-aprender-ingles-do-zero",
+    label: "Aprender inglês do zero",
+    emoji: "🌱",
+    metaTitle: "Como aprender inglês do zero sozinho (grátis) — por onde começar",
+    metaDescription:
+      "Como começar a aprender inglês do zero, sozinho e de graça: um plano simples de primeiros passos, o que estudar primeiro e como manter a constância todo dia.",
+    h1: "Como aprender inglês do zero (sozinho e de graça)",
+    intro: [
+      "Começar inglês do zero parece difícil, mas o caminho é mais simples do que parece: você não precisa de gramática pesada nem de curso caro logo de cara. Precisa de frases úteis, repetição diária e um jeito de não desistir na primeira semana.",
+      "Este guia mostra por onde começar, o que estudar primeiro e como transformar 10 minutos por dia num hábito que leva você do zero à conversação — de graça.",
+    ],
+    sections: [
+      {
+        title: "Os 4 primeiros passos (nesta ordem)",
+        list: [
+          "1. Aprenda cumprimentos e frases de sobrevivência (hi, thanks, how are you, I don't understand).",
+          "2. Monte um vocabulário do seu dia a dia — casa, trabalho, comida (o que VOCÊ usa).",
+          "3. Aprenda os verbos mais comuns em blocos: I want, I need, I have, I'm going to.",
+          "4. Comece a montar frases curtas e a falá-las em voz alta todo dia.",
+        ],
+      },
+      {
+        title: "Comece pelas frases, não pela gramática",
+        paragraphs: [
+          "Iniciante que começa decorando regras de gramática trava e desiste. O jeito dos poliglotas é o contrário: aprender frases prontas (chunks) que já funcionam e, com o tempo, perceber os padrões sozinho.",
+          "Exemplo: em vez de estudar a regra do presente contínuo, você aprende \"I'm learning English\" e reusa o molde: \"I'm working\", \"I'm cooking\". A gramática entra sem dor.",
+        ],
+      },
+      {
+        title: "Como manter a constância (a parte que importa)",
+        list: [
+          "Estude no MESMO horário todo dia — vira automático.",
+          "Prefira 10 min diários a 2 horas no fim de semana.",
+          "Use um canal que vem até você (uma lição diária no WhatsApp) para não depender de força de vontade.",
+          "Comemore a sequência: cada dia seguido é uma vitória que puxa o próximo.",
+        ],
+      },
+    ],
+    tips: [
+      "Fale sozinho: narre o que está fazendo em inglês (\"I'm making coffee\"). Destrava a fala.",
+      "Não tenha medo de errar — errar em voz alta é como o cérebro aprende a falar.",
+      "Reveja hoje o que aprendeu ontem: 2 minutos de revisão fixam a memória.",
+    ],
+    faq: [
+      { q: "Quanto tempo leva para aprender inglês do zero?", a: "Depende da constância, não do talento. Com 10 minutos por dia úteis você já sustenta conversas simples em alguns meses. O que mais acelera é não quebrar a sequência." },
+      { q: "Consigo aprender inglês do zero sozinho e de graça?", a: "Sim. Com frases úteis, repetição diária e prática de fala em voz alta dá para ir longe sem gastar nada. Um grupo grátis com lição diária (como o do Vocaboost no WhatsApp) ajuda a manter o ritmo." },
+      { q: "Devo começar pela gramática?", a: "Não. Comece por frases prontas do seu dia a dia e fale em voz alta. A gramática fica muito mais fácil depois que você já usa o idioma na prática." },
+      { q: "Qual a melhor forma de não desistir?", a: "Estudar pouco, mas todo dia, no mesmo horário — e usar um canal que envia a lição até você em vez de depender de lembrar de abrir um app." },
+    ],
+    related: ["como-aprender-ingles-pelo-whatsapp", "como-aprender-ingles-gratis", "palavras-em-ingles-dia-a-dia"],
+  },
+  {
     slug: "numeros-em-ingles",
     label: "Números de 1 a 100",
     emoji: "🔢",
@@ -728,7 +851,7 @@ export const GUIDES: Guide[] = [
       { q: "Preciso de curso para aprender rápido?", a: "Precisa de MÉTODO e constância. Um bom curso acelera porque entrega a dose diária pronta (você não gasta energia decidindo o que estudar) — que é exatamente o que o Vocaboost faz no seu WhatsApp." },
       { q: "O que é shadowing?", a: "Técnica de repetir em voz alta o áudio de um nativo, imitando ritmo e entonação, quase simultaneamente. É um dos jeitos mais rápidos de destravar a fala e melhorar a pronúncia." },
     ],
-    related: ["como-aprender-ingles-gratis", "palavras-em-ingles-dia-a-dia", "numeros-em-ingles"],
+    related: ["como-aprender-ingles-gratis", "como-aprender-ingles-pelo-whatsapp", "como-aprender-ingles-do-zero"],
   },
   {
     slug: "como-aprender-ingles-gratis",
@@ -777,7 +900,7 @@ export const GUIDES: Guide[] = [
       { q: "Qual o melhor jeito de começar inglês do zero grátis?", a: "Entre no grupo grátis do Vocaboost no WhatsApp: são 4 aulas práticas com vídeo e áudio, sem pagar nada e sem instalar app novo. Em paralelo, mude o idioma do celular para inglês." },
       { q: "Aplicativo gratuito ensina inglês de verdade?", a: "Apps são ótimos para vocabulário e revisão, mas fracos em conversação. Use como complemento de escuta ativa (podcast/vídeo) e prática de fala em voz alta." },
     ],
-    related: ["como-aprender-ingles-rapido", "numeros-em-ingles", "cores-em-ingles"],
+    related: ["como-aprender-ingles-rapido", "como-aprender-ingles-pelo-whatsapp", "como-aprender-ingles-do-zero"],
   },
   {
     slug: "palavras-em-ingles-casa",
